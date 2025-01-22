@@ -5,5 +5,5 @@ export interface Customer {
   gender: Gender,
   firstName: string,
   lastName: string,
-  birthdate?: Date,
+  birthDate?: string,
 }
