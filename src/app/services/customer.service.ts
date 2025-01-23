@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
   providedIn: 'root'
 })
 export class CustomerService {
-  private url: string = "http://localhost:8080/customers";
+  private url = "http://localhost:8080/customers";
 
   constructor(private http: HttpClient) {
   }
@@ -18,5 +18,9 @@ export class CustomerService {
 
   public findById(id: string): Observable<Customer> {
     return this.http.get<Customer>(`${this.url}/${id}`);
+  }
+
+  public store(firstName: string, lastName: string, gender: string, birthdate?: string): Observable<Customer> {
+    return this.http.post<Customer>(this.url, {firstName, lastName, gender, birthdate});
   }
 }

@@ -7,7 +7,7 @@ import {Reading} from '../types/reading';
   providedIn: 'root'
 })
 export class ReadingService {
-  private url: string = "http://localhost:8080/readings";
+  private url = "http://localhost:8080/readings";
 
   constructor(private http: HttpClient) {
   }

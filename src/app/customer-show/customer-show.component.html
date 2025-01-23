@@ -1,0 +1,42 @@
+<div class="container">
+  <div class="card mt-5">
+    <div class="card-header justify-content-between align-items-center d-flex">
+      <h1>Customer Details</h1>
+      <div class="d-flex gap-3">
+        <a [routerLink]="['/customers', customer?.id, 'edit']" class="btn btn-primary">Edit</a>
+      </div>
+    </div>
+    <div class="card-body">
+
+      <div class="mb-3 row">
+        <div class="col-12">
+          <label for="id" class="form-label">ID</label>
+          <input disabled type="text" class="form-control" id="id" value="{{ customer?.id }}">
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-6">
+          <label for="first-name" class="form-label">First Name</label>
+          <input disabled type="text" class="form-control" id="first-name" value="{{ customer?.firstName }}">
+        </div>
+
+        <div class="col-6">
+          <label for="last-name" class="form-label">Last Name</label>
+          <input disabled type="text" class="form-control" id="last-name" value="{{ customer?.lastName }}">
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <label for="first-name" class="form-label">Gender</label>
+          <input disabled type="text" class="form-control" id="gender" value="{{ customer?.gender }}">
+        </div>
+
+        <div class="col-6">
+          <label for="last-name" class="form-label">Birthdate</label>
+          <input disabled type="text" class="form-control" id="birthdate" value="{{ customer?.birthDate }}">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

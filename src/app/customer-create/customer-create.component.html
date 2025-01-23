@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="card mt-5">
+    <form [formGroup]="customerForm" (ngSubmit)="submit()">
+    <div class="card-header justify-content-between align-items-center d-flex">
+      <h1>Create new Customer</h1>
+      <div class="d-flex gap-3">
+        <a routerLink="/customers" class="btn btn-danger">Cancel</a>
+        <button type="submit" class="btn btn-success">Save</button>
+      </div>
+    </div>
+    <div class="card-body">
+
+        <div class="mb-3 row">
+          <div class="col-6">
+            <label for="first-name" class="form-label">First Name</label>
+            <input formControlName="firstName" type="text" class="form-control" id="first-name">
+          </div>
+
+          <div class="col-6">
+            <label for="last-name" class="form-label">Last Name</label>
+            <input formControlName="lastName" type="text" class="form-control" id="last-name">
+          </div>
+        </div>
+        <div class="mb-3 row">
+          <div class="col-6">
+            <label for="first-name" class="form-label">Gender</label>
+            <select formControlName="gender" id="gender" class="form-select">
+              <option *ngFor="let gender of genders()" value="{{ gender }}">{{ gender }}</option>
+            </select>
+          </div>
+
+          <div class="col-6">
+            <label for="last-name" class="form-label">Birthdate</label>
+            <input formControlName="birthdate" type="text" class="form-control" id="birthdate">
+          </div>
+        </div>
+    </div>
+    </form>
+  </div>
+</div>
