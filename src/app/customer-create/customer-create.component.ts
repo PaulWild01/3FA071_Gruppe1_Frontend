@@ -33,7 +33,7 @@ export class CustomerCreateComponent {
       this.customerForm.value.lastName ?? '',
       this.customerForm.value.gender ?? '',
       this.customerForm.value.birthdate ?? '',
-    ).subscribe(customer => this.router.navigate(['customer', customer.id]));
+    ).subscribe(customer => this.router.navigate(['/customers', customer.id]));
   }
 
   constructor(private customerService: CustomerService, private router: Router) {
