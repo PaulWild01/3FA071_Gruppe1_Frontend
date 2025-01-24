@@ -20,7 +20,7 @@ export class CustomerService {
     return this.http.get<Customer>(`${this.url}/${id}`);
   }
 
-  public store(firstName: string, lastName: string, gender: string, birthdate?: string): Observable<Customer> {
-    return this.http.post<Customer>(this.url, {firstName, lastName, gender, birthdate});
+  public store(firstName: string, lastName: string, gender: string, birthDate?: string): Observable<Customer> {
+    return this.http.post<Customer>(this.url, {firstName, lastName, gender, birthDate});
   }
 }
