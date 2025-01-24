@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {CustomerService} from '../services/customer.service';
 import {Customer} from '../types/customer';

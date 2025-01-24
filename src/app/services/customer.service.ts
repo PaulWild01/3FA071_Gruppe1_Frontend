@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {Customer} from '../types/customer';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {Paginator} from '../types/paginator';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,8 @@ export class CustomerService {
   constructor(private http: HttpClient) {
   }
 
-  public all(): Observable<Customer[]> {
-    return this.http.get<Customer[]>(this.url);
+  public all(page: number): Observable<Paginator<Customer>> {
+    return this.http.get<Paginator<Customer>>(this.url + "?page=" + page);
   }
 
   public findById(id: string): Observable<Customer> {

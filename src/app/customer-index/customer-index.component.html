@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let customer of customers">
+        <tr *ngFor="let customer of paginator.items">
           <td>{{ customer.id }}</td>
           <td>{{ customer.firstName }}</td>
           <td>{{ customer.lastName }}</td>
@@ -27,6 +27,29 @@
         </tr>
         </tbody>
       </table>
+      <nav aria-label="Page navigation" class="d-flex justify-content-between align-items-center">
+        <div class="text-muted small">Showing {{ paginator.from }} to {{ paginator.to }} of {{ paginator.total }}</div>
+        <ul class="pagination m-0">
+          <li class="page-item">
+            <a class="page-link" routerLink="/customers" [queryParams]="{ page: paginator.currentPage - 1 }"
+               [class.disabled]="paginator.currentPage === 1" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li *ngFor="let paginationLink of paginationLinks"
+              [ngClass]="{ 'active': paginationLink.active, 'disabled': paginationLink.disabled }" class="page-item"><a
+            class="page-link"
+            [routerLink]="paginationLink.link"
+            [queryParams]="{ page: paginationLink.page }">{{ paginationLink.label }}</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" routerLink="/customers" [queryParams]="{ page: paginator.currentPage + 1 }"
+               [class.disabled]="paginator.currentPage >= paginator.lastPage" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
     </div>
   </div>
 </div>
