@@ -5,9 +5,9 @@ export interface Reading {
   id: string,
   customer: Customer,
   dateOfReading: Date,
-  meter_ID: string,
+  meterId: string,
   meterCount: number,
-  meter_type: KindOfMeter,
+  metertype: KindOfMeter,
   comment: string,
   substitute: boolean,
 }
