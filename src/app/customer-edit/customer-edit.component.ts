@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
@@ -8,9 +8,10 @@ import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-boot
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
 import {isDateOrNull} from '../validators/IsDateOrNull';
+import {Customer} from '../types/customer';
 
 @Component({
-  selector: 'app-customer-create',
+  selector: 'app-customer-edit',
   imports: [
     RouterLink,
     ReactiveFormsModule,
@@ -20,16 +21,34 @@ import {isDateOrNull} from '../validators/IsDateOrNull';
     NgIf
   ],
   providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
-  templateUrl: './customer-create.component.html',
-  styleUrl: './customer-create.component.css'
+  templateUrl: './customer-edit.component.html',
+  styleUrl: './customer-edit.component.css'
 })
-export class CustomerCreateComponent {
+export class CustomerEditComponent {
+  customer?: Customer;
   customerForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    gender: new FormControl(Gender.U),
-    birthdate: new FormControl<Date|null>(null, isDateOrNull()),
+    lastName: new FormControl<string>('', Validators.required),
+    gender: new FormControl<Gender>(Gender.U),
+    birthdate: new FormControl<Date | null>(null, isDateOrNull()),
   });
+
+  constructor(private customerService: CustomerService, private route: ActivatedRoute, private router: Router) {
+    this.customerService.findById(this.route.snapshot.params['id'])
+      .subscribe(customer => {
+        this.customer = customer
+
+        const birthdate: Date | null = customer.birthDate ? new Date(customer.birthDate) : null;
+
+        this.firstName?.setValue(customer.firstName);
+        this.lastName?.setValue(customer.lastName);
+        this.gender?.setValue(customer.gender);
+        this.birthdate?.setValue(birthdate);
+
+
+        this.birthdate?.updateValueAndValidity();
+      });
+  }
 
   public genders(): string[] {
     return Object.keys(Gender);
@@ -43,12 +62,13 @@ export class CustomerCreateComponent {
 
     const date = this.customerForm.value.birthdate as Date | undefined;
 
-    this.customerService.store(
+    this.customerService.update(
+      this.customer?.id ?? '',
       this.customerForm.value.firstName ?? '',
       this.customerForm.value.lastName ?? '',
       this.customerForm.value.gender ?? '',
       date,
-    ).subscribe(customer => this.router.navigate(['/customers', customer.id]));
+    ).subscribe(string => this.router.navigate(['/customers', this.customer?.id ?? '']));
   }
 
   get firstName() {
@@ -59,12 +79,11 @@ export class CustomerCreateComponent {
     return this.customerForm.get('lastName')
   }
 
-  get birthdate() {
-    return this.customerForm.get('birthdate')
+  get gender() {
+    return this.customerForm.get('gender')
   }
 
-  constructor(
-    private customerService: CustomerService,
-    private router: Router) {
+  get birthdate() {
+    return this.customerForm.get('birthdate')
   }
 }

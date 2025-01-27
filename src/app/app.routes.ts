@@ -21,7 +21,7 @@ export const routes: Routes = [
   },
   {
     path: 'customers/:id/edit',
-    component: CustomerShowComponent
+    component: CustomerEditComponent
   },
   {
     path: 'readings',

@@ -20,7 +20,28 @@ export class CustomerService {
     return this.http.get<Customer>(`${this.url}/${id}`);
   }
 
-  public store(firstName: string, lastName: string, gender: string, birthDate?: string): Observable<Customer> {
-    return this.http.post<Customer>(this.url, {firstName, lastName, gender, birthDate});
+  public store(firstName: string, lastName: string, gender: string, birthDate?: Date): Observable<Customer> {
+    const formattedBirthdate: string | undefined = birthDate?.toISOString().substring(0, 10);
+
+    return this.http.post<Customer>(this.url,
+      {
+        firstName,
+        lastName,
+        gender,
+        birthDate: formattedBirthdate,
+      });
+  }
+
+  public update(id: string, firstName: string, lastName: string, gender: string, birthDate?: Date): Observable<string> {
+    const formattedBirthdate: string | undefined = birthDate?.toISOString().substring(0, 10);
+
+    return this.http.put<string>(this.url,
+      {
+        id,
+        firstName,
+        lastName,
+        gender,
+        birthDate: formattedBirthdate,
+      });
   }
 }
