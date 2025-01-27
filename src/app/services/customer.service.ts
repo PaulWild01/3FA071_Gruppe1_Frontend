@@ -44,4 +44,8 @@ export class CustomerService {
         birthDate: formattedBirthdate,
       });
   }
+
+  public destroy(id: string): Observable<string> {
+    return this.http.delete<string>(`${this.url}/${id}`);
+  }
 }

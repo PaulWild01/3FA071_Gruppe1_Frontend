@@ -15,9 +15,6 @@ import {isDateOrNull} from '../validators/IsDateOrNull';
     RouterLink,
     ReactiveFormsModule,
     NgForOf,
-    NgbInputDatepicker,
-    NgIcon,
-    NgIf
   ],
   providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
   templateUrl: './customer-create.component.html',
