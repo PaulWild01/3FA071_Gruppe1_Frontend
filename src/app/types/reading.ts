@@ -7,7 +7,7 @@ export interface Reading {
   dateOfReading: Date,
   meterId: string,
   meterCount: number,
-  metertype: KindOfMeter,
+  kindOfMeter: KindOfMeter,
   comment: string,
   substitute: boolean,
 }

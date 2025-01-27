@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NgForOf} from '@angular/common';
 import {ActivatedRoute, RouterLink} from '@angular/router';
 import {Reading} from '../types/reading';
 import {ReadingService} from '../services/reading.service';

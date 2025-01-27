@@ -2,9 +2,9 @@ import {Routes} from '@angular/router';
 import {CustomerIndexComponent} from './customer-index/customer-index.component';
 import {CustomerCreateComponent} from './customer-create/customer-create.component';
 import {CustomerShowComponent} from './customer-show/customer-show.component';
-import { ReadingsIndexComponent } from './readings-index/readings-index.component';
-import { ReadingShowComponent } from './readings-show/readings-show.component';
-import { ReadingCreateComponent } from './readings-create/readings-create.component';
+import {ReadingsIndexComponent} from './readings-index/readings-index.component';
+import {ReadingShowComponent} from './readings-show/readings-show.component';
+import {ReadingCreateComponent} from './readings-create/readings-create.component';
 
 export const routes: Routes = [
   {
@@ -28,15 +28,15 @@ export const routes: Routes = [
     component: ReadingsIndexComponent
   },
   {
+    path: 'readings/create',
+    component: ReadingCreateComponent
+  },
+  {
     path: 'readings/:id',
     component: ReadingShowComponent
   },
   {
     path: 'readings/:id/edit',
     component: ReadingShowComponent
-  },
-  {
-    path: 'readings/create',
-    component: ReadingCreateComponent
   }
 ];

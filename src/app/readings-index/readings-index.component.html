@@ -16,6 +16,7 @@
             <th>Kind of Meter</th>
             <th>Comment</th>
             <th>Substitute</th>
+            <th></th>
           </tr>
           </thead>
           <tbody>
@@ -25,6 +26,7 @@
             <td>{{ reading.dateOfReading }}</td>
             <td>{{ reading.meterId }}</td>
             <td>{{ reading.meterCount }}</td>
+            <td>{{ reading.kindOfMeter }}</td>
             <td>{{ reading.comment }}</td>
             <td>{{ reading.substitute }}</td>
             <td><a [routerLink]="['/readings', reading.id]">Show Details</a></td>
