@@ -23,7 +23,7 @@
           <td>{{ customer.lastName }}</td>
           <td>{{ customer.gender }}</td>
           <td>{{ customer.birthDate ?? '' }}</td>
-          <td>
+          <td class="d-flex flex-column">
             <div class="btn-group">
               <a class="btn btn-primary d-flex align-items-center justify-content-center" [routerLink]="['/customers', customer.id]"><ng-icon name="bootstrapEye"></ng-icon></a>
               <a class="btn btn-success d-flex align-items-center justify-content-center" [routerLink]="['/customers', customer.id, 'edit']"><ng-icon name="bootstrapPencil"></ng-icon></a>

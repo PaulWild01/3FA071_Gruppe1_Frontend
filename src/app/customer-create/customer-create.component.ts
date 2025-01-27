@@ -5,7 +5,7 @@ import {Gender} from '../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
 import {CustomerService} from '../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {NgIcon, provideIcons} from '@ng-icons/core';
+import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
 import {isDateOrNull} from '../validators/IsDateOrNull';
 
@@ -15,8 +15,15 @@ import {isDateOrNull} from '../validators/IsDateOrNull';
     RouterLink,
     ReactiveFormsModule,
     NgForOf,
+    NgIcon,
+    NgIf,
+    NgbInputDatepicker,
   ],
-  providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
+  providers: [
+    provideIcons({bootstrapCalendar3}),
+    provideNgIconsConfig({size: '1.25rem'}),
+    {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
+  ],
   templateUrl: './customer-create.component.html',
   styleUrl: './customer-create.component.css'
 })
@@ -25,7 +32,7 @@ export class CustomerCreateComponent {
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
     gender: new FormControl(Gender.U),
-    birthdate: new FormControl<Date|null>(null, isDateOrNull()),
+    birthdate: new FormControl<Date | null>(null, isDateOrNull()),
   });
 
   public genders(): string[] {
@@ -35,6 +42,7 @@ export class CustomerCreateComponent {
   public submit() {
     if (this.customerForm.invalid) {
       this.customerForm.markAllAsTouched();
+      console.log(this.firstName?.touched);
       return;
     }
 

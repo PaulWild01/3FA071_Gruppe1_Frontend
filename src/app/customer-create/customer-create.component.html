@@ -14,11 +14,13 @@
           <div class="col-6">
             <label for="first-name" class="form-label">First Name</label>
             <input formControlName="firstName" type="text" class="form-control" id="first-name">
+            <span class="small text-danger" *ngIf="firstName?.invalid && firstName?.touched">Required</span>
           </div>
 
           <div class="col-6">
             <label for="last-name" class="form-label">Last Name</label>
             <input formControlName="lastName" type="text" class="form-control" id="last-name">
+            <span class="small text-danger" *ngIf="lastName?.invalid && lastName?.touched">Required</span>
           </div>
         </div>
         <div class="mb-3 row">
@@ -31,7 +33,13 @@
 
           <div class="col-6">
             <label for="last-name" class="form-label">Birthdate</label>
-            <input formControlName="birthdate" type="text" class="form-control" id="birthdate">
+            <div class="input-group">
+              <input class="form-control" formControlName="birthdate" ngbDatepicker #d="ngbDatepicker">
+              <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
+                <ng-icon name="bootstrapCalendar3"></ng-icon>
+              </button>
+            </div>
+            <span class="small text-danger" *ngIf="birthdate?.invalid && birthdate?.touched">Must be in 'YYYY-MM-DD' Format</span>
           </div>
         </div>
     </div>

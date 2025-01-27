@@ -5,7 +5,7 @@ import {Gender} from '../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
 import {CustomerService} from '../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {NgIcon, provideIcons} from '@ng-icons/core';
+import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
 import {isDateOrNull} from '../validators/IsDateOrNull';
 import {Customer} from '../types/customer';
@@ -20,7 +20,11 @@ import {Customer} from '../types/customer';
     NgIcon,
     NgIf
   ],
-  providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
+  providers: [
+    provideIcons({bootstrapCalendar3}),
+    provideNgIconsConfig({size: '1.25rem'}),
+    {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
+  ],
   templateUrl: './customer-edit.component.html',
   styleUrl: './customer-edit.component.css'
 })
@@ -68,7 +72,7 @@ export class CustomerEditComponent {
       this.customerForm.value.lastName ?? '',
       this.customerForm.value.gender ?? '',
       date,
-    ).subscribe(string => this.router.navigate(['/customers', this.customer?.id ?? '']));
+    ).subscribe(() => this.router.navigate(['/customers', this.customer?.id ?? '']));
   }
 
   get firstName() {
