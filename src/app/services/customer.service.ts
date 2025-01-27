@@ -21,12 +21,23 @@ export class CustomerService {
   }
 
   public store(firstName: string, lastName: string, gender: string, birthDate?: Date): Observable<Customer> {
-    const formattedBirthdate: string|undefined = birthDate?.toISOString().substring(0, 10);
-
-    console.log(formattedBirthdate);
+    const formattedBirthdate: string | undefined = birthDate?.toISOString().substring(0, 10);
 
     return this.http.post<Customer>(this.url,
       {
+        firstName,
+        lastName,
+        gender,
+        birthDate: formattedBirthdate,
+      });
+  }
+
+  public update(id: string, firstName: string, lastName: string, gender: string, birthDate?: Date): Observable<string> {
+    const formattedBirthdate: string | undefined = birthDate?.toISOString().substring(0, 10);
+
+    return this.http.put<string>(this.url,
+      {
+        id,
         firstName,
         lastName,
         gender,

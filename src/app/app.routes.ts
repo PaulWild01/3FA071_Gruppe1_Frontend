@@ -5,6 +5,7 @@ import {CustomerShowComponent} from './customer-show/customer-show.component';
 import { ReadingsIndexComponent } from './readings-index/readings-index.component';
 import { ReadingShowComponent } from './readings-show/readings-show.component';
 import { ReadingCreateComponent } from './readings-create/readings-create.component';
+import {CustomerEditComponent} from './customer-edit/customer-edit.component';
 
 export const routes: Routes = [
   {
@@ -21,7 +22,7 @@ export const routes: Routes = [
   },
   {
     path: 'customers/:id/edit',
-    component: CustomerShowComponent
+    component: CustomerEditComponent
   },
   {
     path: 'readings',
