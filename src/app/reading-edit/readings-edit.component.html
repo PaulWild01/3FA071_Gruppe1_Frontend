@@ -23,7 +23,7 @@
                     </div>
 
                     <div class="col-6">
-                        <label for="dateOfReading" class="form-label">Date of Reading</label>
+                        <label for="customerid" class="form-label">Date</label>
                         <div class="input-group">
                             <input class="form-control" formControlName="dateOfReading" ngbDatepicker #d="ngbDatepicker">
                             <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
@@ -47,7 +47,7 @@
                 </div>
                 <div class="mb-3 row">
                     <div class="col-6">
-                        <label for="kindOfMeter" class="form-label">Kind Of Meter</label>
+                        <label for="kindOfMeter" class="form-label">Meter Type</label>
                         <select formControlName="kindOfMeter" id="kindOfMeter" class="form-select">
                             <option *ngFor="let kindOfMeter of kindOfMeterMethod()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
                         </select>

@@ -9,7 +9,6 @@ import {NgIcon, provideIcons} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
 import {isDateOrNull} from '../validators/IsDateOrNull';
 import {Reading} from '../types/reading';
-import { read } from '@popperjs/core';
 
 @Component({
   selector: 'app-readings-edit',
@@ -29,11 +28,11 @@ export class ReadingEditComponent {
   readings?: Reading;
   readingform = new FormGroup({
     customerid: new FormControl<string>('', Validators.required),
-    DateOfReading: new FormControl<Date | null>(null, isDateOrNull()),
+    dateOfReading: new FormControl<Date | null>(null, isDateOrNull()),
     meterId: new FormControl<string>('', Validators.required),
     meterCount: new FormControl<number>(0, Validators.required),
     kindOfMeter: new FormControl<KindOfMeter>(KindOfMeter.STROM),
-    comment: new FormControl<string>('', Validators.required),
+    comment: new FormControl<string>(''),
     substitute: new FormControl<boolean>(false, Validators.required),
 });
 
@@ -42,10 +41,10 @@ export class ReadingEditComponent {
       .subscribe(reading => {
         this.readings = reading
 
-        const birthdate: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
+        const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
         this.customerId?.setValue(reading.customer.id);
-        this.dateOfReading?.setValue(birthdate);
+        this.dateOfReading?.setValue(dateOfReading);
         this.meterId?.setValue(reading.meterId);
         this.meterCount?.setValue(reading.meterCount)
         this.kindOfMeter?.setValue(reading.kindOfMeter);
@@ -62,12 +61,23 @@ export class ReadingEditComponent {
   }
 
   public submit() {
+    console.log("Update aufrufen");
     if (this.readingform.invalid) {
+      console.log(this.readingform.value);
+      console.log(this.readingform.status);
+      console.log(this.readingform.errors);
+      for (const controlName in this.readingform.controls) {
+        const control = this.readingform.get(controlName);
+        if (control && control.invalid) {
+          console.log(`${controlName} ist ungültig.`);
+          console.log(`Fehler:`, control.errors);
+        }
+      }
       this.readingform.markAllAsTouched();
       return;
-    }
 
-    const date = this.readingform.value.DateOfReading as Date | undefined;
+    }
+    const date = this.readingform.value.dateOfReading as Date | undefined;
 
     this.readingservice.update(
       this.readings?.id ?? '',
@@ -78,7 +88,7 @@ export class ReadingEditComponent {
       this.readingform.value.kindOfMeter ?? KindOfMeter.STROM,
       this.readingform.value.comment ?? '',
       this.readingform.value.substitute ?? false,
-    ).subscribe(string => this.router.navigate(['/readings', this.readings?.id ?? '']));
+    ).subscribe(() => this.router.navigate(['/readings', this.readings?.id ?? '']));
   }
 
   get customerId() {
@@ -86,7 +96,7 @@ export class ReadingEditComponent {
   }
 
   get dateOfReading() {
-    return (this.readingform.get('DateOfReading') as FormControl<Date | null>) || null;
+    return this.readingform.get('dateOfReading')
   }
 
   get meterId() {
