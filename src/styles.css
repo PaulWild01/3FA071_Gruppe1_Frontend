@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+.table {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    background-color: #ffffff;
+}
+
+.table > span {
+    padding: 8px 4px;
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+}
