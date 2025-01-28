@@ -39,5 +39,9 @@ export const routes: Routes = [
   {
     path: 'readings/:id/edit',
     component: ReadingShowComponent
+  },
+  {
+    path: 'readings/:id/edit',
+    component: ReadingEditComponent
   }
 ];

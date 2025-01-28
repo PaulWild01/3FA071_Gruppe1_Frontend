@@ -25,13 +25,13 @@ import { read } from '@popperjs/core';
   templateUrl: './readings-edit.component.html',
   styleUrl: './readings-edit.component.css'
 })
-export class ReadingsEditComponent {
+export class ReadingEditComponent {
   readings?: Reading;
   readingform = new FormGroup({
     customerid: new FormControl<string>('', Validators.required),
     DateOfReading: new FormControl<Date | null>(null, isDateOrNull()),
     meterId: new FormControl<string>('', Validators.required),
-    meterCount: new FormControl<number>(0, Validators.required),   
+    meterCount: new FormControl<number>(0, Validators.required),
     kindOfMeter: new FormControl<KindOfMeter>(KindOfMeter.STROM),
     comment: new FormControl<string>('', Validators.required),
     substitute: new FormControl<boolean>(false, Validators.required),
@@ -82,11 +82,11 @@ export class ReadingsEditComponent {
   }
 
   get customerId() {
-    return this.readingform.get('customerid') as FormControl<string>; 
+    return this.readingform.get('customerid') as FormControl<string>;
   }
 
   get dateOfReading() {
-    return (this.readingform.get('DateOfReading') as FormControl<Date | null>) || null; 
+    return (this.readingform.get('DateOfReading') as FormControl<Date | null>) || null;
   }
 
   get meterId() {
