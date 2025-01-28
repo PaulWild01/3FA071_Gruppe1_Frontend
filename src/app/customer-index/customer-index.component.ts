@@ -2,16 +2,21 @@ import {Component} from '@angular/core';
 import {CustomerService} from '../services/customer.service';
 import {Customer} from '../types/customer';
 import {NgForOf} from '@angular/common';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
+import {CustomButtonComponent} from '../custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-index',
   imports: [
     NgForOf,
-    RouterLink
+    CustomButtonComponent
   ],
   templateUrl: './customer-index.component.html',
-  styleUrl: './customer-index.component.css'
+  styles: `
+    tr.customer {
+      cursor: pointer;
+    }
+  `
 })
 export class CustomerIndexComponent {
   public customers: Customer[] = [];

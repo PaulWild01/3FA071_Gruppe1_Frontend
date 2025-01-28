@@ -1,31 +1,28 @@
 import {Component} from '@angular/core';
-import {Router, RouterLink} from "@angular/router";
+import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
 import {CustomerService} from '../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
-import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
+import {NgIcon} from '@ng-icons/core';
 import {isDateOrNull} from '../validators/IsDateOrNull';
+import {CustomButtonComponent} from '../custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-create',
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     NgForOf,
     NgIcon,
     NgIf,
     NgbInputDatepicker,
+    CustomButtonComponent,
   ],
   providers: [
-    provideIcons({bootstrapCalendar3}),
-    provideNgIconsConfig({size: '1.25rem'}),
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
   ],
   templateUrl: './customer-create.component.html',
-  styleUrl: './customer-create.component.css'
 })
 export class CustomerCreateComponent {
   customerForm = new FormGroup({

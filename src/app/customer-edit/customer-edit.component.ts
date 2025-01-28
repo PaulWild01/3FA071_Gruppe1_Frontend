@@ -1,32 +1,29 @@
 import {Component} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
 import {CustomerService} from '../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
-import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
+import {NgIcon} from '@ng-icons/core';
 import {isDateOrNull} from '../validators/IsDateOrNull';
 import {Customer} from '../types/customer';
+import {CustomButtonComponent} from '../custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-edit',
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     NgForOf,
     NgbInputDatepicker,
     NgIcon,
-    NgIf
+    NgIf,
+    CustomButtonComponent
   ],
   providers: [
-    provideIcons({bootstrapCalendar3}),
-    provideNgIconsConfig({size: '1.25rem'}),
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
   ],
   templateUrl: './customer-edit.component.html',
-  styleUrl: './customer-edit.component.css'
 })
 export class CustomerEditComponent {
   customer?: Customer;

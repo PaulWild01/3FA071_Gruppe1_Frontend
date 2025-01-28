@@ -1,27 +1,20 @@
 import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CustomerService} from '../services/customer.service';
 import {Customer} from '../types/customer';
-import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
-import {bootstrapPencil, bootstrapTrash} from '@ng-icons/bootstrap-icons';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationModalComponent} from '../confirmation-modal/confirmation-modal.component';
+import {CustomButtonComponent} from '../custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-show',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    RouterLink,
-    NgIcon
-  ],
-  providers: [
-    provideIcons({bootstrapTrash, bootstrapPencil}),
-    provideNgIconsConfig({size: '1.25rem'}),
+    CustomButtonComponent
   ],
   templateUrl: './customer-show.component.html',
-  styleUrl: './customer-show.component.css'
 })
 export class CustomerShowComponent {
   customer?: Customer;
