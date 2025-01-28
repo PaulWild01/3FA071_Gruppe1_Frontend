@@ -2,20 +2,13 @@ import {Component} from '@angular/core';
 import {CustomerService} from '../services/customer.service';
 import {Customer} from '../types/customer';
 import {NgForOf} from '@angular/common';
-import {RouterLink} from '@angular/router';
-import {NgIcon, provideIcons, provideNgIconsConfig} from '@ng-icons/core';
-import {bootstrapTrash, bootstrapPencil, bootstrapEye} from '@ng-icons/bootstrap-icons';
+import {Router, RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-customer-index',
   imports: [
-    NgIcon,
     NgForOf,
     RouterLink
-  ],
-  providers: [
-    provideIcons({bootstrapTrash, bootstrapPencil, bootstrapEye}),
-    provideNgIconsConfig({size: '1.25rem'}),
   ],
   templateUrl: './customer-index.component.html',
   styleUrl: './customer-index.component.css'
@@ -27,7 +20,7 @@ export class CustomerIndexComponent {
     this.customerService.destroy(customer.id).subscribe(() => this.loadCustomers());
   }
 
-  constructor(private customerService: CustomerService) {
+  constructor(private customerService: CustomerService, public router: Router) {
     this.loadCustomers();
   }
 

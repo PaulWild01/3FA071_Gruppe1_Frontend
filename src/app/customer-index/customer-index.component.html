@@ -13,24 +13,18 @@
           <th>Last Name</th>
           <th>Gender</th>
           <th>Birthdate</th>
-          <th></th>
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let customer of customers">
+
+        <tr class="customer user-select-none" *ngFor="let customer of customers" (click)="router.navigate(['/customers', customer.id])">
           <td>{{ customer.id }}</td>
           <td>{{ customer.firstName }}</td>
           <td>{{ customer.lastName }}</td>
           <td>{{ customer.gender }}</td>
           <td>{{ customer.birthDate ?? '' }}</td>
-          <td class="d-flex flex-column">
-            <div class="btn-group">
-              <a class="btn btn-primary d-flex align-items-center justify-content-center" [routerLink]="['/customers', customer.id]"><ng-icon name="bootstrapEye"></ng-icon></a>
-              <a class="btn btn-success d-flex align-items-center justify-content-center" [routerLink]="['/customers', customer.id, 'edit']"><ng-icon name="bootstrapPencil"></ng-icon></a>
-              <button class="btn btn-danger d-flex align-items-center justify-content-center" (click)="delete(customer)"><ng-icon name="bootstrapTrash"></ng-icon></button>
-            </div>
-          </td>
         </tr>
+
         </tbody>
       </table>
     </div>
