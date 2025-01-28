@@ -35,14 +35,11 @@
                         <label for="last-name" class="form-label">Birthdate</label>
                         <div class="input-group">
                             <input class="form-control" formControlName="birthdate" ngbDatepicker #d="ngbDatepicker">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                            <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
                                 <ng-icon name="bootstrapCalendar3"></ng-icon>
                             </button>
                         </div>
                         <span class="small text-danger" *ngIf="birthdate?.invalid && birthdate?.touched">Must be in 'YYYY-MM-DD' Format</span>
-                    </div>
-
-                    <div class="col-12">
                     </div>
                 </div>
             </div>
