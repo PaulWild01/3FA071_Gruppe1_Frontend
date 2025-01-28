@@ -4,12 +4,17 @@
             <div class="card-header justify-content-between align-items-center d-flex">
                 <h1>Edit Reading</h1>
                 <div class="d-flex gap-3">
-                    <a routerLink="/readings" class="btn btn-danger">Cancel</a>
+                    <a [routerLink]="['/readings', readings?.id]" class="btn btn-danger">Cancel</a>
                     <button type="submit" class="btn btn-success">Save</button>
                 </div>
             </div>
             <div class="card-body">
-
+              <div class="mb-3 row">
+                <div class="col-12">
+                  <label for="id" class="form-label">ID</label>
+                  <input disabled type="text" class="form-control" id="id" value="{{ readings?.id }}">
+                </div>
+              </div>
                 <div class="mb-3 row">
                     <div class="col-6">
                         <label for="customerid" class="form-label">Customer</label>
@@ -50,7 +55,6 @@
                     <div class="col-6">
                         <label for="comment" class="form-label">Comment</label>
                         <input formControlName="comment" type="text" class="form-control" id="comment">
-                        <span class="small text-danger" *ngIf="comment?.invalid && comment?.touched">Required</span>
                     </div>
                 </div>
                 <div class="mb-3 row">

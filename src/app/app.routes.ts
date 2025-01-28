@@ -6,6 +6,7 @@ import {ReadingsIndexComponent} from './readings-index/readings-index.component'
 import {ReadingShowComponent} from './readings-show/readings-show.component';
 import {ReadingCreateComponent} from './readings-create/readings-create.component';
 import {CustomerEditComponent} from './customer-edit/customer-edit.component';
+import {ReadingEditComponent} from './reading-edit/readings-edit.component';
 
 export const routes: Routes = [
   {
@@ -34,10 +35,6 @@ export const routes: Routes = [
   },
   {
     path: 'readings/:id',
-    component: ReadingShowComponent
-  },
-  {
-    path: 'readings/:id/edit',
     component: ReadingShowComponent
   },
   {
