@@ -1,0 +1,66 @@
+<div class="container">
+    <div class="card mt-5">
+        <form [formGroup]="readingform" (ngSubmit)="submit()">
+            <div class="card-header justify-content-between align-items-center d-flex">
+                <h1>Edit Reading</h1>
+                <div class="d-flex gap-3">
+                    <a routerLink="/readings" class="btn btn-danger">Cancel</a>
+                    <button type="submit" class="btn btn-success">Save</button>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="customerid" class="form-label">Customer</label>
+                        <input formControlName="customerid" type="text" class="form-control" id="customerid">
+                        <span class="small text-danger" *ngIf="customerId?.invalid && customerId?.touched">Required</span>
+                    </div>
+
+                    <div class="col-6">
+                        <label for="dateOfReading" class="form-label">Date of Reading</label>
+                        <div class="input-group">
+                            <input class="form-control" formControlName="dateOfReading" ngbDatepicker #d="ngbDatepicker">
+                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                                <ng-icon name="bootstrapCalendar3"></ng-icon>
+                            </button>
+                        </div>
+                        <span class="small text-danger" *ngIf="dateOfReading?.invalid && dateOfReading?.touched">Must be in 'YYYY-MM-DD' Format</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="meterId" class="form-label">meterId</label>
+                        <input formControlName="meterId" type="text" class="form-control" id="meterId">
+                        <span class="small text-danger" *ngIf="meterId?.invalid && meterId?.touched">Required</span>
+                    </div>
+                    <div class="col-6">
+                        <label for="meterCount" class="form-label">Meter Count</label>
+                        <input formControlName="meterCount" type="text" class="form-control" id="meterCount">
+                        <span class="small text-danger" *ngIf="meterCount?.invalid && meterCount?.touched">Required</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="kindOfMeter" class="form-label">Kind Of Meter</label>
+                        <select formControlName="kindOfMeter" id="kindOfMeter" class="form-select">
+                            <option *ngFor="let kindOfMeter of kindOfMeterMethod()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
+                        </select>
+                    </div>
+                    <div class="col-6">
+                        <label for="comment" class="form-label">Comment</label>
+                        <input formControlName="comment" type="text" class="form-control" id="comment">
+                        <span class="small text-danger" *ngIf="comment?.invalid && comment?.touched">Required</span>
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <div class="col-6">
+                        <label for="substitute" class="form-label">Substitute</label>
+                        <input formControlName="substitute" type="text" class="form-control" id="substitute">
+                        <span class="small text-danger" *ngIf="substitute?.invalid && substitute?.touched">Required</span>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
