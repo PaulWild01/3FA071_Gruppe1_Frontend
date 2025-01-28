@@ -1,11 +1,11 @@
 import {Component} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CustomerService} from '../services/customer.service';
-import {Customer} from '../types/customer';
+import {CustomerService} from '../../../services/customer.service';
+import {Customer} from '../../../types/customer';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ConfirmationModalComponent} from '../confirmation-modal/confirmation-modal.component';
-import {CustomButtonComponent} from '../custom-button/custom-button.component';
+import {ConfirmationModalComponent} from '../../../components/confirmation-modal/confirmation-modal.component';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-show',

@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
-import {CustomerService} from '../services/customer.service';
-import {Customer} from '../types/customer';
+import {CustomerService} from '../../../services/customer.service';
+import {Customer} from '../../../types/customer';
 import {NgForOf} from '@angular/common';
 import {Router} from '@angular/router';
-import {CustomButtonComponent} from '../custom-button/custom-button.component';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-index',

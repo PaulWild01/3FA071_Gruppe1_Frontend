@@ -2,8 +2,8 @@ import {Component} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule} from '@angular/forms';
 import {NgForOf} from '@angular/common';
-import {ReadingService} from '../services/reading.service';
-import { KindOfMeter } from '../enums/kind-of-meter';
+import {ReadingService} from '../../../services/reading.service';
+import {KindOfMeter} from '../../../enums/kind-of-meter';
 
 @Component({
   selector: 'app-readings-create',
@@ -13,10 +13,9 @@ import { KindOfMeter } from '../enums/kind-of-meter';
     NgForOf
   ],
   templateUrl: './readings-create.component.html',
-  styleUrl: './readings-create.component.css'
 })
 export class ReadingCreateComponent {
-  readingform = new FormGroup({
+  readingForm = new FormGroup({
     customer: new FormControl(''),
     dateOfReading: new FormControl(''),
     meterId: new FormControl(''),
@@ -31,17 +30,17 @@ export class ReadingCreateComponent {
   }
 
   public submit() {
-    this.readingservice.store(
-      this.readingform.value.customer ?? '',
-      this.readingform.value.dateOfReading ?? '',
-      this.readingform.value.meterId ?? '',
-      this.readingform.value.meterCount ?? '',
-      this.readingform.value.KindOfMeter ?? '',
-      this.readingform.value.Comment ?? '',
-      this.readingform.value.substitute ?? '',
+    this.readingService.store(
+      this.readingForm.value.customer ?? '',
+      this.readingForm.value.dateOfReading ?? '',
+      this.readingForm.value.meterId ?? '',
+      this.readingForm.value.meterCount ?? '',
+      this.readingForm.value.KindOfMeter ?? '',
+      this.readingForm.value.Comment ?? '',
+      this.readingForm.value.substitute ?? '',
     ).subscribe(reading => this.router.navigate(['reading', reading.id]));
   }
 
-  constructor(private readingservice: ReadingService, private router: Router) {
+  constructor(private readingService: ReadingService, private router: Router) {
   }
 }

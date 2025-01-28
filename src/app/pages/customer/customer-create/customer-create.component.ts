@@ -1,13 +1,13 @@
 import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Gender} from '../enums/gender';
+import {Gender} from '../../../enums/gender';
 import {NgForOf, NgIf} from '@angular/common';
-import {CustomerService} from '../services/customer.service';
+import {CustomerService} from '../../../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {NgIcon} from '@ng-icons/core';
-import {isDateOrNull} from '../validators/IsDateOrNull';
-import {CustomButtonComponent} from '../custom-button/custom-button.component';
+import {isDateOrNull} from '../../../validators/IsDateOrNull';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-create',
