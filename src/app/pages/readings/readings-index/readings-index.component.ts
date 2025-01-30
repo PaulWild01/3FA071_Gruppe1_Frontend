@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {booleanAttribute, Component, OnInit} from '@angular/core';
 import {ReadingService} from '../../../services/reading.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -31,6 +31,7 @@ export class ReadingsIndexComponent implements OnInit {
   public showFilters = false;
   public query?: string;
   public kindOfMeterFilter?: KindOfMeter;
+  public substituteFilter?: boolean;
 
   public orderBy?: string;
   public orderDirection?: string;
@@ -40,11 +41,13 @@ export class ReadingsIndexComponent implements OnInit {
   }
 
   private updateQueryParams(): void {
+
+    const substitute = this.substituteFilter !== undefined ? this.substituteFilter : null;
+
     if (this.kindOfMeterFilter && String(this.kindOfMeterFilter).toUpperCase() === 'UNDEFINED') {
       this.kindOfMeterFilter = undefined;
     }
     const kindOfMeter = this.kindOfMeterFilter ? String(this.kindOfMeterFilter).toUpperCase() : null;
-
     if (this.query === '') {
       this.query = undefined;
     }
@@ -58,7 +61,7 @@ export class ReadingsIndexComponent implements OnInit {
       [],
       {
         relativeTo: this.route,
-        queryParams: {q: query, kindOfMeter: kindOfMeter, orderBy: orderBy, desc: desc},
+          queryParams: {q: query, kindOfMeter: kindOfMeter,substitute: substitute, orderBy: orderBy, desc: desc},
         queryParamsHandling: 'merge'
       }
     ).then();
@@ -72,6 +75,7 @@ export class ReadingsIndexComponent implements OnInit {
 
   public clearFilters(): void {
     this.query = undefined;
+    this.substituteFilter = undefined;
     this.kindOfMeterFilter = undefined;
     this.updateQueryParams();
     this.loadReadings();
@@ -104,25 +108,34 @@ export class ReadingsIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.query = this.route.snapshot.queryParams['q'];
+    this.route.queryParamMap.subscribe(params => {
+      this.query = params.get('q') ?? '';
 
-    const kindOfMeter: string | undefined = this.route.snapshot.queryParams['kindOfMeter'];
-    this.kindOfMeterFilter = kindOfMeter ? KindOfMeter[kindOfMeter.toUpperCase() as keyof typeof KindOfMeter] : undefined;
+      const kindOfMeter = params.get('kindOfMeter');
+      this.kindOfMeterFilter = kindOfMeter ? KindOfMeter[kindOfMeter.toUpperCase() as keyof typeof KindOfMeter] : undefined;
 
-    this.orderBy = this.route.snapshot.queryParams['orderBy'];
-    this.orderDirection = this.route.snapshot.queryParams['desc'] === 'true' ? 'desc' : 'asc';
+      this.orderBy = params.get('orderBy') ?? '';
+      this.orderDirection = params.get('desc') === 'true' ? 'desc' : 'asc';
 
-    this.loadReadings();
+      const substitute = params.get('substitute');
+      this.substituteFilter = substitute === 'undefined' ? undefined : substitute === 'true';
+
+      this.loadReadings();
+    });
 
     if (this.query || this.kindOfMeterFilter) {
       this.showFilters = true;
     }
   }
 
+
   private loadReadings(): void {
     this.readingservice.all().subscribe(readings => {
       this.readings = readings.filter(readings => {
-        return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter) && (!this.query || this.searchQuery(readings));
+        return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
+          && (!this.query || this.searchQuery(readings))
+          && (this.substituteFilter === undefined || readings.substitute === Boolean(this.substituteFilter)
+      );
       }).sort((a, b): number => {
         if (!this.orderBy) {
           return 0;
@@ -168,4 +181,5 @@ export class ReadingsIndexComponent implements OnInit {
 
   protected readonly KindOfMeter = KindOfMeter;
   protected readonly read = read;
+  protected readonly booleanAttribute = booleanAttribute;
 }

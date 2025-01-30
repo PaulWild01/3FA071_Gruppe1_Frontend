@@ -11,7 +11,7 @@
     </div>
     <div class="card-body table-responsive">
       <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
-        <div class="col-6">
+        <div class="col-4">
           <label for="search" class="form-label">Search:</label>
           <input [(ngModel)]="query" type="text" class="form-control" id="search">
         </div>
@@ -21,6 +21,15 @@
           <select [(ngModel)]="kindOfMeterFilter" id="kindOfMeter-filter" class="form-select">
             <option selected [value]="undefined"> All </option>
             <option *ngFor="let kindOfMeter of kindOfMeter()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
+          </select>
+        </div>
+
+        <div class="col-2">
+          <label for="substitute-filter" class="form-label">Substitute</label>
+          <select [(ngModel)]="substituteFilter" id="substitute-filter" class="form-select">
+            <option selected [value]="undefined">All</option>
+            <option [value]="true">Yes</option>
+            <option [value]="false">No</option>
           </select>
         </div>
 
@@ -36,13 +45,7 @@
         <thead>
         <tr>
           <th>ID</th>
-          <th>
-            <button (click)="changeOrderBy('customer')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
-              <span>Customer ID</span>
-              <ng-icon *ngIf="orderBy === 'customer'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
-              <ng-icon *ngIf="orderBy !== 'customer'" name="" />
-            </button>
-          </th>
+          <th>Customer ID</th>
           <th>
             <button (click)="changeOrderBy('dateOfReading')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
               <span>Date Of Reading</span>
