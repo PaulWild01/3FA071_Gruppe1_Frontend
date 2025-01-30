@@ -22,7 +22,6 @@ import {ReadingService} from '../../../services/reading.service';
   ],
   providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
   templateUrl: './readings-edit.component.html',
-  styleUrl: './readings-edit.component.css'
 })
 export class ReadingEditComponent {
   readings?: Reading;
