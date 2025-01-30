@@ -1,6 +1,6 @@
 export enum KindOfMeter {
-  HEIZUNG,
-  STROM,
-  UNBEKANNT,
-  WASSER
+  HEIZUNG= 'Heizung',
+  STROM = 'STROM',
+  UNBEKANNT = 'UNBEKANNT',
+  WASSER = 'WASSER'
 }
