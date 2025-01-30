@@ -33,7 +33,6 @@ export class CustomerIndexComponent implements OnInit {
     public showFilters = false;
     public query?: string;
     public genderFilter?: Gender;
-
     public orderBy?: string;
     public orderDirection?: string;
 
@@ -156,46 +155,47 @@ export class CustomerIndexComponent implements OnInit {
 
     private loadCustomers() {
         this.customerService.all().subscribe(customers => {
-            this.customers = customers.filter(customer => {
-                return (!this.genderFilter || customer.gender === this.genderFilter) && (!this.query || this.searchQuery(customer));
-            }).sort((a, b): number => {
-                if (!this.orderBy) {
-                    return 0;
-                }
-
-                const orderBy: string = this.orderBy ?? '';
-                const value: number = this.orderDirection === 'desc' ? 1 : -1;
-
-                if (this.orderBy === 'birthdate') {
-                    if (!a.birthDate && !b.birthDate) {
-                        return 0;
-                    }
-
-                    if (!a.birthDate) {
-                        return 1;
-                    }
-
-                    if (!b.birthDate) {
-                        return -1;
-                    }
-
-                    const aBirthdate = new Date(a.birthDate ?? '');
-                    const bBirthdate = new Date(b.birthDate ?? '');
-                    return aBirthdate > bBirthdate ? -value : value;
-                }
-
-                return (a[orderBy as keyof Customer] ?? '') > (b[orderBy as keyof Customer] ?? '') ? -value : value;
-            });
+            this.customers = customers
+                .filter(customer => this.filterCustomer(customer))
+                .sort((a, b) => this.sortCustomer(a, b));
         });
     }
 
     public showConfigureColumnsModal() {
         const modal = this.modalService.open(ConfigureColumnModal);
         modal.componentInstance.columns = this.columns;
-        modal.componentInstance.okButtonClosure((columns: Column[]): void => {
-            this.columns = columns;
-            console.log(this.columns);
-        })
+        modal.componentInstance.okButtonClosure((columns: Column[]) => this.columns = columns);
+    }
+
+    private filterCustomer(customer: Customer): boolean {
+        return (!this.genderFilter || customer.gender === this.genderFilter) && (!this.query || this.searchQuery(customer))
+    }
+
+    private sortCustomer(a: Customer, b: Customer): number {
+        if (!this.orderBy) return 0;
+
+        const orderBy: string = this.orderBy ?? '';
+        const value: number = this.orderDirection === 'desc' ? 1 : -1;
+
+        if (this.orderBy === 'birthdate') {
+            if (!a.birthDate && !b.birthDate) {
+                return 0;
+            }
+
+            if (!a.birthDate) {
+                return 1;
+            }
+
+            if (!b.birthDate) {
+                return -1;
+            }
+
+            const aBirthdate = new Date(a.birthDate ?? '');
+            const bBirthdate = new Date(b.birthDate ?? '');
+            return aBirthdate > bBirthdate ? -value : value;
+        }
+
+        return (a[orderBy as keyof Customer] ?? '') > (b[orderBy as keyof Customer] ?? '') ? -value : value;
     }
 
     private searchQuery(customer: Customer): boolean {
