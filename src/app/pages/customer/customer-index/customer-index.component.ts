@@ -202,6 +202,7 @@ export class CustomerIndexComponent implements OnInit {
         return customer.id.includes(this.query ?? '') ||
             customer.firstName.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
             customer.lastName.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
+            `${customer.firstName.toLowerCase()}${customer.lastName.toLowerCase()}`.includes(this.query?.replace(' ', '').toLowerCase() ?? '') ||
             (customer.birthDate?.includes(this.query ?? '') ?? false);
     }
 
