@@ -1,9 +1,9 @@
 import {Component} from '@angular/core';
 import {RouterLink} from '@angular/router';
 import {NgForOf} from '@angular/common';
-import {ReadingService} from '../services/reading.service';
-import {Reading} from '../types/reading';
 import {ReactiveFormsModule} from '@angular/forms';
+import {ReadingService} from '../../../services/reading.service';
+import {Reading} from '../../../types/reading';
 
 @Component({
     selector: 'app-customer-show',

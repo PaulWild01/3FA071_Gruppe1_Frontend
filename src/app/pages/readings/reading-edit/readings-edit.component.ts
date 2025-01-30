@@ -1,14 +1,14 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {KindOfMeter} from '../enums/kind-of-meter';
 import {NgForOf, NgIf} from '@angular/common';
-import {ReadingService} from '../services/reading.service';
 import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
 import {NgIcon, provideIcons} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
-import {isDateOrNull} from '../validators/IsDateOrNull';
-import {Reading} from '../types/reading';
+import {Reading} from '../../../types/reading';
+import {isDateOrNull} from '../../../validators/IsDateOrNull';
+import {KindOfMeter} from '../../../enums/kind-of-meter';
+import {ReadingService} from '../../../services/reading.service';
 
 @Component({
   selector: 'app-readings-edit',
