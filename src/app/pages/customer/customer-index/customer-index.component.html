@@ -36,10 +36,34 @@
         <thead>
         <tr>
           <th>ID</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Gender</th>
-          <th>Birthdate</th>
+          <th>
+            <button (click)="changeOrderBy('firstName')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
+              <span>First Name</span>
+              <ng-icon *ngIf="orderBy === 'firstName'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
+              <ng-icon *ngIf="orderBy !== 'firstName'" name="" />
+            </button>
+          </th>
+          <th>
+            <button (click)="changeOrderBy('lastName')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
+              <span>Last Name</span>
+              <ng-icon *ngIf="orderBy === 'lastName'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
+              <ng-icon *ngIf="orderBy !== 'lastName'" name="" />
+            </button>
+          </th>
+          <th>
+            <button (click)="changeOrderBy('gender')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
+              <span>Gender</span>
+              <ng-icon *ngIf="orderBy === 'gender'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
+              <ng-icon *ngIf="orderBy !== 'gender'" name="" />
+            </button>
+          </th>
+          <th>
+            <button (click)="changeOrderBy('birthdate')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
+              <span>Birthdate</span>
+              <ng-icon *ngIf="orderBy === 'birthdate'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
+              <ng-icon *ngIf="orderBy !== 'birthdate'" name="" />
+            </button>
+          </th>
         </tr>
         </thead>
         <tbody>

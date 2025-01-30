@@ -6,6 +6,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Gender} from '../../../enums/gender';
+import {NgIcon} from '@ng-icons/core';
 
 @Component({
   selector: 'app-customer-index',
@@ -14,7 +15,8 @@ import {Gender} from '../../../enums/gender';
     CustomButtonComponent,
     FormsModule,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    NgIcon
   ],
   templateUrl: './customer-index.component.html',
   styles: `
@@ -28,6 +30,9 @@ export class CustomerIndexComponent implements OnInit {
   public showFilters = false;
   public query?: string;
   public genderFilter?: Gender;
+
+  public orderBy?: string;
+  public orderDirection?: string;
 
   public genders(): string[] {
     return Object.keys(Gender);
@@ -44,11 +49,15 @@ export class CustomerIndexComponent implements OnInit {
     }
     const query = this.query ? this.query : null;
 
+    const orderBy = this.orderBy ? this.orderBy : null;
+
+    const desc = this.orderDirection === 'desc' ? true : null;
+
     this.router.navigate(
       [],
       {
         relativeTo: this.route,
-        queryParams: { q: query, gender: gender },
+        queryParams: {q: query, gender: gender, orderBy: orderBy, desc: desc},
         queryParamsHandling: 'merge'
       }
     ).then();
@@ -67,11 +76,40 @@ export class CustomerIndexComponent implements OnInit {
     this.loadCustomers();
   }
 
+  public changeOrderBy(orderBy: string): void {
+    if (this.orderBy === orderBy) {
+      if (!this.orderDirection) {
+        this.setOrderBy(this.orderBy, 'desc')
+        return;
+      }
+
+      if (this.orderDirection === 'desc') {
+        this.setOrderBy(this.orderBy, 'asc')
+        return;
+      }
+
+      this.setOrderBy(undefined, undefined);
+      return;
+    }
+
+    this.setOrderBy(orderBy, 'desc');
+  }
+
+  private setOrderBy(orderBy?: string, orderDirection?: string) {
+    this.orderBy = orderBy;
+    this.orderDirection = orderDirection;
+    this.loadCustomers();
+    this.updateQueryParams();
+  }
+
   ngOnInit() {
     this.query = this.route.snapshot.queryParams['q'];
 
-    const gender: string|undefined = this.route.snapshot.queryParams['gender'];
+    const gender: string | undefined = this.route.snapshot.queryParams['gender'];
     this.genderFilter = gender ? Gender[gender.toUpperCase() as keyof typeof Gender] : undefined;
+
+    this.orderBy = this.route.snapshot.queryParams['orderBy'];
+    this.orderDirection = this.route.snapshot.queryParams['desc'] === 'true' ? 'desc' : 'asc';
 
     this.loadCustomers();
 
@@ -84,6 +122,33 @@ export class CustomerIndexComponent implements OnInit {
     this.customerService.all().subscribe(customers => {
       this.customers = customers.filter(customer => {
         return (!this.genderFilter || customer.gender === this.genderFilter) && (!this.query || this.searchQuery(customer));
+      }).sort((a, b): number => {
+        if (!this.orderBy) {
+          return 0;
+        }
+
+        const orderBy: string = this.orderBy ?? '';
+        const value: number = this.orderDirection === 'desc' ? 1 : -1;
+
+        if (this.orderBy === 'birthdate') {
+          if (!a.birthDate && !b.birthDate) {
+            return 0;
+          }
+
+          if (!a.birthDate) {
+            return 1;
+          }
+
+          if (!b.birthDate) {
+            return -1;
+          }
+
+          const aBirthdate = new Date(a.birthDate ?? '');
+          const bBirthdate = new Date(b.birthDate ?? '');
+          return aBirthdate > bBirthdate ? -value : value;
+        }
+
+        return (a[orderBy as keyof Customer] ?? '') > (b[orderBy as keyof Customer] ?? '') ? -value : value;
       });
     });
   }
