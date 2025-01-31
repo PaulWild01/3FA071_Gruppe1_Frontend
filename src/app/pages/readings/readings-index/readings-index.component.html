@@ -17,7 +17,7 @@
         </div>
 
         <div class="col-2">
-          <label for="kindOfMeter-filter" class="form-label">Meter Kind</label>
+          <label for="kindOfMeter-filter" class="form-label">Meter Type</label>
           <select [(ngModel)]="kindOfMeterFilter" id="kindOfMeter-filter" class="form-select">
             <option selected [value]="undefined"> All </option>
             <option *ngFor="let kindOfMeter of kindOfMeter()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="col-2">
-          <label for="substitute-filter" class="form-label">Substitute</label>
+          <label for="substitute-filter" class="form-label">Is Substitute</label>
           <select [(ngModel)]="substituteFilter" id="substitute-filter" class="form-select">
             <option selected [value]="undefined">All</option>
             <option [value]="true">Yes</option>
@@ -48,14 +48,14 @@
           <th>Customer ID</th>
           <th>
             <button (click)="changeOrderBy('dateOfReading')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
-              <span>Date Of Reading</span>
+              <span>Date</span>
               <ng-icon *ngIf="orderBy === 'dateOfReading'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
               <ng-icon *ngIf="orderBy !== 'dateOfReading'" name="" />
             </button>
           </th>
           <th>
             <button (click)="changeOrderBy('meterId')" class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
-              <span>Meter Id</span>
+              <span>Meter ID</span>
               <ng-icon *ngIf="orderBy === 'meterId'" [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'" />
               <ng-icon *ngIf="orderBy !== 'meterId'" name="" />
             </button>
@@ -96,7 +96,7 @@
             (click)="router.navigate(['/readings', readings.id])">
           <td>{{ readings.id }}</td>
           <td>{{ readings.customer.id }}</td>
-          <td>{{ readings.dateOfReading ?? ''}}</td>
+          <td>{{ readings.dateOfReading}}</td>
           <td>{{ readings.meterId }}</td>
           <td>{{ readings.meterCount }}</td>
           <td>{{ readings.kindOfMeter }}</td>

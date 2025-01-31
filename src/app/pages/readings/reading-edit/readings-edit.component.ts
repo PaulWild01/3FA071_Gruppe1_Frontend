@@ -9,6 +9,7 @@ import {Reading} from '../../../types/reading';
 import {isDateOrNull} from '../../../validators/IsDateOrNull';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {ReadingService} from '../../../services/reading.service';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-readings-edit',
@@ -18,27 +19,28 @@ import {ReadingService} from '../../../services/reading.service';
     NgForOf,
     NgbInputDatepicker,
     NgIcon,
-    NgIf
+    NgIf,
+    CustomButtonComponent
   ],
   providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
   templateUrl: './readings-edit.component.html',
 })
 export class ReadingEditComponent {
-  readings?: Reading;
-  readingform = new FormGroup({
-    customerid: new FormControl<string>('', Validators.required),
+  reading?: Reading;
+  readingForm = new FormGroup({
+    customerId: new FormControl<string>('', Validators.required),
     dateOfReading: new FormControl<Date | null>(null, isDateOrNull()),
     meterId: new FormControl<string>('', Validators.required),
     meterCount: new FormControl<number>(0, Validators.required),
     kindOfMeter: new FormControl<KindOfMeter>(KindOfMeter.STROM),
     comment: new FormControl<string>(''),
     substitute: new FormControl<boolean>(false, Validators.required),
-});
+  });
 
-  constructor(private readingservice: ReadingService, private route: ActivatedRoute, private router: Router) {
-    this.readingservice.findById(this.route.snapshot.params['id'])
+  constructor(private readingService: ReadingService, private route: ActivatedRoute, private router: Router) {
+    this.readingService.findById(this.route.snapshot.params['id'])
       .subscribe(reading => {
-        this.readings = reading
+        this.reading = reading
 
         const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
@@ -50,7 +52,6 @@ export class ReadingEditComponent {
         this.comment?.setValue(reading.comment);
         this.substitute?.setValue(reading.substitute);
 
-
         this.dateOfReading?.updateValueAndValidity();
       });
   }
@@ -60,61 +61,57 @@ export class ReadingEditComponent {
   }
 
   public submit() {
-    console.log("Update aufrufen");
-    if (this.readingform.invalid) {
-      console.log(this.readingform.value);
-      console.log(this.readingform.status);
-      console.log(this.readingform.errors);
-      for (const controlName in this.readingform.controls) {
-        const control = this.readingform.get(controlName);
+    if (this.readingForm.invalid) {
+      for (const controlName in this.readingForm.controls) {
+        const control = this.readingForm.get(controlName);
         if (control && control.invalid) {
           console.log(`${controlName} ist ungültig.`);
           console.log(`Fehler:`, control.errors);
         }
       }
-      this.readingform.markAllAsTouched();
+      this.readingForm.markAllAsTouched();
       return;
 
     }
-    const date = this.readingform.value.dateOfReading as Date | undefined;
+    const date = this.readingForm.value.dateOfReading as Date | undefined;
 
-    this.readingservice.update(
-      this.readings?.id ?? '',
-      this.readingform.value.customerid ?? '',
+    this.readingService.update(
+      this.reading?.id ?? '',
+      this.readingForm.value.customerId ?? '',
       date ?? new Date(),
-      this.readingform.value.meterId ?? '',
-      this.readingform.value.meterCount ?? 0,
-      this.readingform.value.kindOfMeter ?? KindOfMeter.STROM,
-      this.readingform.value.comment ?? '',
-      this.readingform.value.substitute ?? false,
-    ).subscribe(() => this.router.navigate(['/readings', this.readings?.id ?? '']));
+      this.readingForm.value.meterId ?? '',
+      this.readingForm.value.meterCount ?? 0,
+      this.readingForm.value.kindOfMeter ?? KindOfMeter.STROM,
+      this.readingForm.value.comment ?? '',
+      this.readingForm.value.substitute ?? false,
+    ).subscribe(() => this.router.navigate(['/readings', this.reading?.id ?? '']));
   }
 
   get customerId() {
-    return this.readingform.get('customerid') as FormControl<string>;
+    return this.readingForm.get('customerId') as FormControl<string>;
   }
 
   get dateOfReading() {
-    return this.readingform.get('dateOfReading')
+    return this.readingForm.get('dateOfReading')
   }
 
   get meterId() {
-    return this.readingform.get('meterId')
+    return this.readingForm.get('meterId')
   }
 
   get meterCount() {
-    return this.readingform.get('meterCount')
+    return this.readingForm.get('meterCount')
   }
 
   get kindOfMeter() {
-    return this.readingform.get('kindOfMeter')
+    return this.readingForm.get('kindOfMeter')
   }
 
   get comment() {
-    return this.readingform.get('comment')
+    return this.readingForm.get('comment')
   }
 
   get substitute() {
-    return this.readingform.get('substitute')
+    return this.readingForm.get('substitute')
   }
 }
