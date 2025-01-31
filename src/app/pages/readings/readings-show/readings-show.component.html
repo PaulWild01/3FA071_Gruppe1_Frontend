@@ -19,7 +19,10 @@
       <div class="mb-3 row">
         <div class="col-6">
           <label for="customer" class="form-label">Customer ID</label>
-          <input disabled type="text" class="form-control" id="customer" value="{{ reading?.customer?.id }}">
+          <div class="input-group">
+            <input disabled type="text" class="form-control" id="customer" value="{{ reading?.customer?.firstName }} {{ reading?.customer?.lastName }}">
+            <custom-button [link]="['/customers', reading?.customer?.id ?? '']" icon="eye" color="outline-secondary" label="Show Customer" />
+          </div>
         </div>
 
         <div class="col-6">
