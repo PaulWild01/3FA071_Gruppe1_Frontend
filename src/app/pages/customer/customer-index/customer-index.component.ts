@@ -10,6 +10,7 @@ import {NgIcon} from '@ng-icons/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfigureColumnModal} from "../../../components/confirmation-modal/configure-column-modal";
 import {Column} from "../../../types/column";
+import {ImportModalComponent} from '../../../components/confirmation-modal/import-modal';
 
 @Component({
     selector: 'app-customer-index',
@@ -204,6 +205,34 @@ export class CustomerIndexComponent implements OnInit {
             customer.lastName.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
             `${customer.firstName.toLowerCase()}${customer.lastName.toLowerCase()}`.includes(this.query?.replace(' ', '').toLowerCase() ?? '') ||
             (customer.birthDate?.includes(this.query ?? '') ?? false);
+    }
+
+    public storeImport() {
+      const modal = this.modalService.open(ImportModalComponent);
+      modal.componentInstance.okButtonClosure = (data: Customer[]) => {
+        this.processData(data);
+        };
+    }
+
+    private processData(data: Customer[]) {
+      data.forEach((record, index) => {
+        const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
+        this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
+          next: () => {
+            console.log("Data stored")
+            if (index === data.length - 1) {
+              this.router.navigate(['/customers']).then();
+            }
+          },
+            error: (error) => {
+            console.error(error);
+          },
+        });
+      });
+    }
+
+    public openExportMenu() {
+      return 0;
     }
 
     constructor(
