@@ -1,68 +1,66 @@
 <div class="container">
-    <div class="card mt-5">
-        <div class="card-header justify-content-between align-items-center d-flex">
-            <h1>Customers</h1>
-            <div class="d-flex gap-3">
-                <custom-button color="info" (click)="showConfigureColumnsModal()" label="Configure Columns"
-                               icon="layout-three-columns"/>
-                <custom-button (click)="showFilters = !showFilters"
-                               [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
-                               [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
-                <custom-button [link]="['/customers/create']" label="Create Customer" icon="plus-lg"/>
-            </div>
+  <div class="card mt-5">
+    <div class="card-header justify-content-between align-items-center d-flex">
+      <h1>Customers</h1>
+      <div class="d-flex gap-3">
+        <custom-button color="info" (click)="showConfigureColumnsModal()" label="Configure Columns"
+                       icon="layout-three-columns"/>
+        <custom-button (click)="showFilters = !showFilters"
+                       [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
+                       [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
+        <custom-button [link]="['/customers/create']" label="Create Customer" icon="plus-lg"/>
+      </div>
 
-        </div>
-        <div class="card-body table-responsive">
-            <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
-                <div class="col-6">
-                    <label for="search" class="form-label">Search:</label>
-                    <input [(ngModel)]="query" type="text" class="form-control" id="search">
-                </div>
-
-                <div class="col-2">
-                    <label for="gender-filter" class="form-label">Gender</label>
-                    <select [(ngModel)]="genderFilter" id="gender-filter" class="form-select">
-                        <option selected [value]="undefined"> All</option>
-                        <option *ngFor="let gender of genders()" value="{{ gender }}">{{ gender }}</option>
-                    </select>
-                </div>
-
-                <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-                    <custom-button (click)="clearFilters()" label="Clear Filters" color="danger"/>
-                </div>
-                <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-                    <custom-button (click)="applyFilters()" label="Apply Filters"/>
-                </div>
-
-            </div>
-            <table class="table table-striped table-hover">
-                <thead>
-                <tr>
-                    <ng-container *ngFor="let column of columns">
-                        <th *ngIf="column.show">
-                            <span *ngIf="!column.canSort">{{ column.displayName ?? column.name }}</span>
-                            <button *ngIf="column.canSort" (click)="changeOrderBy(column.name)"
-                                    class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
-                                <span>{{ column.displayName ?? column.name }}</span>
-                                <ng-icon *ngIf="orderBy === column.name"
-                                         [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'"/>
-                                <ng-icon *ngIf="orderBy !== column.name" name=""/>
-                            </button>
-                        </th>
-                    </ng-container>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="customer user-select-none" *ngFor="let customer of customers"
-                    (click)="router.navigate(['/customers', customer.id])">
-                    <td *ngIf="columns[0].show" >{{ customer.id }}</td>
-                    <td *ngIf="columns[1].show">{{ customer.firstName }}</td>
-                    <td *ngIf="columns[2].show">{{ customer.lastName }}</td>
-                    <td *ngIf="columns[3].show">{{ customer.gender }}</td>
-                    <td *ngIf="columns[4].show">{{ customer.birthDate ?? '' }}</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
+    <div class="card-body table-responsive">
+      <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
+        <div class="col-6">
+          <label for="search" class="form-label">Search:</label>
+          <input [(ngModel)]="query" type="text" class="form-control" id="search">
+        </div>
+
+        <div class="col-2">
+          <label for="gender-filter" class="form-label">Gender</label>
+          <select [(ngModel)]="genderFilter" id="gender-filter" class="form-select">
+            <option selected [value]="undefined"> All</option>
+            <option *ngFor="let gender of genders()" value="{{ gender }}">{{ gender }}</option>
+          </select>
+        </div>
+
+        <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
+          <custom-button (click)="clearFilters()" label="Clear Filters" color="danger"/>
+        </div>
+        <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
+          <custom-button (click)="applyFilters()" label="Apply Filters"/>
+        </div>
+
+      </div>
+      <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+          <ng-container *ngFor="let column of columns">
+            <th *ngIf="column.show">
+              <span *ngIf="!column.canSort">{{ column.displayName ?? column.name }}</span>
+              <button *ngIf="column.canSort" (click)="changeOrderBy(column.name)"
+                      class="btn fw-bold p-0 border-0 w-100 d-flex justify-content-between">
+                <span>{{ column.displayName ?? column.name }}</span>
+                <ng-icon *ngIf="orderBy === column.name"
+                         [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'"/>
+                <ng-icon *ngIf="orderBy !== column.name" name=""/>
+              </button>
+            </th>
+          </ng-container>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="customer user-select-none" *ngFor="let customer of customers"
+            (click)="router.navigate(['/customers', customer.id])">
+          <ng-container *ngFor="let column of columns">
+            <td *ngIf="column.show">{{ column.getValue(customer) }}</td>
+          </ng-container>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 </div>

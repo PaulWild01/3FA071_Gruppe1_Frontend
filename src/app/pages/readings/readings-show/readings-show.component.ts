@@ -10,7 +10,6 @@ import {CustomButtonComponent} from '../../../components/custom-button/custom-bu
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    RouterLink,
     CustomButtonComponent
   ],
   templateUrl: './readings-show.component.html',

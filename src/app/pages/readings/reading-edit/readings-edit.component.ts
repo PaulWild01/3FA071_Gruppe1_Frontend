@@ -14,7 +14,6 @@ import {CustomButtonComponent} from '../../../components/custom-button/custom-bu
 @Component({
   selector: 'app-readings-edit',
   imports: [
-    RouterLink,
     ReactiveFormsModule,
     NgForOf,
     NgbInputDatepicker,

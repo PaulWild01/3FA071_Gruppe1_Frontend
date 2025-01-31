@@ -33,10 +33,10 @@ import {FormsModule} from '@angular/forms';
     </div>
   `,
 })
-export class ConfigureColumnModal {
+export class ConfigureColumnModal<T> {
   modal = inject(NgbActiveModal);
-  @Input() columns: Column[] = [];
-  @Input() okButtonClosure: (columns: Column[]) => void = () => {};
+  @Input() columns: Column<T>[] = [];
+  @Input() okButtonClosure: (columns: Column<T>[]) => void = () => {};
 
   okButtonClicked() {
     this.okButtonClosure(this.columns);
