@@ -1,0 +1,16 @@
+[
+{
+    "id": "49ebadf8-b64e-4b7d-8d98-000180558d89",
+    "gender": "M",
+    "firstName": "JSONTest1",
+    "lastName": "JSONTest1",
+    "birthDate": null
+  },
+  {
+    "id": "f96bb5fb-d674-4a61-9a5d-000ee0e71a77",
+    "gender": "M",
+    "firstName": "JSONTest2",
+    "lastName": "JSONTest2",
+    "birthDate": null
+  }
+]
