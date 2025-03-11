@@ -3,33 +3,37 @@
     <form [formGroup]="readingForm" (ngSubmit)="submit()">
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Create new Reading</h1>
-        <div class="d-flex gap-3">
-          <a routerLink="/readings" class="btn btn-danger">Cancel</a>
-          <button type="submit" class="btn btn-success">Save</button>
+        <div class="btn-group">
+          <custom-button label="Cancel" [link]="['/readings']" color="danger" icon="x-lg" />
+          <custom-button label="Save" (click)="submit()" color="success" icon="floppy" />
         </div>
       </div>
       <div class="card-body">
 
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="customer" class="form-label">Customer ID</label>
-            <input formControlName="customer" type="text" class="form-control" id="customer">
+            <label for="customer" class="form-label">Customer</label>
+            <app-combo-box name="customer" [formControl]="readingForm.controls.customer" [items]="customers" [filter]="filter" />
+            <span class="small text-danger" *ngIf="readingForm.controls.customer?.invalid && readingForm.controls.customer?.touched">Required</span>
           </div>
 
           <div class="col-6">
             <label for="dateOfReading" class="form-label">Date of Reading</label>
             <input formControlName="dateOfReading" type="text" class="form-control" id="dateOfReading">
+            <span class="small text-danger" *ngIf="readingForm.controls.dateOfReading?.invalid && readingForm.controls.dateOfReading?.touched">Required</span>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
             <label for="meterId" class="form-label">Meter ID</label>
             <input formControlName="meterId" type="text" class="form-control" id="meterId">
+            <span class="small text-danger" *ngIf="readingForm.controls.meterId?.invalid && readingForm.controls.meterId?.touched">Required</span>
           </div>
 
           <div class="col-6">
             <label for="meterCount" class="form-label">Meter Count</label>
             <input formControlName="meterCount" type="text" class="form-control" id="meterCount">
+            <span class="small text-danger" *ngIf="readingForm.controls.meterCount?.invalid && readingForm.controls.meterCount?.touched">Required</span>
           </div>
         </div>
 
@@ -41,14 +45,17 @@
             </select>
           </div>
           <div class="col-6">
-            <label for="comment" class="form-label">Comment</label>
-            <input formControlName="comment" type="text" class="form-control" id="comment">
+            <label for="substitute" class="form-label">Substitute</label>
+            <select formControlName="substitute" id="substitute" class="form-select">
+              <option value="false">False</option>
+              <option value="true">True</option>
+            </select>
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
-            <label for="substitute" class="form-label">Substitute</label>
-            <input formControlName="substitute" type="text" class="form-control" id="substitute">
+          <div class="col-12">
+            <label for="comment" class="form-label">Comment</label>
+            <input formControlName="comment" type="text" class="form-control" id="comment">
           </div>
         </div>
       </div>

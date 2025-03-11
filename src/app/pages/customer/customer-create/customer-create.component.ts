@@ -39,7 +39,6 @@ export class CustomerCreateComponent {
   public submit() {
     if (this.customerForm.invalid) {
       this.customerForm.markAllAsTouched();
-      console.log(this.firstName?.touched);
       return;
     }
 
