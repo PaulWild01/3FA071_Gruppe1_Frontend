@@ -22,12 +22,18 @@ export class ReadingService {
     return this.http.get<Reading>(`${this.url}/${id}`);
   }
 
-  public store(customerId: string, dateOfReading: string, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
+  public store(customerId: string, dateOfReading: Date, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
+
+    const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
+
+    console.log(formattedDateOfReading)
+
     return this.customerService.findById(customerId).pipe(
       switchMap(customer => {
+
         return this.http.post<Reading>(this.url, {
           customer,
-          dateOfReading,
+          dateOfReading: formattedDateOfReading,
           meterId,
           meterCount,
           kindOfMeter,

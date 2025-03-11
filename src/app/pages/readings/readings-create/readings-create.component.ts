@@ -8,6 +8,9 @@ import {ComboBoxComponent} from '../../../components/combo-box/combo-box.compone
 import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
 import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
+import {NgIcon} from '@ng-icons/core';
+import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {isDate} from '../../../validators/IsDate';
 
 @Component({
   selector: 'app-readings-create',
@@ -16,14 +19,19 @@ import {CustomButtonComponent} from '../../../components/custom-button/custom-bu
     NgForOf,
     ComboBoxComponent,
     CustomButtonComponent,
-    NgIf
+    NgIf,
+    NgIcon,
+    NgbInputDatepicker
+  ],
+  providers: [
+    {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
   ],
   templateUrl: './readings-create.component.html',
 })
 export class ReadingCreateComponent implements OnInit {
   readingForm = new FormGroup({
     customer: new FormControl('', Validators.required),
-    dateOfReading: new FormControl('', Validators.required),
+    dateOfReading: new FormControl<Date | null>(null, isDate),
     meterId: new FormControl('', Validators.required),
     meterCount: new FormControl('', Validators.required),
     kindOfMeter: new FormControl('HEIZUNG'),
@@ -47,18 +55,17 @@ export class ReadingCreateComponent implements OnInit {
       return;
     }
 
+    const dateOfReading = this.readingForm.controls.dateOfReading.value as Date;
+
     this.readingService.store(
       this.readingForm.value.customer ?? '',
-      this.readingForm.value.dateOfReading ?? '',
+      dateOfReading,
       this.readingForm.value.meterId ?? '',
       this.readingForm.value.meterCount ?? '',
       this.readingForm.value.kindOfMeter ?? '',
       this.readingForm.value.comment ?? '',
       this.readingForm.value.substitute ?? false,
-    ).subscribe(reading => {
-      console.log(reading);
-      this.router.navigate(['readings', reading.id]).then();
-    });
+    ).subscribe(reading => this.router.navigate(['readings', reading.id]));
   }
 
   public filter(items: Customer[], value: string): { label: string, value: string }[] {

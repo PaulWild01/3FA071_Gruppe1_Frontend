@@ -19,8 +19,12 @@
 
           <div class="col-6">
             <label for="dateOfReading" class="form-label">Date of Reading</label>
-            <input formControlName="dateOfReading" type="text" class="form-control" id="dateOfReading">
-            <span class="small text-danger" *ngIf="readingForm.controls.dateOfReading?.invalid && readingForm.controls.dateOfReading?.touched">Required</span>
+            <div class="input-group">
+              <input id="dateOfReading" name="dateOfReading" class="form-control" formControlName="dateOfReading" ngbDatepicker #d="ngbDatepicker">
+              <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
+                <ng-icon name="bootstrapCalendar3"></ng-icon>
+              </button>
+            </div>
           </div>
         </div>
         <div class="mb-3 row">
