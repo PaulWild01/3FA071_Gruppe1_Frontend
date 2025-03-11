@@ -1,7 +1,12 @@
-$primary: Green;
-$warning: Orange;
-$danger: Red;
-$info: Purple;
-$success: Blue;
+$primary: #c393ff;
+$secondary: #9493ff;
+$tertiary: #d8ff93;
+
+$danger: #ff9393;
+$warning: #ffcc93;
+$info: #93d0ff;
+$success: #7ce383;
+
+$body-bg: #e1e1e1;
 
 @import "bootstrap/scss/bootstrap";

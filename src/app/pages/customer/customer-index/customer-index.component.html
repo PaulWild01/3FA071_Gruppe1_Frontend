@@ -7,7 +7,7 @@
                        icon="layout-three-columns"/>
         <custom-button (click)="showFilters = !showFilters"
                        [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
-                       [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
+                       [icon]="showFilters ? 'eye-slash' : 'eye'" color="secondary"/>
         <custom-button [link]="['/customers/create']" label="Create Customer" icon="plus-lg"/>
       </div>
 
@@ -31,7 +31,7 @@
           <custom-button (click)="clearFilters()" label="Clear Filters" color="danger"/>
         </div>
         <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-          <custom-button (click)="applyFilters()" label="Apply Filters"/>
+          <custom-button (click)="applyFilters()" label="Apply Filters" color="success"/>
         </div>
 
       </div>

@@ -13,7 +13,7 @@ import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
     NgbTooltip,
   ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
 
@@ -35,3 +35,4 @@ export class AppComponent {
     document.querySelector('html')!.setAttribute('data-bs-theme', this.theme());
   }
 }
+

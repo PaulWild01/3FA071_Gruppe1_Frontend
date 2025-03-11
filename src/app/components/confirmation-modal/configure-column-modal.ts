@@ -29,7 +29,7 @@ import {FormsModule} from '@angular/forms';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="okButtonClicked()">Ok</button>
+      <button type="button" class="btn bg-info" (click)="okButtonClicked()">Ok</button>
     </div>
   `,
 })
