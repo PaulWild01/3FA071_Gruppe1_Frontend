@@ -15,7 +15,7 @@ import {FormsModule} from '@angular/forms';
       <h4 class="modal-title" id="modal-title">Configure Columns</h4>
       <button
         type="button"
-        class="btn-close"
+        class="btn-close bg-danger"
         (click)="modal.dismiss('Cross click')"
       ></button>
     </div>
@@ -29,7 +29,7 @@ import {FormsModule} from '@angular/forms';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn bg-info" (click)="okButtonClicked()">Ok</button>
+      <button type="button" class="btn bg-success" (click)="okButtonClicked()">Ok</button>
     </div>
   `,
 })
