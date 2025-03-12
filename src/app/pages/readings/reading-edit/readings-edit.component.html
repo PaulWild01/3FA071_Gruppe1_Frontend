@@ -1,68 +1,50 @@
 <div class="container">
   <div class="card mt-5">
-    <form [formGroup]="readingForm">
+    <form [formGroup]="readingForm" (ngSubmit)="submit()">
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Edit Reading</h1>
         <div class="btn-group">
-          <custom-button label="Cancel" [link]="['/readings', reading?.id ?? '']" color="danger" icon="x-lg" />
-          <custom-button label="Save" (click)="submit()" color="success" icon="floppy" />
+          <custom-button label="Cancel" [link]="['/readings', reading?.id ?? '']" color="danger" icon="x-lg"/>
+          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
         </div>
       </div>
       <div class="card-body">
         <div class="mb-3 row">
           <div class="col-12">
-            <label for="id" class="form-label">ID</label>
-            <input disabled type="text" class="form-control" id="id" value="{{ reading?.id }}">
+            <app-input name="id" label="ID" [control]="readingForm.controls.id" />
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="customerId" class="form-label">Customer ID</label>
-            <input formControlName="customerId" type="text" class="form-control" id="customerId">
-            <span class="small text-danger" *ngIf="customerId?.invalid && customerId?.touched">Required</span>
+            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customerId"
+                           [items]="customers" [filter]="filter" [preSelectedItem]="{label: customerLabel ?? '', value: customer?.id ?? ''}"/>
           </div>
-
           <div class="col-6">
-            <label for="customerId" class="form-label">Date</label>
-            <div class="input-group">
-              <input class="form-control" formControlName="dateOfReading" ngbDatepicker #d="ngbDatepicker">
-              <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
-                <ng-icon name="bootstrapCalendar3"></ng-icon>
-              </button>
-            </div>
-            <span class="small text-danger" *ngIf="dateOfReading?.invalid && dateOfReading?.touched">Must be in 'YYYY-MM-DD' Format</span>
+            <app-date-picker name="dateOfReading" label="Date of Reading"
+                             [control]="readingForm.controls.dateOfReading"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="meterId" class="form-label">Meter ID</label>
-            <input formControlName="meterId" type="text" class="form-control" id="meterId">
-            <span class="small text-danger" *ngIf="meterId?.invalid && meterId?.touched">Required</span>
+            <app-input name="meterId" label="Meter ID" [control]="readingForm.controls.meterId"/>
           </div>
           <div class="col-6">
-            <label for="meterCount" class="form-label">Meter Count</label>
-            <input formControlName="meterCount" type="text" class="form-control" id="meterCount">
-            <span class="small text-danger" *ngIf="meterCount?.invalid && meterCount?.touched">Required</span>
+            <app-input name="meterCount" label="Meter Count" [control]="readingForm.controls.meterCount"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="kindOfMeter" class="form-label">Meter Type</label>
-            <select formControlName="kindOfMeter" id="kindOfMeter" class="form-select">
-              <option *ngFor="let kindOfMeter of kindOfMeterMethod()" value="{{ kindOfMeter }}">{{ kindOfMeter }}
-              </option>
-            </select>
+            <app-select name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"
+                        [options]="kindOfMeter()"/>
           </div>
           <div class="col-6">
-            <label for="comment" class="form-label">Comment</label>
-            <input formControlName="comment" type="text" class="form-control" id="comment">
+            <app-select name="substitute" label="Substitute" [control]="readingForm.controls.substitute"
+                        [options]="[{value: 'true', label: 'True'}, {value: 'false', label: 'False'}]"/>
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
-            <label for="substitute" class="form-label">Substitute</label>
-            <input formControlName="substitute" type="text" class="form-control" id="substitute">
-            <span class="small text-danger" *ngIf="substitute?.invalid && substitute?.touched">Required</span>
+          <div class="col-12">
+            <app-input name="comment" label="Comment" [control]="readingForm.controls.comment"/>
           </div>
         </div>
       </div>

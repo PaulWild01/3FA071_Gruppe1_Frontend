@@ -1,4 +1,4 @@
-import {Component, computed, input, signal} from '@angular/core';
+import {Component, computed, effect, input, OnInit, signal} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {CustomButtonComponent} from '../custom-button/custom-button.component';
@@ -17,6 +17,9 @@ interface Item {
     CustomButtonComponent,
   ],
   template: `
+    @if (label()) {
+      <label [for]="name()" class="form-label">{{ label() }}</label>
+    }
     <div class="dropdown">
       <div class="input-group">
         <input [name]="name()" [id]="name()" [(ngModel)]="searchQuery" type="text" class="form-control"
@@ -27,8 +30,7 @@ interface Item {
         }
       </div>
 
-
-      <input hidden type="text" [formControl]="formControl()">
+      <input hidden type="text" [formControl]="control()">
 
       @if (showDropdown()) {
         <ul class="dropdown-menu show">
@@ -38,17 +40,31 @@ interface Item {
         </ul>
       }
     </div>
+    @if (control().invalid && control().touched) {
+      <span class="small text-danger">Required</span>
+    }
   `,
-  styles: ``
 })
-export class ComboBoxComponent {
+export class ComboBoxComponent implements OnInit {
   name = input.required<string>();
+  label = input<string>();
   items = input.required<any[]>();
   filter = input.required<(items: any[], value: string) => Item[]>();
-  formControl = input.required<FormControl>();
+  control = input.required<FormControl>();
   selectedItem = signal<Item | undefined>(undefined);
   searchQuery = signal('');
   inputFocused = signal(false);
+
+  preSelectedItem = input<Item>();
+
+  constructor() {
+    effect(() => {
+      if (this.preSelectedItem()) {
+        console.log(this.preSelectedItem());
+        this.onSelect(this.preSelectedItem()!);
+      }
+    });
+  }
 
   showDropdown = computed(() => {
     return this.selectedItem() === undefined && this.suggestedItems().length > 0 && this.inputFocused() && this.searchQuery().length > 0;
@@ -58,16 +74,26 @@ export class ComboBoxComponent {
     return this.filter()(this.items(), this.searchQuery());
   })
 
+  ngOnInit() {
+    if (this.preSelectedItem()) {
+      this.onSelect(this.preSelectedItem()!);
+    }
+
+    effect(event => {
+      console.log(event);
+    });
+  }
+
   onSelect(item: Item) {
     this.selectedItem.set(item);
     this.searchQuery.set(item.label);
     this.inputFocused.set(false);
-    this.formControl().setValue(item.value);
+    this.control().setValue(item.value);
   }
 
   onReset() {
     this.selectedItem.set(undefined);
     this.searchQuery.set('');
-    this.formControl().setValue('');
+    this.control().setValue('');
   }
 }

@@ -4,62 +4,42 @@
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Create new Reading</h1>
         <div class="btn-group">
-          <custom-button label="Cancel" [link]="['/readings']" color="danger" icon="x-lg" />
-          <custom-button label="Save" (click)="submit()" color="success" icon="floppy" />
+          <custom-button label="Cancel" [link]="['/readings']" color="danger" icon="x-lg"/>
+          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
         </div>
       </div>
       <div class="card-body">
-
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="customer" class="form-label">Customer</label>
-            <app-combo-box name="customer" [formControl]="readingForm.controls.customer" [items]="customers" [filter]="filter" />
-            <span class="small text-danger" *ngIf="readingForm.controls.customer?.invalid && readingForm.controls.customer?.touched">Required</span>
+            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
+                           [items]="customers" [filter]="filter"/>
           </div>
-
           <div class="col-6">
-            <label for="dateOfReading" class="form-label">Date of Reading</label>
-            <div class="input-group">
-              <input id="dateOfReading" name="dateOfReading" class="form-control" formControlName="dateOfReading" ngbDatepicker #d="ngbDatepicker">
-              <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
-                <ng-icon name="bootstrapCalendar3"></ng-icon>
-              </button>
-            </div>
+            <app-date-picker name="dateOfReading" label="Date of Reading"
+                             [control]="readingForm.controls.dateOfReading"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="meterId" class="form-label">Meter ID</label>
-            <input formControlName="meterId" type="text" class="form-control" id="meterId">
-            <span class="small text-danger" *ngIf="readingForm.controls.meterId?.invalid && readingForm.controls.meterId?.touched">Required</span>
+            <app-input name="meterId" label="Meter ID" [control]="readingForm.controls.meterId"/>
           </div>
-
           <div class="col-6">
-            <label for="meterCount" class="form-label">Meter Count</label>
-            <input formControlName="meterCount" type="text" class="form-control" id="meterCount">
-            <span class="small text-danger" *ngIf="readingForm.controls.meterCount?.invalid && readingForm.controls.meterCount?.touched">Required</span>
+            <app-input name="meterCount" label="Meter Count" [control]="readingForm.controls.meterCount"/>
           </div>
         </div>
-
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="kindOfMeter" class="form-label">Kind of Meter</label>
-            <select formControlName="kindOfMeter" id="kindOfMeter" class="form-select">
-              <option *ngFor="let kindOfMeter of kindOfMeter()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
-            </select>
+            <app-select name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"
+                        [options]="kindOfMeter()"/>
           </div>
           <div class="col-6">
-            <label for="substitute" class="form-label">Substitute</label>
-            <select formControlName="substitute" id="substitute" class="form-select">
-              <option value="false">False</option>
-              <option value="true">True</option>
-            </select>
+            <app-select name="substitute" label="Substitute" [control]="readingForm.controls.substitute"
+                        [options]="[{value: 'true', label: 'True'}, {value: 'false', label: 'False'}]"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-12">
-            <label for="comment" class="form-label">Comment</label>
-            <input formControlName="comment" type="text" class="form-control" id="comment">
+            <app-input name="comment" label="Comment" [control]="readingForm.controls.comment" />
           </div>
         </div>
       </div>

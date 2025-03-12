@@ -1,27 +1,27 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {NgForOf, NgIf} from '@angular/common';
 import {ReadingService} from '../../../services/reading.service';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {ComboBoxComponent} from '../../../components/combo-box/combo-box.component';
 import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
 import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
-import {NgIcon} from '@ng-icons/core';
-import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
+import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {isDate} from '../../../validators/IsDate';
+import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
+import {InputComponent} from '../../../components/input/input.component';
+import {SelectComponent} from '../../../components/select/select.component';
 
 @Component({
   selector: 'app-readings-create',
   imports: [
     ReactiveFormsModule,
-    NgForOf,
     ComboBoxComponent,
     CustomButtonComponent,
-    NgIf,
-    NgIcon,
-    NgbInputDatepicker
+    DatePickerComponent,
+    InputComponent,
+    SelectComponent
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
@@ -39,17 +39,22 @@ export class ReadingCreateComponent implements OnInit {
     substitute: new FormControl<boolean>(false),
   });
 
-  public customers: Customer[] = [];
+  customers: Customer[] = [];
 
-  public kindOfMeter(): string[] {
-    return Object.keys(KindOfMeter);
+  kindOfMeter(): {value: string, label: string}[] {
+    let result: {value: string, label: string}[] = [];
+
+    Object.keys(KindOfMeter).forEach(key => result.push({value: key, label: ''}));
+    Object.values(KindOfMeter).forEach((value, index) => result[index].label = value);
+
+    return result;
   }
 
   ngOnInit() {
     this.customerService.all().subscribe(customers => this.customers = customers);
   }
 
-  public submit() {
+  submit() {
     if (this.readingForm.invalid) {
       this.readingForm.markAllAsTouched();
       return;

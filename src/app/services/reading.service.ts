@@ -14,15 +14,15 @@ export class ReadingService {
   constructor(private http: HttpClient, private customerService: CustomerService) {
   }
 
-  public all(): Observable<Reading[]> {
+  all(): Observable<Reading[]> {
     return this.http.get<Reading[]>(this.url);
   }
 
-  public findById(id: string): Observable<Reading> {
+  findById(id: string): Observable<Reading> {
     return this.http.get<Reading>(`${this.url}/${id}`);
   }
 
-  public store(customerId: string, dateOfReading: Date, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
+  store(customerId: string, dateOfReading: Date, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
 
     const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
 
@@ -44,7 +44,7 @@ export class ReadingService {
     );
   }
 
-  public update(id: string, customerid: string, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
+  update(id: string, customerid: string, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
     const formattedDateOfReading: string | undefined = dateOfReading?.toISOString().substring(0, 10);
 
     return this.customerService.findById(customerid).pipe(switchMap(customer => {
@@ -61,5 +61,9 @@ export class ReadingService {
           });
       })
     );
+  }
+
+  destroy(id: string): Observable<string> {
+    return this.http.delete<string>(`${this.url}/${id}`);
   }
 }
