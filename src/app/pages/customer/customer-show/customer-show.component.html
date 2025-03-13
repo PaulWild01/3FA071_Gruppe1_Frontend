@@ -10,34 +10,25 @@
       </div>
     </div>
     <div class="card-body">
-
       <div class="mb-3 row">
         <div class="col-12">
-          <label for="id" class="form-label">ID</label>
-          <input disabled type="text" class="form-control" id="id" value="{{ customer?.id }}">
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <div class="col-6">
-          <label for="first-name" class="form-label">First Name</label>
-          <input disabled type="text" class="form-control" id="first-name" value="{{ customer?.firstName }}">
-        </div>
-
-        <div class="col-6">
-          <label for="last-name" class="form-label">Last Name</label>
-          <input disabled type="text" class="form-control" id="last-name" value="{{ customer?.lastName }}">
+          <app-input name="id" label="ID" [control]="customerForm.controls.id"/>
         </div>
       </div>
       <div class="mb-3 row">
         <div class="col-6">
-          <label for="first-name" class="form-label">Gender</label>
-          <input disabled type="text" class="form-control" id="gender" value="{{ customer?.gender }}">
+          <app-input name="firstName" label="First Name" [control]="customerForm.controls.firstName"/>
         </div>
-
         <div class="col-6">
-          <label for="last-name" class="form-label">Birthdate</label>
-          <input disabled type="text" class="form-control" id="birthdate" value="{{ customer?.birthDate }}">
+          <app-input name="lastName" label="Last Name" [control]="customerForm.controls.lastName"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <app-input name="gender" label="Gender" [control]="customerForm.controls.gender"/>
+        </div>
+        <div class="col-6">
+          <app-input name="birthdate" label="Birthdate" [control]="customerForm.controls.birthdate"/>
         </div>
       </div>
     </div>
