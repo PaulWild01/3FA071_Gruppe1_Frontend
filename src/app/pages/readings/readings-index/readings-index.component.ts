@@ -8,6 +8,12 @@ import {NgIcon} from '@ng-icons/core';
 import {Reading} from '../../../types/reading';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {read} from '@popperjs/core';
+import {ExportModalCustomerComponent} from '../../../components/confirmation-modal/export-modal-customer';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ImportModalCustomerComponent} from '../../../components/confirmation-modal/import-modal-customer';
+import {Customer} from '../../../types/customer';
+import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
+import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
 
 @Component({
   selector: 'app-customer-index',
@@ -176,7 +182,36 @@ export class ReadingsIndexComponent implements OnInit {
       String(readings.substitute).includes(this.query?.toLowerCase() ?? '');
   }
 
-  constructor(private readingservice: ReadingService, public router: Router, private route: ActivatedRoute) {
+  public storeImport() {
+    const modal = this.modalService.open(ImportModalReadingComponent);
+    modal.componentInstance.okButtonClosure = (data: Reading[]) => {
+      this.processData(data);
+    };
+  }
+
+  private processData(data: Reading[]) {
+    data.forEach((record, index) => {
+      this.readingservice.store(record.customer, record.dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
+        next: () => {
+          if (index === data.length - 1) {
+            this.router.navigate(['/readings']).then();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    });
+  }
+  public openExportMenu() {
+    const modalRef = this.modalService.open(ExportModalReadingComponent);
+    modalRef.componentInstance.readings = this.readings;
+  }
+
+  constructor(private readingservice: ReadingService,
+              public router: Router,
+              private route: ActivatedRoute,
+              private modalService: NgbModal) {
   }
 
   protected readonly KindOfMeter = KindOfMeter;

@@ -4,6 +4,7 @@ import {Observable, switchMap} from 'rxjs';
 import {Reading} from '../types/reading';
 import { KindOfMeter } from '../enums/kind-of-meter';
 import {CustomerService} from './customer.service';
+import {Customer} from '../types/customer';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ export class ReadingService {
     return this.http.get<Reading>(`${this.url}/${id}`);
   }
 
-    public store(customer: string, dateOfReading: string, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: string,): Observable<Reading> {
+    public store(customer: Customer, dateOfReading: string, meterId: string, meterCount: number, kindOfMeter: string, comment: string, substitute?: boolean,): Observable<Reading> {
       return this.http.post<Reading>(this.url, {customer, dateOfReading, meterId, meterCount, kindOfMeter, comment, substitute});
     }
 

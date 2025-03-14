@@ -16,7 +16,7 @@ import {KindOfMeter} from '../../../enums/kind-of-meter';
 })
 export class ReadingCreateComponent {
   readingForm = new FormGroup({
-    customer: new FormControl(''),
+    customer: new FormControl(),
     dateOfReading: new FormControl(''),
     meterId: new FormControl(''),
     meterCount: new FormControl(''),
@@ -31,13 +31,13 @@ export class ReadingCreateComponent {
 
   public submit() {
     this.readingService.store(
-      this.readingForm.value.customer ?? '',
+      this.readingForm.value.customer ?? undefined,
       this.readingForm.value.dateOfReading ?? '',
       this.readingForm.value.meterId ?? '',
-      this.readingForm.value.meterCount ?? '',
+      parseFloat(this.readingForm.value.meterCount ?? ''),
       this.readingForm.value.KindOfMeter ?? '',
       this.readingForm.value.Comment ?? '',
-      this.readingForm.value.substitute ?? '',
+      (this.readingForm.value.substitute ?? '').toLowerCase() === 'true',
     ).subscribe(reading => this.router.navigate(['reading', reading.id]));
   }
 

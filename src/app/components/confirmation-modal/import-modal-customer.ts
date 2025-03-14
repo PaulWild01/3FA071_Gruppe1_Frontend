@@ -20,39 +20,45 @@ import {Gender} from '../../enums/gender';
       </div>
   `,
 })
-export class ImportModalComponent {
+export class ImportModalCustomerComponent {
   modal = inject(NgbActiveModal);
   @Input() cancelButtonText = "Cancel";
   @Input() okButtonText = "Ok";
-  @Input() okButtonClosure: (data: Customer[]) => void = () => {};
+  @Input() okButtonClosure: (data: Customer[]) => void = () => {
+  };
   selectedFile: File | null = null;
+  fileContent: string | null = null;
   filedata: Customer[] = [];
 
   okButtonClicked() {
-    if (this.filedata.length > 0) {
-      this.okButtonClosure(this.filedata);
-      this.modal.close('Ok click')
-    }
-    else {
-      alert("Invalid file format.");
+    if (this.fileContent && this.selectedFile) {
+      if (this.selectedFile.name.endsWith(".json")) {
+        this.parseJSON(this.fileContent);
+      } else if (this.selectedFile.name.endsWith(".xml")) {
+        this.parseXML(this.fileContent);
+      } else if (this.selectedFile.name.endsWith(".csv")) {
+        this.parseCSV(this.fileContent);
+      }
+      if (this.filedata.length > 0) {
+        this.okButtonClosure(this.filedata);
+        this.modal.close('Ok click')
+      } else {
+        alert("Invalid file format.");
+      }
+    } else {
+      alert("Please select a file")
     }
   }
 
   onFileSelected(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
-      const file = input.files[0];
+      this.selectedFile = input.files[0];
       const reader = new FileReader();
       reader.onload = () => {
-        const content = reader.result as string;
-        if (file.name.endsWith(".json")) {
-          this.parseJSON(content);
-        }
-        else if (file.name.endsWith(".xml")) {
-          this.parseXML(content);
-        }
+        this.fileContent = reader.result as string;
       };
-      reader.readAsText(file);
+      reader.readAsText(this.selectedFile);
     }
   }
 
@@ -81,10 +87,38 @@ export class ImportModalComponent {
 
         this.filedata.push({id, firstName, lastName, gender, birthDate})
       }
-    }
-    catch (error) {
+    } catch (error) {
       console.error('Fehler beim Parsen der XML-Datei:', error);
       alert('Invalid XML file');
+    }
+  }
+
+  parseCSV(content: string): void {
+    try {
+      const lines = content.split("\n");
+      const headers = lines[0].split(",");
+      this.filedata = [];
+
+      for (let i = 1; i < lines.length; i++) {
+        const values = lines[i].split(",");
+        if (values.length === headers.length) {
+          const record: Record<string, string> = {};
+          for (let j = 0; j < headers.length; j++) {
+            record[headers[j].trim()] = values[j].trim();
+          }
+
+          this.filedata.push({
+            id: record["id"],
+            firstName: record['firstName'],
+            lastName: record['lastName'],
+            gender: this.toGender(record['gender']),
+            birthDate: record['birthDate'] || undefined,
+          });
+        }
+      }
+    } catch (err) {
+      console.error('Fehler beim Parsen der CSV-Datei:', err);
+      alert('Invalid CSV file');
     }
   }
 

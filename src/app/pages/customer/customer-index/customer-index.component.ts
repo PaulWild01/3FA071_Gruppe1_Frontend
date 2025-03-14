@@ -10,7 +10,8 @@ import {NgIcon} from '@ng-icons/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfigureColumnModal} from "../../../components/confirmation-modal/configure-column-modal";
 import {Column} from "../../../types/column";
-import {ImportModalComponent} from '../../../components/confirmation-modal/import-modal';
+import {ImportModalCustomerComponent} from '../../../components/confirmation-modal/import-modal-customer';
+import {ExportModalCustomerComponent} from '../../../components/confirmation-modal/export-modal-customer';
 
 @Component({
     selector: 'app-customer-index',
@@ -208,7 +209,7 @@ export class CustomerIndexComponent implements OnInit {
     }
 
     public storeImport() {
-      const modal = this.modalService.open(ImportModalComponent);
+      const modal = this.modalService.open(ImportModalCustomerComponent);
       modal.componentInstance.okButtonClosure = (data: Customer[]) => {
         this.processData(data);
         };
@@ -219,7 +220,6 @@ export class CustomerIndexComponent implements OnInit {
         const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
         this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
           next: () => {
-            console.log("Data stored")
             if (index === data.length - 1) {
               this.router.navigate(['/customers']).then();
             }
@@ -232,7 +232,8 @@ export class CustomerIndexComponent implements OnInit {
     }
 
     public openExportMenu() {
-      return 0;
+      const modalRef = this.modalService.open(ExportModalCustomerComponent);
+      modalRef.componentInstance.customers = this.customers;
     }
 
     constructor(
