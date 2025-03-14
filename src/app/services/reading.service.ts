@@ -1,8 +1,8 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable, switchMap} from 'rxjs';
 import {Reading} from '../types/reading';
-import { KindOfMeter } from '../enums/kind-of-meter';
+import {KindOfMeter} from '../enums/kind-of-meter';
 import {CustomerService} from './customer.service';
 import {Customer} from '../types/customer';
 
@@ -15,22 +15,40 @@ export class ReadingService {
   constructor(private http: HttpClient, private customerService: CustomerService) {
   }
 
-  public all(): Observable<Reading[]> {
+  all(): Observable<Reading[]> {
     return this.http.get<Reading[]>(this.url);
   }
 
-  public findById(id: string): Observable<Reading> {
+  findById(id: string): Observable<Reading> {
     return this.http.get<Reading>(`${this.url}/${id}`);
   }
 
-    public store(customer: Customer, dateOfReading: string, meterId: string, meterCount: number, kindOfMeter: string, comment: string, substitute?: boolean,): Observable<Reading> {
-      return this.http.post<Reading>(this.url, {customer, dateOfReading, meterId, meterCount, kindOfMeter, comment, substitute});
-    }
+  store(customerId: Customer, dateOfReading: Date, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
 
-    public update(id: string, customerid: string, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
-      const formattedDateOfReading: string | undefined = dateOfReading?.toISOString().substring(0, 10);
+    const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
 
-      return this.customerService.findById(customerid).pipe(switchMap(customer => {
+    console.log(formattedDateOfReading)
+
+    return this.customerService.findById(customerId).pipe(
+      switchMap(customer => {
+
+        return this.http.post<Reading>(this.url, {
+          customer,
+          dateOfReading: formattedDateOfReading,
+          meterId,
+          meterCount,
+          kindOfMeter,
+          comment,
+          substitute
+        });
+      })
+    );
+  }
+
+  update(id: string, customerid: string, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
+    const formattedDateOfReading: string | undefined = dateOfReading?.toISOString().substring(0, 10);
+
+    return this.customerService.findById(customerid).pipe(switchMap(customer => {
         return this.http.put<string>(this.url,
           {
             id,
@@ -43,6 +61,10 @@ export class ReadingService {
             substitute
           });
       })
-      );
-    }
+    );
+  }
+
+  destroy(id: string): Observable<string> {
+    return this.http.delete<string>(`${this.url}/${id}`);
+  }
 }

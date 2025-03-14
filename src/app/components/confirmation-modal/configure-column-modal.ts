@@ -15,7 +15,7 @@ import {FormsModule} from '@angular/forms';
       <h4 class="modal-title" id="modal-title">Configure Columns</h4>
       <button
         type="button"
-        class="btn-close"
+        class="btn-close bg-danger"
         (click)="modal.dismiss('Cross click')"
       ></button>
     </div>
@@ -29,14 +29,14 @@ import {FormsModule} from '@angular/forms';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-primary" (click)="okButtonClicked()">Ok</button>
+      <button type="button" class="btn bg-success" (click)="okButtonClicked()">Ok</button>
     </div>
   `,
 })
-export class ConfigureColumnModal {
+export class ConfigureColumnModal<T> {
   modal = inject(NgbActiveModal);
-  @Input() columns: Column[] = [];
-  @Input() okButtonClosure: (columns: Column[]) => void = () => {};
+  @Input() columns: Column<T>[] = [];
+  @Input() okButtonClosure: (columns: Column<T>[]) => void = () => {};
 
   okButtonClicked() {
     this.okButtonClosure(this.columns);

@@ -11,6 +11,10 @@ import {read} from '@popperjs/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
 import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
+import {Column} from '../../../types/column';
+import {ConfigureColumnModal} from '../../../components/confirmation-modal/configure-column-modal';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {Customer} from '../../../types/customer';
 
 @Component({
   selector: 'app-customer-index',
@@ -35,9 +39,74 @@ export class ReadingsIndexComponent implements OnInit {
   public query?: string;
   public kindOfMeterFilter?: KindOfMeter;
   public substituteFilter?: boolean;
-
   public orderBy?: string;
   public orderDirection?: string;
+
+  public columns: Column<Reading>[] = [
+    {
+      name: "id",
+      displayName: "ID",
+      getValue: reading => reading.id,
+      show: false,
+      canSort: false,
+    },
+    {
+      name: "customerId",
+      displayName: "Customer ID",
+      getValue: reading => reading.customer.id,
+      show: false,
+      canSort: false,
+    },
+    {
+      name: "customerName",
+      displayName: "Customer Name",
+      getValue: reading => `${reading.customer.firstName} ${reading.customer.lastName}`,
+      show: true,
+      canSort: false,
+    },
+    {
+      name: "dateOfReading",
+      displayName: "Date",
+      getValue: reading => reading.dateOfReading.toString(),
+      show: true,
+      canSort: true,
+    },
+    {
+      name: "meterId",
+      displayName: "Meter ID",
+      getValue: reading => reading.meterId,
+      show: true,
+      canSort: true,
+    },
+    {
+      name: "meterCount",
+      displayName: "Meter Count",
+      getValue: reading => reading.meterCount.toString(),
+      show: true,
+      canSort: true,
+    },
+    {
+      name: "kindOfMeter",
+      displayName: "Meter Type",
+      getValue: reading => reading.kindOfMeter,
+      show: true,
+      canSort: true,
+    },
+    {
+      name: "comment",
+      displayName: "Comment",
+      getValue: reading => reading.comment,
+      show: true,
+      canSort: true,
+    },
+    {
+      name: "substitute",
+      displayName: "Substitute",
+      getValue: reading => reading.substitute ? 'true' : 'false',
+      show: true,
+      canSort: true,
+    },
+  ];
 
   public kindOfMeter(): string[] {
     return Object.keys(KindOfMeter);
@@ -64,7 +133,7 @@ export class ReadingsIndexComponent implements OnInit {
       [],
       {
         relativeTo: this.route,
-          queryParams: {q: query, kindOfMeter: kindOfMeter,substitute: substitute, orderBy: orderBy, desc: desc},
+        queryParams: {q: query, kindOfMeter: kindOfMeter, substitute: substitute, orderBy: orderBy, desc: desc},
         queryParamsHandling: 'merge'
       }
     ).then();
@@ -133,12 +202,12 @@ export class ReadingsIndexComponent implements OnInit {
 
 
   private loadReadings(): void {
-    this.readingservice.all().subscribe(readings => {
+    this.readingService.all().subscribe(readings => {
       this.readings = readings.filter(readings => {
         return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
           && (!this.query || this.searchQuery(readings))
           && (this.substituteFilter === undefined || readings.substitute === Boolean(this.substituteFilter)
-      );
+          );
       }).sort((a, b): number => {
         if (!this.orderBy) {
           return 0;
@@ -168,6 +237,12 @@ export class ReadingsIndexComponent implements OnInit {
         return (a[orderBy as keyof Reading] ?? '') > (b[orderBy as keyof Reading] ?? '') ? -value : value;
       });
     });
+  }
+
+  public showConfigureColumnsModal() {
+    const modal = this.modalService.open(ConfigureColumnModal);
+    modal.componentInstance.columns = this.columns;
+    modal.componentInstance.okButtonClosure((columns: Column<Reading>[]) => this.columns = columns);
   }
 
   private searchQuery(readings: Reading): boolean {
@@ -210,8 +285,4 @@ export class ReadingsIndexComponent implements OnInit {
               private route: ActivatedRoute,
               private modalService: NgbModal) {
   }
-
-  protected readonly KindOfMeter = KindOfMeter;
-  protected readonly read = read;
-  protected readonly booleanAttribute = booleanAttribute;
 }

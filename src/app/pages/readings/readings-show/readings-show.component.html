@@ -2,53 +2,101 @@
   <div class="card mt-5">
     <div class="card-header justify-content-between align-items-center d-flex">
       <h1>Reading Details</h1>
-      <div class="d-flex gap-3">
-        <a [routerLink]="['/readings', readings?.id, 'edit']" class="btn btn-primary">Edit</a>
+      <div class="btn-group">
+        <custom-button [link]="['/readings', reading?.id ?? '', 'edit']" icon="pencil" label="Edit"/>
+        <custom-button color="danger" (click)="delete()" icon="trash" label="Delete"/>
       </div>
     </div>
-    <div class="card-body">
 
+    <div class="card-body">
       <div class="mb-3 row">
         <div class="col-12">
-          <label for="id" class="form-label">ID</label>
-          <input disabled type="text" class="form-control" id="id" value="{{ readings?.id }}">
-        </div>
-      </div>
-
-      <div class="mb-3 row">
-        <div class="col-6">
-          <label for="customer" class="form-label">Customer</label>
-          <input disabled type="text" class="form-control" id="customer" value="{{ readings?.customer?.id }}">
-        </div>
-
-        <div class="col-6">
-          <label for="dateOfReading" class="form-label">dateOfReading</label>
-          <input disabled type="text" class="form-control" id="dateOfReading" value="{{ readings?.dateOfReading }}">
+          <app-input name="id" label="ID" [control]="readingForm.controls.id"/>
         </div>
       </div>
       <div class="mb-3 row">
         <div class="col-6">
-          <label for="meterId" class="form-label">meterId</label>
-          <input disabled type="text" class="form-control" id="meterId" value="{{ readings?.meterId }}">
-        </div>
-
-        <div class="col-6">
-          <label for="meterCount" class="form-label">meterCount</label>
-          <input disabled type="text" class="form-control" id="meterCount" value="{{ readings?.meterCount }}">
+          <app-input name="customer" label="Customer" [control]="readingForm.controls.customer"/>
         </div>
         <div class="col-6">
-          <label for="kindOfMeter" class="form-label">kindOfMeter</label>
-          <input disabled type="text" class="form-control" id="kindOfMeter" value="{{ readings?.kindOfMeter }}">
+          <app-input name="dateOfReading" label="Date of Reading" [control]="readingForm.controls.dateOfReading"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <app-input name="meterId" label="Meter ID" [control]="readingForm.controls.meterId"/>
         </div>
         <div class="col-6">
-          <label for="comment" class="form-label">comment</label>
-          <input disabled type="text" class="form-control" id="comment" value="{{ readings?.comment }}">
+          <app-input name="meterCount" label="Meter Count" [control]="readingForm.controls.meterCount"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-6">
+          <app-input name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"/>
         </div>
         <div class="col-6">
-          <label for="substitute" class="form-label">substitute</label>
-          <input disabled type="text" class="form-control" id="substitute" value="{{ readings?.substitute }}">
+          <app-input name="substitute" label="Substitute" [control]="readingForm.controls.substitute"/>
+        </div>
+      </div>
+      <div class="mb-3 row">
+        <div class="col-12">
+          <app-input name="comment" label="Comment" [control]="readingForm.controls.comment"/>
         </div>
       </div>
     </div>
+
+    <!--    <div class="card-body">-->
+
+    <!--      <div class="mb-3 row">-->
+    <!--        <div class="col-12">-->
+    <!--          <label for="id" class="form-label">ID</label>-->
+    <!--          <input disabled type="text" class="form-control" id="id" value="{{ reading?.id }}">-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <div class="mb-3 row">-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="customer" class="form-label">Customer ID</label>-->
+    <!--          <div class="input-group">-->
+    <!--            <input disabled type="text" class="form-control" id="customer" value="{{ reading?.customer?.firstName }} {{ reading?.customer?.lastName }}">-->
+    <!--            <custom-button [link]="['/customers', reading?.customer?.id ?? '']" icon="eye" color="outline-secondary" label="Show Customer" />-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+    <!--        <div class="col-6">-->
+    <!--          <label for="dateOfReading" class="form-label">Date</label>-->
+    <!--          <input disabled type="text" class="form-control" id="dateOfReading" value="{{ reading?.dateOfReading }}">-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <div class="mb-3 row">-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="meterId" class="form-label">Meter ID</label>-->
+    <!--          <input disabled type="text" class="form-control" id="meterId" value="{{ reading?.meterId }}">-->
+    <!--        </div>-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="meterCount" class="form-label">Meter Count</label>-->
+    <!--          <input disabled type="text" class="form-control" id="meterCount" value="{{ reading?.meterCount }}">-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <div class="mb-3 row">-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="kindOfMeter" class="form-label">Meter Type</label>-->
+    <!--          <input disabled type="text" class="form-control" id="kindOfMeter" value="{{ reading?.kindOfMeter }}">-->
+    <!--        </div>-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="comment" class="form-label">Comment</label>-->
+    <!--          <input disabled type="text" class="form-control" id="comment" value="{{ reading?.comment }}">-->
+    <!--        </div>-->
+    <!--      </div>-->
+
+    <!--      <div class="mb-3 row">-->
+    <!--        <div class="col-6">-->
+    <!--          <label for="substitute" class="form-label">Substitute</label>-->
+    <!--          <input disabled type="text" class="form-control" id="substitute" value="{{ reading?.substitute }}">-->
+    <!--        </div>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </div>

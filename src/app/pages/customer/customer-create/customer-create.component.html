@@ -1,48 +1,34 @@
 <div class="container">
   <div class="card mt-5">
     <form [formGroup]="customerForm" (ngSubmit)="submit()">
-    <div class="card-header justify-content-between align-items-center d-flex">
-      <h1>Create new Customer</h1>
-      <div class="btn-group">
-        <custom-button label="Cancel" [link]="['/customers']" color="danger" icon="x-lg" />
-        <custom-button label="Save" (click)="submit()" color="success" icon="floppy" />
+      <div class="card-header justify-content-between align-items-center d-flex">
+        <h1>Create new Customer</h1>
+        <div class="btn-group">
+          <custom-button label="Cancel" [link]="['/customers']" color="danger" icon="x-lg"/>
+          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
+        </div>
       </div>
-    </div>
-    <div class="card-body">
+      <div class="card-body">
 
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="first-name" class="form-label">First Name</label>
-            <input formControlName="firstName" type="text" class="form-control" id="first-name">
-            <span class="small text-danger" *ngIf="firstName?.invalid && firstName?.touched">Required</span>
+            <app-input name="firstName" label="First Name" [control]="customerForm.controls.firstName" />
           </div>
 
           <div class="col-6">
-            <label for="last-name" class="form-label">Last Name</label>
-            <input formControlName="lastName" type="text" class="form-control" id="last-name">
-            <span class="small text-danger" *ngIf="lastName?.invalid && lastName?.touched">Required</span>
+            <app-input name="lastName" label="Last Name" [control]="customerForm.controls.lastName" />
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <label for="first-name" class="form-label">Gender</label>
-            <select formControlName="gender" id="gender" class="form-select">
-              <option *ngFor="let gender of genders()" value="{{ gender }}">{{ gender }}</option>
-            </select>
+            <app-select name="gender" label="Gender" [options]="genders()" [control]="customerForm.controls.gender" />
           </div>
 
           <div class="col-6">
-            <label for="last-name" class="form-label">Birthdate</label>
-            <div class="input-group">
-              <input class="form-control" formControlName="birthdate" ngbDatepicker #d="ngbDatepicker">
-              <button class="btn btn-outline-secondary d-flex align-items-center" (click)="d.toggle()" type="button">
-                <ng-icon name="bootstrapCalendar3"></ng-icon>
-              </button>
-            </div>
-            <span class="small text-danger" *ngIf="birthdate?.invalid && birthdate?.touched">Must be in 'YYYY-MM-DD' Format</span>
+            <app-date-picker name="birthdate" label="Birthdate" [control]="customerForm.controls.birthdate" />
           </div>
         </div>
-    </div>
+      </div>
     </form>
   </div>
 </div>

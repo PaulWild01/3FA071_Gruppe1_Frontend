@@ -2,22 +2,22 @@ import {Component} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../../../enums/gender';
-import {NgForOf, NgIf} from '@angular/common';
 import {CustomerService} from '../../../services/customer.service';
-import {NgbDateAdapter, NgbDateNativeAdapter, NgbInputDatepicker} from '@ng-bootstrap/ng-bootstrap';
-import {NgIcon} from '@ng-icons/core';
+import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {isDateOrNull} from '../../../validators/IsDateOrNull';
 import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
+import {InputComponent} from '../../../components/input/input.component';
+import {SelectComponent} from '../../../components/select/select.component';
+import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-customer-create',
   imports: [
     ReactiveFormsModule,
-    NgForOf,
-    NgIcon,
-    NgIf,
-    NgbInputDatepicker,
     CustomButtonComponent,
+    InputComponent,
+    SelectComponent,
+    DatePickerComponent,
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
@@ -32,14 +32,18 @@ export class CustomerCreateComponent {
     birthdate: new FormControl<Date | null>(null, isDateOrNull()),
   });
 
-  public genders(): string[] {
-    return Object.keys(Gender);
+  genders(): {value: string, label: string}[] {
+    let result: {value: string, label: string}[] = [];
+
+    Object.keys(Gender).forEach(key => result.push({value: key, label: ''}));
+    Object.values(Gender).forEach((value, index) => result[index].label = value);
+
+    return result;
   }
 
   public submit() {
     if (this.customerForm.invalid) {
       this.customerForm.markAllAsTouched();
-      console.log(this.firstName?.touched);
       return;
     }
 
@@ -51,18 +55,6 @@ export class CustomerCreateComponent {
       this.customerForm.value.gender ?? '',
       date,
     ).subscribe(customer => this.router.navigate(['/customers', customer.id]));
-  }
-
-  get firstName() {
-    return this.customerForm.get('firstName')
-  }
-
-  get lastName() {
-    return this.customerForm.get('lastName')
-  }
-
-  get birthdate() {
-    return this.customerForm.get('birthdate')
   }
 
   constructor(
