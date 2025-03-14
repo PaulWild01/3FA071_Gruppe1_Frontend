@@ -6,7 +6,7 @@ import {FormControl, ReactiveFormsModule} from '@angular/forms';
   imports: [ReactiveFormsModule],
   template: `
     @if (label()) {
-      <label [for]="name" class="form-label">{{ label() }}</label>
+      <label [for]="name()" class="form-label">{{ label() }}</label>
     }
     <input [formControl]="control()" [type]="type()" class="form-control" [id]="name()" [name]="name()">
     @if (control().getError('required') && control().touched) {
