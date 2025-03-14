@@ -3,7 +3,7 @@ import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {Reading} from '../../types/reading';
 import {KindOfMeter} from '../../enums/kind-of-meter';
 import {CustomerService} from '../../services/customer.service';
-import {of, switchMap} from 'rxjs';
+import {firstValueFrom, of, switchMap} from 'rxjs';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -32,14 +32,14 @@ export class ImportModalReadingComponent {
   fileContent: string | null = null;
   filedata: Reading[] = [];
 
-  okButtonClicked() {
+  async okButtonClicked() {
     if (this.fileContent && this.selectedFile) {
       if (this.selectedFile.name.endsWith(".json")) {
         this.parseJSON(this.fileContent);
       } else if (this.selectedFile.name.endsWith(".xml")) {
-        this.parseXML(this.fileContent);
+        await this.parseXML(this.fileContent);
       } else if (this.selectedFile.name.endsWith(".csv")) {
-        this.parseCSV(this.fileContent);
+        await this.parseCSV(this.fileContent);
       }
       console.log(this.filedata)
       if (this.filedata.length > 0) {
@@ -74,12 +74,13 @@ export class ImportModalReadingComponent {
     }
   }
 
-  parseXML(content: string): void {
+  async parseXML(content: string): Promise<void> {
     try {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(content, "text/xml");
       const readings = xmlDoc.getElementsByTagName("reading");
       this.filedata = [];
+      const promises: Promise<void>[] = [];
 
       for (const reading of Array.from(readings)) {
         const id = reading.getElementsByTagName('id')[0]?.textContent || '';
@@ -93,24 +94,35 @@ export class ImportModalReadingComponent {
         const substituteStr = reading.getElementsByTagName('substitute')[0]?.textContent || '';
         const meterCount = parseFloat(meterCountStr);
         const substitute = substituteStr.toLowerCase() === 'true';
-        this.customerService.findById(customerId).pipe(switchMap(customer => of({
-            id,
-            customer,
-            dateOfReading,
-            meterId,
-            meterCount,
-            kindOfMeter,
-            comment,
-            substitute}))
-          ).subscribe(data => {this.filedata.push(data);});
+        const promise = firstValueFrom(this.customerService.findById(customerId).pipe(switchMap(customer => {
+            return of({
+              id,
+              customer,
+              dateOfReading,
+              meterId,
+              meterCount,
+              kindOfMeter,
+              comment,
+              substitute
+            });
+          }),
+          )
+        ).then(data => {
+          if(data) {
+            console.log(data);
+            this.filedata.push(data);
+          }
+        });
+        promises.push(promise);
         }
+      await Promise.all(promises);
     } catch (error) {
       console.error('Fehler beim Parsen der XML-Datei:', error);
       alert('Invalid XML file');
     }
   }
 
-  parseCSV(content: string): void {
+   async parseCSV(content: string): Promise<void> {
     try {
       const lines = content.split("\n");
       const headers = lines[0].split(",");
@@ -123,14 +135,19 @@ export class ImportModalReadingComponent {
           for (let j = 0; j < headers.length; j++) {
             record[headers[j].trim()] = values[j].trim();
           }
+          const customerId = record['customerId'];
+          const customer = await firstValueFrom(this.customerService.findById(customerId));
 
-/*          this.filedata.push({
+          this.filedata.push({
             id: record["id"],
-            customer: record['firstName'],
-            lastName: record['lastName'],
-            gender: this.toGender(record['gender']),
-            birthDate: record['birthDate'] || undefined,
-          });*/
+            customer: customer,
+            dateOfReading: record['dateOfReading'] || '',
+            meterId: record['meterId'],
+            meterCount: parseFloat(record['meterCount']),
+            kindOfMeter: this.toKindOfMeter(record['kindOfMeter']),
+            comment: record['comment'],
+            substitute: record['substitute'].toLowerCase() === 'true',
+          });
         }
       }
     } catch (err) {

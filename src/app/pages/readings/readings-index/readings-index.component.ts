@@ -8,10 +8,7 @@ import {NgIcon} from '@ng-icons/core';
 import {Reading} from '../../../types/reading';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {read} from '@popperjs/core';
-import {ExportModalCustomerComponent} from '../../../components/confirmation-modal/export-modal-customer';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ImportModalCustomerComponent} from '../../../components/confirmation-modal/import-modal-customer';
-import {Customer} from '../../../types/customer';
 import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
 import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
 

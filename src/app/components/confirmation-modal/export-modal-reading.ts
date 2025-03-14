@@ -2,6 +2,7 @@ import { Component, inject, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import {KindOfMeter} from '../../enums/kind-of-meter';
 import {Customer} from '../../types/customer';
+import {Reading} from '../../types/reading';
 
 interface ReadingRecord {
   id: string;
@@ -66,17 +67,27 @@ export class ExportModalReadingComponent {
   }
 
   exportAsCSV() {
-/*    const headers: (keyof Reading)[] = ['id', 'customer', 'dateOfReading', 'meterId', 'meterCount', 'kindOfMeter', 'comment', 'substitute'];
+    const headers: string[] = ['id', 'customerId', "customerGender", "customerFirstname", "customerLastname", "customerBirthdate", 'dateOfReading', 'meterId', 'meterCount', 'kindOfMeter', 'comment', 'substitute'];
     const rows = this.readings.map((reading) =>
-      headers
-        .map((header) => {
-          const value = reading[header as keyof Reading] || '';
-          return `"${value.toString().replace(/"/g, '""')}"`;
-        })
-        .join(',')
+    [
+      reading.id,
+      reading.customer.id,
+      reading.customer.gender,
+      reading.customer.firstName,
+      reading.customer.lastName,
+      reading.customer.gender,
+      reading.dateOfReading !== undefined && reading.dateOfReading !== null ? reading.dateOfReading.toString() : '00.00.0000',
+      reading.meterId,
+      reading.meterCount,
+      reading.kindOfMeter,
+      reading.comment,
+      reading.substitute,
+    ]
+        .map(value=> `"${value.toString().replace(/"/g, '""')}"`)
+          .join(',')
     );
     const data = [headers.join(','), ...rows].join('\n');
-    this.downloadFile(data, 'application/csv', 'customer.csv');*/
+    this.downloadFile(data, 'application/csv', 'reading.csv');
   }
 
   private downloadFile(data: string, type: string, filename: string) {
