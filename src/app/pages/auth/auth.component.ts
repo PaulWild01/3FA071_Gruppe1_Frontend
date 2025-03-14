@@ -1,7 +1,9 @@
-import {Component, signal} from '@angular/core';
+import {Component, inject, signal} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgIcon} from '@ng-icons/core';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
+import {AuthService} from "../../services/auth.service";
+import {ThemeService} from "../../services/theme.service";
 
 @Component({
   selector: 'app-auth',
@@ -16,20 +18,17 @@ import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
   templateUrl: './auth.component.html'
 })
 export class AuthComponent {
-  theme = signal<'light' | 'dark'>('light');
+  private authService = inject(AuthService);
+  private themeService = inject(ThemeService);
+
   isMenuCollapsed = true;
 
   toggleDarkmode() {
-    const html = document.querySelector('html')!;
-    this.theme.update(oldTheme => oldTheme === 'dark' ? 'light': 'dark');
-
-    html.setAttribute('data-bs-theme', this.theme());
-    window.localStorage.setItem('theme', this.theme());
+    this.themeService.toggleDarkmode();
     this.isMenuCollapsed = true;
   }
 
-  constructor() {
-    this.theme.set(window.localStorage.getItem('theme') as 'dark' | 'light' ?? 'light');
-    document.querySelector('html')!.setAttribute('data-bs-theme', this.theme());
+  logout() {
+    this.authService.logout();
   }
 }

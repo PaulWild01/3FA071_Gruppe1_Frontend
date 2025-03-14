@@ -17,7 +17,8 @@
           <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page" routerLink="/readings">Readings</a>
         </li>
       </ul>
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-lg-end w-100 align-items-end">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-lg-end w-100 align-items-center gap-3">
+        <button (click)="logout()" class="btn btn-outline-danger">Logout</button>
         <ng-icon (click)="toggleDarkmode()" name="bootstrap-circleHalf" style="cursor: pointer"
                  ngbTooltip="Toggle Darkmode"/>
       </ul>
