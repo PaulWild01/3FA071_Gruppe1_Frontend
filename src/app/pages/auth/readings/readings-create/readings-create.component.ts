@@ -31,7 +31,7 @@ import {SelectComponent} from '../../../../components/select/select.component';
 export class ReadingCreateComponent implements OnInit {
   readingForm = new FormGroup({
     customer: new FormControl('', Validators.required),
-    dateOfReading: new FormControl<Date | null>(null, isDate),
+    dateOfReading: new FormControl<Date | null>(null, [isDate, Validators.required]),
     meterId: new FormControl('', Validators.required),
     meterCount: new FormControl('', Validators.required),
     kindOfMeter: new FormControl('HEIZUNG'),
