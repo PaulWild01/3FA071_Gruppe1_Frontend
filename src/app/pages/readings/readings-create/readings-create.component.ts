@@ -8,10 +8,10 @@ import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
 import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
-import {isDate} from '../../../validators/IsDate';
 import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
 import {InputComponent} from '../../../components/input/input.component';
 import {SelectComponent} from '../../../components/select/select.component';
+import {isDate} from '../../../validators/IsDate';
 
 @Component({
   selector: 'app-readings-create',
@@ -30,7 +30,7 @@ import {SelectComponent} from '../../../components/select/select.component';
 })
 export class ReadingCreateComponent implements OnInit {
   readingForm = new FormGroup({
-    customer: new FormControl('', Validators.required),
+    customer: new FormControl<Customer | null>(null, Validators.required),
     dateOfReading: new FormControl<Date | null>(null, isDate),
     meterId: new FormControl('', Validators.required),
     meterCount: new FormControl('', Validators.required),
@@ -42,7 +42,7 @@ export class ReadingCreateComponent implements OnInit {
   customers: Customer[] = [];
 
   kindOfMeter(): {value: string, label: string}[] {
-    let result: {value: string, label: string}[] = [];
+    const result: {value: string, label: string}[] = [];
 
     Object.keys(KindOfMeter).forEach(key => result.push({value: key, label: ''}));
     Object.values(KindOfMeter).forEach((value, index) => result[index].label = value);
@@ -60,19 +60,21 @@ export class ReadingCreateComponent implements OnInit {
       return;
     }
 
+    const customer = this.readingForm.value.customer;
+
+    if (!customer) {
+      console.error('No Customer');
+      return;
+    }
+
     const dateOfReading = this.readingForm.controls.dateOfReading.value as Date;
 
     this.readingService.store(
-      this.readingForm.value.customer ?? undefined,
-      this.readingForm.value.dateOfReading ?? '',
+      customer,
+      dateOfReading,
       this.readingForm.value.meterId ?? '',
       parseFloat(this.readingForm.value.meterCount ?? ''),
-      this.readingForm.value.KindOfMeter ?? '',
-      this.readingForm.value.Comment ?? '',
-      (this.readingForm.value.substitute ?? '').toLowerCase() === 'true',
-    ).subscribe(reading => this.router.navigate(['reading', reading.id]));
-      this.readingForm.value.meterCount ?? '',
-      this.readingForm.value.kindOfMeter ?? '',
+      this.toKindOfMeter(this.readingForm.value.kindOfMeter ?? ''),
       this.readingForm.value.comment ?? '',
       this.readingForm.value.substitute ?? false,
     ).subscribe(reading => this.router.navigate(['readings', reading.id]));
@@ -86,6 +88,13 @@ export class ReadingCreateComponent implements OnInit {
     }).map(customer => {
       return {label: `${customer.firstName} ${customer.lastName}`, value: customer.id};
     }).slice(0, 5);
+  }
+
+  private toKindOfMeter(value: string): KindOfMeter {
+    if (Object.values(KindOfMeter).includes(value as KindOfMeter)) {
+      return value as KindOfMeter;
+    }
+    throw new Error(`Ungültiger Gender-Wert: ${value}`);
   }
 
   constructor(

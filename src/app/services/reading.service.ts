@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, switchMap} from 'rxjs';
+import {Observable} from 'rxjs';
 import {Reading} from '../types/reading';
 import {KindOfMeter} from '../enums/kind-of-meter';
 import {CustomerService} from './customer.service';
@@ -23,14 +23,10 @@ export class ReadingService {
     return this.http.get<Reading>(`${this.url}/${id}`);
   }
 
-  store(customerId: Customer, dateOfReading: Date, meterId: string, meterCount: string, kindOfMeter: string, comment: string, substitute?: boolean): Observable<Reading> {
+  store(customer: Customer, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<Reading> {
 
-    const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
+   const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
 
-    console.log(formattedDateOfReading)
-
-    return this.customerService.findById(customerId).pipe(
-      switchMap(customer => {
 
         return this.http.post<Reading>(this.url, {
           customer,
@@ -41,14 +37,11 @@ export class ReadingService {
           comment,
           substitute
         });
-      })
-    );
   }
 
-  update(id: string, customerid: string, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
+  update(id: string, customer: Customer, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
     const formattedDateOfReading: string | undefined = dateOfReading?.toISOString().substring(0, 10);
 
-    return this.customerService.findById(customerid).pipe(switchMap(customer => {
         return this.http.put<string>(this.url,
           {
             id,
@@ -60,8 +53,6 @@ export class ReadingService {
             comment,
             substitute
           });
-      })
-    );
   }
 
   destroy(id: string): Observable<string> {

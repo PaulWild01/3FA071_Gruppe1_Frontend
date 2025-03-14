@@ -1,4 +1,3 @@
-import {booleanAttribute, Component, OnInit} from '@angular/core';
 import {ReadingService} from '../../../services/reading.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,14 +6,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIcon} from '@ng-icons/core';
 import {Reading} from '../../../types/reading';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
-import {read} from '@popperjs/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
 import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
 import {Column} from '../../../types/column';
 import {ConfigureColumnModal} from '../../../components/confirmation-modal/configure-column-modal';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Customer} from '../../../types/customer';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-customer-index',
@@ -202,7 +199,7 @@ export class ReadingsIndexComponent implements OnInit {
 
 
   private loadReadings(): void {
-    this.readingService.all().subscribe(readings => {
+    this.readingservice.all().subscribe(readings => {
       this.readings = readings.filter(readings => {
         return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
           && (!this.query || this.searchQuery(readings))
@@ -263,7 +260,8 @@ export class ReadingsIndexComponent implements OnInit {
 
   private processData(data: Reading[]) {
     data.forEach((record, index) => {
-      this.readingservice.store(record.customer, record.dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
+      const dateOfReading = new Date(record.dateOfReading ?? '');
+      this.readingservice.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
         next: () => {
           if (index === data.length - 1) {
             this.router.navigate(['/readings']).then();

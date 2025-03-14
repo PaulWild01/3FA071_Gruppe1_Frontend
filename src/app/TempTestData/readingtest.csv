@@ -1,0 +1,3 @@
+id,customerId,customerGender,customerFirstname,customerLastname,customerBirthdate,dateOfReading,meterId,meterCount,kindOfMeter,comment,substitute
+2b2abbb1-2b26-4099-a7ab-8195585f5123,ec617965-88b4-4721-8158-ee36c38e4db3,M,Pumukel,Kobold,M,2020-05-31,MST-af34569,23467,STROM,TestUserCSV1,false
+16275fa2-106a-43d7-bea6-85d7a2646111,ec617965-88b4-4721-8158-ee36c38e4db3,M,Pumukel,Kobold,M,2022-01-01,MST-af34569,27467,STROM,TestUserCSV2,false
