@@ -1,26 +1,19 @@
-import {Component, computed, signal} from '@angular/core';
-import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
+import {Component, signal} from '@angular/core';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import {NgIcon} from '@ng-icons/core';
-import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {CustomButtonComponent} from './components/custom-button/custom-button.component';
+import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-guest',
   imports: [
     RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
     NgIcon,
     NgbTooltip,
-    NgbCollapse,
-    CustomButtonComponent,
+    RouterLink
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './guest.component.html'
 })
-export class AppComponent {
-  isMenuCollapsed = true;
-
+export class GuestComponent {
   theme = signal<'light' | 'dark'>('light');
 
   toggleDarkmode() {
@@ -29,7 +22,6 @@ export class AppComponent {
 
     html.setAttribute('data-bs-theme', this.theme());
     window.localStorage.setItem('theme', this.theme());
-    this.isMenuCollapsed = true;
   }
 
   constructor() {
@@ -37,4 +29,3 @@ export class AppComponent {
     document.querySelector('html')!.setAttribute('data-bs-theme', this.theme());
   }
 }
-

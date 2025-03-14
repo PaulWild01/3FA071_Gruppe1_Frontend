@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ReadingService} from '../../../services/reading.service';
-import {KindOfMeter} from '../../../enums/kind-of-meter';
-import {ComboBoxComponent} from '../../../components/combo-box/combo-box.component';
-import {CustomerService} from '../../../services/customer.service';
-import {Customer} from '../../../types/customer';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
+import {ReadingService} from '../../../../services/reading.service';
+import {KindOfMeter} from '../../../../enums/kind-of-meter';
+import {ComboBoxComponent} from '../../../../components/combo-box/combo-box.component';
+import {CustomerService} from '../../../../services/customer.service';
+import {Customer} from '../../../../types/customer';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
-import {isDate} from '../../../validators/IsDate';
-import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
-import {InputComponent} from '../../../components/input/input.component';
-import {SelectComponent} from '../../../components/select/select.component';
+import {isDate} from '../../../../validators/IsDate';
+import {DatePickerComponent} from '../../../../components/date-picker/date-picker.component';
+import {InputComponent} from '../../../../components/input/input.component';
+import {SelectComponent} from '../../../../components/select/select.component';
 
 @Component({
   selector: 'app-readings-create',

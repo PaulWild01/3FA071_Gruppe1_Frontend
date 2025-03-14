@@ -1,15 +1,15 @@
 import {Component, OnInit} from '@angular/core';
-import {CustomerService} from '../../../services/customer.service';
-import {Customer} from '../../../types/customer';
+import {CustomerService} from '../../../../services/customer.service';
+import {Customer} from '../../../../types/customer';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {Gender} from '../../../enums/gender';
+import {Gender} from '../../../../enums/gender';
 import {NgIcon} from '@ng-icons/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfigureColumnModal} from "../../../components/confirmation-modal/configure-column-modal";
-import {Column} from "../../../types/column";
+import {ConfigureColumnModal} from "../../../../components/confirmation-modal/configure-column-modal";
+import {Column} from "../../../../types/column";
 
 @Component({
   selector: 'app-customer-index',

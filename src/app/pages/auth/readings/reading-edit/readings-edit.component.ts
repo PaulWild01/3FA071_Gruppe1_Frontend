@@ -4,17 +4,17 @@ import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {provideIcons} from '@ng-icons/core';
 import {bootstrapCalendar3} from '@ng-icons/bootstrap-icons';
-import {Reading} from '../../../types/reading';
-import {isDateOrNull} from '../../../validators/IsDateOrNull';
-import {KindOfMeter} from '../../../enums/kind-of-meter';
-import {ReadingService} from '../../../services/reading.service';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
-import {InputComponent} from '../../../components/input/input.component';
-import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
-import {SelectComponent} from '../../../components/select/select.component';
-import {Customer} from '../../../types/customer';
-import {ComboBoxComponent} from '../../../components/combo-box/combo-box.component';
-import {CustomerService} from '../../../services/customer.service';
+import {Reading} from '../../../../types/reading';
+import {isDateOrNull} from '../../../../validators/IsDateOrNull';
+import {KindOfMeter} from '../../../../enums/kind-of-meter';
+import {ReadingService} from '../../../../services/reading.service';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
+import {InputComponent} from '../../../../components/input/input.component';
+import {DatePickerComponent} from '../../../../components/date-picker/date-picker.component';
+import {SelectComponent} from '../../../../components/select/select.component';
+import {Customer} from '../../../../types/customer';
+import {ComboBoxComponent} from '../../../../components/combo-box/combo-box.component';
+import {CustomerService} from '../../../../services/customer.service';
 
 @Component({
   selector: 'app-readings-edit',

@@ -1,27 +1,23 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgIcon} from '@ng-icons/core';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {CustomButtonComponent} from './components/custom-button/custom-button.component';
 
 @Component({
-  selector: 'app-root',
+  selector: 'app-auth',
   imports: [
     RouterOutlet,
-    RouterLink,
-    RouterLinkActive,
     NgIcon,
     NgbTooltip,
+    RouterLink,
     NgbCollapse,
-    CustomButtonComponent,
+    RouterLinkActive
   ],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  templateUrl: './auth.component.html'
 })
-export class AppComponent {
-  isMenuCollapsed = true;
-
+export class AuthComponent {
   theme = signal<'light' | 'dark'>('light');
+  isMenuCollapsed = true;
 
   toggleDarkmode() {
     const html = document.querySelector('html')!;
@@ -37,4 +33,3 @@ export class AppComponent {
     document.querySelector('html')!.setAttribute('data-bs-theme', this.theme());
   }
 }
-

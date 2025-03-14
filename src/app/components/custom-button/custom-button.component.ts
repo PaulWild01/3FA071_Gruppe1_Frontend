@@ -28,6 +28,9 @@ export class CustomButtonComponent {
   @Input() link?: string[];
 
   @HostBinding('class') get classes(): string {
+    if (this.color === 'transparent') {
+      return 'btn';
+    }
     return `btn btn-${this.color}`;
   };
 

@@ -1,17 +1,17 @@
 import {booleanAttribute, Component, OnInit} from '@angular/core';
-import {ReadingService} from '../../../services/reading.service';
+import {ReadingService} from '../../../../services/reading.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIcon} from '@ng-icons/core';
-import {Reading} from '../../../types/reading';
-import {KindOfMeter} from '../../../enums/kind-of-meter';
+import {Reading} from '../../../../types/reading';
+import {KindOfMeter} from '../../../../enums/kind-of-meter';
 import {read} from '@popperjs/core';
-import {Column} from '../../../types/column';
-import {ConfigureColumnModal} from '../../../components/confirmation-modal/configure-column-modal';
+import {Column} from '../../../../types/column';
+import {ConfigureColumnModal} from '../../../../components/confirmation-modal/configure-column-modal';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Customer} from '../../../types/customer';
+import {Customer} from '../../../../types/customer';
 
 @Component({
   selector: 'app-customer-index',

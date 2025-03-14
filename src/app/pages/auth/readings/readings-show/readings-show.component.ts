@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Reading} from '../../../types/reading';
-import {ReadingService} from '../../../services/reading.service';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
-import {Customer} from '../../../types/customer';
-import {InputComponent} from '../../../components/input/input.component';
-import {ConfirmationModalComponent} from '../../../components/confirmation-modal/confirmation-modal.component';
+import {Reading} from '../../../../types/reading';
+import {ReadingService} from '../../../../services/reading.service';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
+import {Customer} from '../../../../types/customer';
+import {InputComponent} from '../../../../components/input/input.component';
+import {ConfirmationModalComponent} from '../../../../components/confirmation-modal/confirmation-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({

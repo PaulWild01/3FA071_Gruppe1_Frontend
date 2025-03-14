@@ -1,15 +1,15 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Gender} from '../../../enums/gender';
-import {CustomerService} from '../../../services/customer.service';
+import {Gender} from '../../../../enums/gender';
+import {CustomerService} from '../../../../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
-import {isDateOrNull} from '../../../validators/IsDateOrNull';
-import {Customer} from '../../../types/customer';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
-import {InputComponent} from '../../../components/input/input.component';
-import {SelectComponent} from '../../../components/select/select.component';
-import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
+import {isDateOrNull} from '../../../../validators/IsDateOrNull';
+import {Customer} from '../../../../types/customer';
+import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
+import {InputComponent} from '../../../../components/input/input.component';
+import {SelectComponent} from '../../../../components/select/select.component';
+import {DatePickerComponent} from '../../../../components/date-picker/date-picker.component';
 
 @Component({
   selector: 'app-customer-edit',
