@@ -1,17 +1,35 @@
 $primary: #c393ff;
-$secondary: #9493ff;
-$tertiary: #d8ff93;
+$secondary: #7377d0;
 
 $danger: #ff9393;
 $warning: #ffcc93;
-$info: #93d0ff;
+$info: #79c2f9;
 $success: #7ce383;
 
-$body-bg: white;
+$body-bg: #f6f6f6;
 
 $form-check-input-checked-bg-color: $info;
 $form-check-input-focus-border: $info;
-$form-check-input-focus-box-shadow: black;
+$form-check-input-focus-box-shadow: white;
 
 
 @import "bootstrap/scss/bootstrap";
+
+/*
+@include color-mode(dark) {
+
+  $primary: #85e74b;
+  $secondary: #eae412;
+
+  $danger: #ff1f1f;
+  $warning: #ffb72c;
+  $info: #2cbfff;
+  $success: #3dbc46;
+
+  $body-bg: #gray;
+
+  $form-check-input-checked-bg-color: $warning;
+  $form-check-input-focus-border: $warning;
+  $form-check-input-focus-box-shadow: black;
+}
+*/
