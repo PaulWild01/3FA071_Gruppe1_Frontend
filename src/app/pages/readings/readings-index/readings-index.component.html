@@ -6,7 +6,7 @@
         <custom-button (click)="showConfigureColumnsModal()" label="Configure Columns"
                        icon="layout-three-columns" color="info"/>
         <custom-button (click)="showFilters = !showFilters" [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
-                       [icon]="showFilters ? 'eye-slash' : 'eye'" color="secondary"/>
+                       [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
         <custom-button [link]="['/readings/create']" label="Create Reading" icon="plus-lg"/>
       </div>
     </div>
