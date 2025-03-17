@@ -15,8 +15,8 @@ import {Gender} from '../../enums/gender';
         <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss('cancel click')">{{ cancelButtonText }}</button>
-        <button type="button" class="btn btn-danger" (click)="okButtonClicked()">{{ okButtonText }}</button>
+        <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('cancel click')">{{ cancelButtonText }}</button>
+        <button type="button" class="btn btn-success" (click)="okButtonClicked()">{{ okButtonText }}</button>
       </div>
   `,
 })
