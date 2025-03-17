@@ -1,0 +1,34 @@
+[  
+{
+    "id": "88a61cea-70b5-4818-b493-013212fdddd3",
+    "customer": {
+      "id": "ec617965-88b4-4721-8158-ee36c38e4db3",
+      "gender": "M",
+      "firstName": "Pumukel",
+      "lastName": "Kobold",
+      "birthDate": "1962-02-21"
+    },
+    "dateOfReading": "2022-10-29",
+    "meterId": "Xr-2021-2312434xz",
+    "meterCount": 3.641,
+    "kindOfMeter": "HEIZUNG",
+    "comment": "testuser1",
+    "substitute": false
+  },
+{
+  "id": "c86cb3a4-8e51-4f8d-9afa-0185f45d5df7",
+  "customer": {
+    "id": "ec617965-88b4-4721-8158-ee36c38e4db3",
+    "gender": "M",
+    "firstName": "Pumukel",
+    "lastName": "Kobold",
+    "birthDate": "1962-02-21"
+  },
+  "dateOfReading": "2020-12-31",
+  "meterId": "MST-af34569",
+  "meterCount": 24910,
+  "kindOfMeter": "STROM",
+  "comment": "testuser2",
+  "substitute": false
+}
+]

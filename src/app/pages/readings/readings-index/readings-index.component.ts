@@ -1,4 +1,3 @@
-import {booleanAttribute, Component, OnInit} from '@angular/core';
 import {ReadingService} from '../../../services/reading.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,11 +6,12 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIcon} from '@ng-icons/core';
 import {Reading} from '../../../types/reading';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
-import {read} from '@popperjs/core';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
+import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
 import {Column} from '../../../types/column';
 import {ConfigureColumnModal} from '../../../components/confirmation-modal/configure-column-modal';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {Customer} from '../../../types/customer';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-customer-index',
@@ -199,7 +199,7 @@ export class ReadingsIndexComponent implements OnInit {
 
 
   private loadReadings(): void {
-    this.readingService.all().subscribe(readings => {
+    this.readingservice.all().subscribe(readings => {
       this.readings = readings.filter(readings => {
         return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
           && (!this.query || this.searchQuery(readings))
@@ -251,11 +251,36 @@ export class ReadingsIndexComponent implements OnInit {
       String(readings.substitute).includes(this.query?.toLowerCase() ?? '');
   }
 
-  constructor(
-    private readingService: ReadingService,
-    public router: Router,
-    private route: ActivatedRoute,
-    private modalService: NgbModal,
-  ) {
+  public storeImport() {
+    const modal = this.modalService.open(ImportModalReadingComponent);
+    modal.componentInstance.okButtonClosure = (data: Reading[]) => {
+      this.processData(data);
+    };
+  }
+
+  private processData(data: Reading[]) {
+    data.forEach((record, index) => {
+      const dateOfReading = new Date(record.dateOfReading ?? '');
+      this.readingservice.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
+        next: () => {
+          if (index === data.length - 1) {
+            this.router.navigate(['/readings']).then();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+        },
+      });
+    });
+  }
+  public openExportMenu() {
+    const modalRef = this.modalService.open(ExportModalReadingComponent);
+    modalRef.componentInstance.readings = this.readings;
+  }
+
+  constructor(private readingservice: ReadingService,
+              public router: Router,
+              private route: ActivatedRoute,
+              private modalService: NgbModal) {
   }
 }

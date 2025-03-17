@@ -3,6 +3,12 @@
     <div class="card-header justify-content-between align-items-center d-flex">
       <h1>Customers</h1>
       <div class="d-flex gap-3">
+        <div class="btn-group">
+          <custom-button class="btn-dark btn btn-outline-primary" (click)="storeImport()" label="Import File"
+                         icon="Cloud arrow up fill"/>
+          <custom-button class="btn btn-dark btn-outline-primary" (click)="openExportMenu()" label="Export File"
+                         icon="Cloud arrow down fill"/>
+        </div>
         <custom-button color="info" (click)="showConfigureColumnsModal()" label="Configure Columns"
                        icon="layout-three-columns"/>
         <custom-button (click)="showFilters = !showFilters"
@@ -10,15 +16,13 @@
                        [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
         <custom-button [link]="['/customers/create']" label="Create Customer" icon="plus-lg"/>
       </div>
-
     </div>
     <div class="card-body table-responsive">
       <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
         <div class="col-6">
           <label for="search" class="form-label">Search:</label>
-          <input [(ngModel)]="query" type="text" class="form-control" id="search">
+          <input [(ngModel)]="query" (ngModelChange)="applyFilters()" type="text" class="form-control" id="search">
         </div>
-
         <div class="col-2">
           <label for="gender-filter" class="form-label">Gender</label>
           <select [(ngModel)]="genderFilter" id="gender-filter" class="form-select">
@@ -33,7 +37,6 @@
         <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
           <custom-button (click)="applyFilters()" label="Apply Filters" color="success"/>
         </div>
-
       </div>
       <table class="table table-striped table-hover">
         <thead>

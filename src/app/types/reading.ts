@@ -4,7 +4,7 @@ import {KindOfMeter} from '../enums/kind-of-meter';
 export interface Reading {
   id: string,
   customer: Customer,
-  dateOfReading: Date,
+  dateOfReading: string,
   meterId: string,
   meterCount: number,
   kindOfMeter: KindOfMeter,

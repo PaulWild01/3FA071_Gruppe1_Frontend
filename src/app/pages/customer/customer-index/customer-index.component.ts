@@ -10,6 +10,8 @@ import {NgIcon} from '@ng-icons/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 import {ConfigureColumnModal} from "../../../components/confirmation-modal/configure-column-modal";
 import {Column} from "../../../types/column";
+import {ImportModalCustomerComponent} from '../../../components/confirmation-modal/import-modal-customer';
+import {ExportModalCustomerComponent} from '../../../components/confirmation-modal/export-modal-customer';
 
 @Component({
   selector: 'app-customer-index',
@@ -212,11 +214,39 @@ export class CustomerIndexComponent implements OnInit {
       (customer.birthDate?.includes(this.query ?? '') ?? false);
   }
 
-  constructor(
-    private customerService: CustomerService,
-    public router: Router,
-    private route: ActivatedRoute,
-    private modalService: NgbModal
-  ) {
-  }
+    public storeImport() {
+      const modal = this.modalService.open(ImportModalCustomerComponent);
+      modal.componentInstance.okButtonClosure = (data: Customer[]) => {
+        this.processData(data);
+        };
+    }
+
+    private processData(data: Customer[]) {
+      data.forEach((record, index) => {
+        const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
+        this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
+          next: () => {
+            if (index === data.length - 1) {
+              this.router.navigate(['/customers']).then();
+            }
+          },
+            error: (error) => {
+            console.error(error);
+          },
+        });
+      });
+    }
+
+    public openExportMenu() {
+      const modalRef = this.modalService.open(ExportModalCustomerComponent);
+      modalRef.componentInstance.customers = this.customers;
+    }
+
+    constructor(
+        private customerService: CustomerService,
+        public router: Router,
+        private route: ActivatedRoute,
+        private modalService: NgbModal
+    ) {
+    }
 }
