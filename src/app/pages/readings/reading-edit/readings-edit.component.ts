@@ -33,7 +33,7 @@ export class ReadingEditComponent implements OnInit {
   reading?: Reading;
   readingForm = new FormGroup({
     id: new FormControl<string>({value: '', disabled: true}),
-    customer: new FormControl<Customer | null>(null, Validators.required),
+    customer: new FormControl('', Validators.required),
     dateOfReading: new FormControl<Date | null>(null, isDateOrNull),
     meterId: new FormControl<string>('', Validators.required),
     meterCount: new FormControl<number>(0, Validators.required),
@@ -61,7 +61,7 @@ export class ReadingEditComponent implements OnInit {
         const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
         this.readingForm.controls.id?.setValue(reading.id);
-        this.readingForm.controls.customer?.setValue(reading.customer);
+        this.readingForm.controls.customer?.setValue(reading.customer.id);
         this.readingForm.controls.dateOfReading?.setValue(dateOfReading);
         this.readingForm.controls.meterId?.setValue(reading.meterId);
         this.readingForm.controls.meterCount?.setValue(reading.meterCount)
@@ -107,7 +107,8 @@ export class ReadingEditComponent implements OnInit {
     }
     const date = this.readingForm.value.dateOfReading as Date | undefined;
 
-    const customer = this.readingForm.value.customer;
+    const customerId = this.readingForm.value.customer;
+    const customer = this.customers.find(customer => customer.id === customerId);
 
     if (!customer) {
       console.error('No Customer');

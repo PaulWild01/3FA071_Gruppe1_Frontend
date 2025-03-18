@@ -30,7 +30,7 @@ import {isDate} from '../../../validators/IsDate';
 })
 export class ReadingCreateComponent implements OnInit {
   readingForm = new FormGroup({
-    customer: new FormControl<Customer | null>(null, Validators.required),
+    customer: new FormControl('', Validators.required),
     dateOfReading: new FormControl<Date | null>(null, isDate),
     meterId: new FormControl('', Validators.required),
     meterCount: new FormControl('', Validators.required),
@@ -60,12 +60,15 @@ export class ReadingCreateComponent implements OnInit {
       return;
     }
 
-    const customer = this.readingForm.value.customer;
+    const customerId = this.readingForm.value.customer;
+    const customer = this.customers.find(customer => customer.id === customerId);
 
     if (!customer) {
       console.error('No Customer');
       return;
     }
+
+    console.log(customer)
 
     const dateOfReading = this.readingForm.controls.dateOfReading.value as Date;
 

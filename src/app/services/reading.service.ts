@@ -24,35 +24,33 @@ export class ReadingService {
   }
 
   store(customer: Customer, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<Reading> {
+    const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
 
-   const formattedDateOfReading = dateOfReading.toISOString().substring(0, 10);
-
-
-        return this.http.post<Reading>(this.url, {
-          customer,
-          dateOfReading: formattedDateOfReading,
-          meterId,
-          meterCount,
-          kindOfMeter,
-          comment,
-          substitute
-        });
+    return this.http.post<Reading>(this.url, {
+      customer,
+      dateOfReading: formattedDateOfReading,
+      meterId,
+      meterCount,
+      kindOfMeter,
+      comment,
+      substitute
+    });
   }
 
   update(id: string, customer: Customer, dateOfReading: Date, meterId: string, meterCount: number, kindOfMeter: KindOfMeter, comment: string, substitute?: boolean): Observable<string> {
     const formattedDateOfReading: string | undefined = dateOfReading?.toISOString().substring(0, 10);
 
-        return this.http.put<string>(this.url,
-          {
-            id,
-            customer,
-            dateOfReading: formattedDateOfReading,
-            meterId,
-            meterCount,
-            kindOfMeter,
-            comment,
-            substitute
-          });
+    return this.http.put<string>(this.url,
+      {
+        id,
+        customer,
+        dateOfReading: formattedDateOfReading,
+        meterId,
+        meterCount,
+        kindOfMeter,
+        comment,
+        substitute
+      });
   }
 
   destroy(id: string): Observable<string> {
