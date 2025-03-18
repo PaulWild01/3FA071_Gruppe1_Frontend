@@ -11,10 +11,12 @@
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page" routerLink="/customers">Customers</a>
+          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page"
+             routerLink="/customers">Customers</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page" routerLink="/readings">Readings</a>
+          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page"
+             routerLink="/readings">Readings</a>
         </li>
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-lg-end w-100 align-items-end">
@@ -25,7 +27,4 @@
   </div>
 </nav>
 
-
-<div class="pt-5">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>
