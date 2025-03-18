@@ -3,7 +3,7 @@
     <div class="card-header justify-content-between align-items-center d-flex">
       <h1>Reading Details</h1>
       <div class="btn-group">
-        <custom-button [link]="['/readings', reading?.id ?? '', 'edit']" icon="pencil" label="Edit"/>
+        <custom-button [link]="['/readings', reading?.id ?? '', 'edit']" icon="pencil" label="Edit" color="info"/>
         <custom-button color="danger" (click)="delete()" icon="trash" label="Delete"/>
       </div>
     </div>

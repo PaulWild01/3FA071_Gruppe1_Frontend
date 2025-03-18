@@ -1,4 +1,4 @@
-import {Component, OnInit, signal} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
@@ -33,8 +33,8 @@ export class ReadingEditComponent implements OnInit {
   reading?: Reading;
   readingForm = new FormGroup({
     id: new FormControl<string>({value: '', disabled: true}),
-    customerId: new FormControl<string>('', Validators.required),
-    dateOfReading: new FormControl<Date | null>(null, isDateOrNull()),
+    customer: new FormControl<Customer | null>(null, Validators.required),
+    dateOfReading: new FormControl<Date | null>(null, isDateOrNull),
     meterId: new FormControl<string>('', Validators.required),
     meterCount: new FormControl<number>(0, Validators.required),
     kindOfMeter: new FormControl<KindOfMeter>(KindOfMeter.STROM),
@@ -61,7 +61,7 @@ export class ReadingEditComponent implements OnInit {
         const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
         this.readingForm.controls.id?.setValue(reading.id);
-        this.readingForm.controls.customerId?.setValue(reading.customer.id);
+        this.readingForm.controls.customer?.setValue(reading.customer);
         this.readingForm.controls.dateOfReading?.setValue(dateOfReading);
         this.readingForm.controls.meterId?.setValue(reading.meterId);
         this.readingForm.controls.meterCount?.setValue(reading.meterCount)
@@ -84,7 +84,7 @@ export class ReadingEditComponent implements OnInit {
   }
 
   kindOfMeter(): { value: string, label: string }[] {
-    let result: { value: string, label: string }[] = [];
+    const result: { value: string, label: string }[] = [];
 
     Object.keys(KindOfMeter).forEach(key => result.push({value: key, label: ''}));
     Object.values(KindOfMeter).forEach((value, index) => result[index].label = value);
@@ -107,9 +107,16 @@ export class ReadingEditComponent implements OnInit {
     }
     const date = this.readingForm.value.dateOfReading as Date | undefined;
 
+    const customer = this.readingForm.value.customer;
+
+    if (!customer) {
+      console.error('No Customer');
+      return;
+    }
+
     this.readingService.update(
       this.reading?.id ?? '',
-      this.readingForm.value.customerId ?? '',
+      customer,
       date ?? new Date(),
       this.readingForm.value.meterId ?? '',
       this.readingForm.value.meterCount ?? 0,

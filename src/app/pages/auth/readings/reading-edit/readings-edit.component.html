@@ -16,7 +16,7 @@
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customerId"
+            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
                            [items]="customers" [filter]="filter" [preSelectedItem]="{label: customerLabel ?? '', value: customer?.id ?? ''}"/>
           </div>
           <div class="col-6">

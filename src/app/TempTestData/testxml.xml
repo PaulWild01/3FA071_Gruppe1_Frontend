@@ -1,0 +1,16 @@
+<customers>
+  <customer>
+    <id>49ebadf8-b64e-4b7d-8d98-000180558d7d</id>
+    <firstName>Siegmund</firstName>
+    <lastName>Schnieder</lastName>
+    <gender>M</gender>
+    <birthDate></birthDate>
+  </customer>
+  <customer>
+    <id>f96bb5fb-d674-4a61-9a5d-000ee0e71a5d</id>
+    <firstName>Hansjakob</firstName>
+    <lastName>Günter</lastName>
+    <gender>M</gender>
+    <birthDate></birthDate>
+  </customer>
+</customers>
