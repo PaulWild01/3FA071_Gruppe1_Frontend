@@ -16,7 +16,7 @@ export class AuthService {
 
     login(username: string, password: string, control: FormControl) {
         this.authData = window.btoa(username + ':' + password);
-        this.http.get('http://localhost:8080/authenticate').subscribe({
+        this.http.get('http://localhost:8080/users/authenticate').subscribe({
             next: () => {
                 this.loggedIn$.next(true);
                 window.localStorage.setItem('authData', this.authData);
@@ -33,7 +33,7 @@ export class AuthService {
     }
 
     checkAuthStatus() {
-        return this.http.get('http://localhost:8080/authenticate').pipe(
+        return this.http.get('http://localhost:8080/users/authenticate').pipe(
             tap({
                 next: () => this.loggedIn$.next(true),
                 error: () => this.loggedIn$.next(false),
