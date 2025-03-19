@@ -1,35 +1,47 @@
 import {inject, Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
+import {BehaviorSubject, tap} from 'rxjs';
 import {Router} from '@angular/router';
 import {FormControl} from '@angular/forms';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthService {
-  private router = inject(Router);
-  loggedIn$ = new BehaviorSubject<boolean>(false);
+    private router = inject(Router);
+    private http = inject(HttpClient);
 
-  login(username: string, password: string, control: FormControl) {
-    if (username === 'username' && password === 'password') {
-      this.loggedIn$.next(true);
-      this.router.navigate(['customers']).then();
-      window.localStorage.setItem('loggedIn', 'true');
-      return;
+    loggedIn$ = new BehaviorSubject<boolean | undefined>(undefined);
+    authData = '';
+
+    login(username: string, password: string, control: FormControl) {
+        this.authData = window.btoa(username + ':' + password);
+        this.http.get('http://localhost:8080/authenticate').subscribe({
+            next: () => {
+                this.loggedIn$.next(true);
+                window.localStorage.setItem('authData', this.authData);
+                this.router.navigate(['customers']).then();
+            },
+            error: () => control.setErrors({'incorrectCredentials': true}),
+        });
     }
 
-    control.setErrors({'incorrectCredentials': true})
-  }
-
-  logout() {
-    this.loggedIn$.next(false);
-    window.localStorage.setItem('loggedIn', 'false');
-    this.router.navigate(['login']).then();
-  }
-
-  constructor() {
-    if (window.localStorage.getItem('loggedIn') === 'true') {
-      this.loggedIn$.next(true);
+    logout() {
+        this.loggedIn$.next(false);
+        window.localStorage.removeItem('authData');
+        this.router.navigate(['login']).then();
     }
-  }
+
+    checkAuthStatus() {
+        return this.http.get('http://localhost:8080/authenticate').pipe(
+            tap({
+                next: () => this.loggedIn$.next(true),
+                error: () => this.loggedIn$.next(false),
+            })
+        )
+    }
+
+    constructor() {
+        this.authData = window.localStorage.getItem('authData') ?? '';
+    }
 }
