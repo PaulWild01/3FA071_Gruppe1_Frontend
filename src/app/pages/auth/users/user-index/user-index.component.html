@@ -62,7 +62,7 @@
         </thead>
         <tbody>
           @for (user of users; track user.id) {
-            <tr class="customer user-select-none" (click)="router.navigate(['/users', user.id])">
+            <tr class="customer user-select-none" (click)="navigateToUser(user.id)">
               @for (column of columns; track column) {
                 @if (column.show) {
                   <td>{{ column.getValue(user) }}</td>

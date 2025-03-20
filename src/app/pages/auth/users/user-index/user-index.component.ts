@@ -19,17 +19,16 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
   ],
   templateUrl: './user-index.component.html',
   styles: `
-        tr.customer {
-            cursor: pointer;
-        }
-    `
+    tr.customer {
+      cursor: pointer;
+    }
+  `
 })
 export class UserIndexComponent implements OnInit {
   private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private modalService = inject(NgbModal);
-
-  router = inject(Router);
+  private router = inject(Router);
   users: User[] = [];
   columns: Column<User>[] = [
     {
@@ -71,7 +70,7 @@ export class UserIndexComponent implements OnInit {
   orderBy?: string;
   orderDirection?: string;
   query?: string;
-  public showFilters = false;
+  showFilters = false;
   roleFilter?: 'admin' | 'customer';
 
   applyFilters(): void {
@@ -79,7 +78,7 @@ export class UserIndexComponent implements OnInit {
     this.loadUsers();
   }
 
-  public clearFilters(): void {
+  clearFilters(): void {
     this.query = undefined;
     this.roleFilter = undefined;
     this.updateQueryParams();
@@ -167,7 +166,7 @@ export class UserIndexComponent implements OnInit {
     return (a[orderBy as keyof User] ?? '') > (b[orderBy as keyof User] ?? '') ? -value : value;
   }
 
-  public showConfigureColumnsModal() {
+  showConfigureColumnsModal() {
     const modal = this.modalService.open(ConfigureColumnModal);
     modal.componentInstance.columns = this.columns;
     modal.componentInstance.okButtonClosure((columns: Column<User>[]) => this.columns = columns);
@@ -183,8 +182,12 @@ export class UserIndexComponent implements OnInit {
       this.loadUsers();
     });
 
-    if (this.query ) {
+    if (this.query) {
       this.showFilters = true;
     }
+  }
+
+  navigateToUser(id: string) {
+    this.router.navigate(['/users', id]).then();
   }
 }
