@@ -10,15 +10,28 @@
 
     <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @if (isAdmin()) {
+          <li class="nav-item">
+            <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" routerLink="/users">Users</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" routerLink="/customers">Customers</a>
+          </li>
+        }
         <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page" routerLink="/customers">Customers</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" aria-current="page" routerLink="/readings">Readings</a>
+          <a class="nav-link" [routerLinkActive]="['active']" (click)="isMenuCollapsed = true" routerLink="/readings">Readings</a>
         </li>
       </ul>
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 d-flex justify-content-lg-end w-100 align-items-center gap-3">
-        <button (click)="logout()" class="btn btn-outline-danger">Logout</button>
+        <div ngbDropdown class="d-inline-block">
+          <button type="button" class="btn" id="dropdownBasic1" ngbDropdownToggle>
+            {{ username() }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+            <a ngbDropdownItem routerLink="/profile">Profile</a>
+            <button (click)="logout()" ngbDropdownItem>Logout</button>
+          </div>
+        </div>
         <ng-icon (click)="toggleDarkmode()" name="bootstrap-circleHalf" style="cursor: pointer"
                  ngbTooltip="Toggle Darkmode"/>
       </ul>
