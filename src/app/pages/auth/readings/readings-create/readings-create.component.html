@@ -9,11 +9,12 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="mb-3 row">
-          <div class="col-6">
-            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
-                           [items]="customers" [filter]="filter"/>
+        <div class="mb-3 row d-flex align-items-end">
+          <div class="col-5">
+              <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
+                             [items]="customers" [filter]="filter"/>
           </div>
+            <custom-button class="col-1" label="Create new Customer" color="primary" icon="plus-lg" [link]="['customers', 'create']" />
           <div class="col-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"
                              [control]="readingForm.controls.dateOfReading"/>

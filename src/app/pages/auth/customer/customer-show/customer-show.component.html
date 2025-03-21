@@ -6,6 +6,7 @@
         <div class="btn-group">
           <custom-button [link]="['/customers', customer?.id ?? '', 'edit']" icon="pencil" label="Edit" color="info"/>
           <custom-button color="danger" (click)="delete()" icon="trash" label="Delete" />
+          <custom-button [link]="['readings', 'create']" icon="plus-lg" label="Create new Reading" color="primary" />
         </div>
       </div>
     </div>
