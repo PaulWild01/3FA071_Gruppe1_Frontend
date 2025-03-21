@@ -31,6 +31,8 @@ export class AuthService {
 
     logout() {
         window.localStorage.removeItem('authData');
+        this.loggedIn$.next(false);
+        this.user$.next(undefined);
         this.router.navigate(['login']).then();
     }
 

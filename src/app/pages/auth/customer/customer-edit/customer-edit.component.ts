@@ -67,14 +67,12 @@ export class CustomerEditComponent {
       return;
     }
 
-    const date = this.customerForm.value.birthdate as Date | undefined;
-
-    this.customerService.update(
-      this.customer?.id ?? '',
-      this.customerForm.value.firstName ?? '',
-      this.customerForm.value.lastName ?? '',
-      this.customerForm.value.gender ?? '',
-      date,
-    ).subscribe(() => this.router.navigate(['/customers', this.customer?.id ?? '']));
+    this.customerService.update({
+      id: this.customerForm.controls.id.value ?? '',
+      firstName: this.customerForm.value.firstName ?? '',
+      lastName: this.customerForm.value.lastName ?? '',
+      gender: this.customerForm.value.gender ?? Gender.U,
+      birthDate: this.customerForm.value.birthdate?.toISOString().slice(0, 10) ?? '',
+    }).subscribe(() => this.router.navigate(['/customers', this.customer?.id ?? '']));
   }
 }

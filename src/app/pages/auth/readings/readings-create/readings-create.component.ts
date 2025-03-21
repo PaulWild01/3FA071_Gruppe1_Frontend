@@ -68,20 +68,18 @@ export class ReadingCreateComponent implements OnInit {
       return;
     }
 
-    const dateOfReading = this.readingForm.controls.dateOfReading.value as Date;
-
-    this.readingService.store(
+    this.readingService.store({
       customer,
-      dateOfReading,
-      this.readingForm.value.meterId ?? '',
-      parseFloat(this.readingForm.value.meterCount ?? ''),
-      this.toKindOfMeter(this.readingForm.value.kindOfMeter ?? ''),
-      this.readingForm.value.comment ?? '',
-      this.readingForm.value.substitute ?? false,
-    ).subscribe(reading => this.router.navigate(['readings', reading.id]));
+      dateOfReading: this.readingForm.value.dateOfReading?.toISOString().slice(0, 10),
+      meterId: this.readingForm.value.meterId ?? '',
+      meterCount: parseFloat(this.readingForm.value.meterCount ?? ''),
+      kindOfMeter: (this.readingForm.value.kindOfMeter ?? KindOfMeter.HEIZUNG) as KindOfMeter,
+      comment: this.readingForm.value.comment ?? '',
+      substitute: this.readingForm.value.substitute ?? false,
+    }).subscribe(reading => this.router.navigate(['readings', reading.id]));
   }
 
-  public filter(items: Customer[], value: string): { label: string, value: string }[] {
+  filter(items: Customer[], value: string): { label: string, value: string }[] {
     return items.filter(customer => {
       return customer.firstName.toLowerCase().includes(value) ||
         customer.lastName.toLowerCase().includes(value) ||

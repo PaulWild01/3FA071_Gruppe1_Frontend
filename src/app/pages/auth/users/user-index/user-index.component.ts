@@ -71,7 +71,7 @@ export class UserIndexComponent implements OnInit {
   orderDirection?: string;
   query?: string;
   showFilters = false;
-  roleFilter?: 'admin' | 'customer';
+  roleFilter?: 'Admin' | 'Customer';
 
   applyFilters(): void {
     this.updateQueryParams();

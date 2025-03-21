@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="card mt-5">
+    <form [formGroup]="userForm" (ngSubmit)="submit()">
+      <div class="card-header justify-content-between align-items-center d-flex">
+        <h1>Create new UserType</h1>
+        <div class="btn-group">
+          <custom-button label="Cancel" [link]="['/users']" color="danger" icon="x-lg"/>
+          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
+        </div>
+      </div>
+      <div class="card-body">
+
+        <div class="mb-3 row">
+          <div class="col-6">
+            <app-input name="username" label="Username" [control]="userForm.controls.username" />
+          </div>
+          <div class="col-6">
+            <app-select name="role" label="Role" (change)="resetCustomer()" [control]="userForm.controls.role" [options]="[{value: 'admin', label: 'Admin'}, {value: 'customer', label: 'Customer'}]" />
+          </div>
+        </div>
+
+        <div class="mb-3 row">
+          <div class="col-6">
+            <app-input name="password" label="Password" type="password" [control]="userForm.controls.password" />
+          </div>
+          <div class="col-6">
+            <app-input name="password_confirmation" label="Confirm Password" type="password" (change)="resetCustomer()" [control]="userForm.controls.passwordConfirmation"/>
+          </div>
+        </div>
+
+        @if (userForm.controls.role.value === 'customer') {
+          <div class="mb-3 row">
+            <div class="col-12">
+              <app-combo-box name="customer" label="Customer" [control]="userForm.controls.customer" [items]="customers" [filter]="filter"/>
+            </div>
+          </div>
+        }
+      </div>
+    </form>
+  </div>
+</div>

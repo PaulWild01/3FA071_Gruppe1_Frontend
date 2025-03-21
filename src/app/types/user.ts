@@ -3,6 +3,6 @@ import {Customer} from './customer';
 export interface User {
   id: string,
   username: string,
-  role: 'admin' | 'customer',
+  role: 'Admin' | 'Customer',
   customer?: Customer,
 }

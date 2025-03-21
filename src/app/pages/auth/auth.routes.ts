@@ -10,6 +10,7 @@ import {ReadingEditComponent} from './readings/reading-edit/readings-edit.compon
 import {ProfileShowComponent} from './profile/profile-show/profile-show.component';
 import {isAdminGuard} from '../../guards/is-admin.guard';
 import {UserIndexComponent} from './users/user-index/user-index.component';
+import {UserCreateComponent} from './users/user-create/user-create.component';
 
 export const routes: Routes = [
   {
@@ -35,6 +36,11 @@ export const routes: Routes = [
   {
     path: 'users',
     component: UserIndexComponent,
+    canActivate: [isAdminGuard]
+  },
+  {
+    path: 'users/create',
+    component: UserCreateComponent,
     canActivate: [isAdminGuard]
   },
   {

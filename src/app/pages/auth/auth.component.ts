@@ -36,7 +36,7 @@ export class AuthComponent {
   username = signal<string>('');
 
   isAdmin() {
-    return this.authService.user$.value?.role === 'admin';
+    return this.authService.user$.value?.role === 'Admin';
   }
 
   constructor() {

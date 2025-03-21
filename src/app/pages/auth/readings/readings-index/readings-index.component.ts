@@ -256,19 +256,19 @@ export class ReadingsIndexComponent implements OnInit {
   }
 
   private processData(data: Reading[]) {
-    data.forEach((record, index) => {
-      const dateOfReading = new Date(record.dateOfReading ?? '');
-      this.readingService.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
-        next: () => {
-          if (index === data.length - 1) {
-            this.router.navigate(['/readings']).then();
-          }
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
-    });
+    // data.forEach((record, index) => {
+    //   const dateOfReading = new Date(record.dateOfReading ?? '');
+    //   this.readingService.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
+    //     next: () => {
+    //       if (index === data.length - 1) {
+    //         this.router.navigate(['/readings']).then();
+    //       }
+    //     },
+    //     error: (error) => {
+    //       console.error(error);
+    //     },
+    //   });
+    // });
   }
 
   openExportMenu() {

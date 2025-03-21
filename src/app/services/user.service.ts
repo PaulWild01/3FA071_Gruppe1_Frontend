@@ -1,22 +1,11 @@
-import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
 import {User} from '../types/user';
+import {ApiRessourceService} from './api-ressource.service';
+import {UserData} from '../types/user.data';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
-  private url = "http://localhost:8080/users";
-
-  constructor(private http: HttpClient) {
-  }
-
-  public all(): Observable<User[]> {
-    return this.http.get<User[]>(this.url);
-  }
-
-  public destroy(id: string): Observable<string> {
-    return this.http.delete<string>(`${this.url}/${id}`);
-  }
+export class UserService extends ApiRessourceService<User, UserData> {
+  override path = 'users';
 }

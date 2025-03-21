@@ -47,14 +47,12 @@ export class CustomerCreateComponent {
       return;
     }
 
-    const date = this.customerForm.value.birthdate as Date | undefined;
-
-    this.customerService.store(
-      this.customerForm.value.firstName ?? '',
-      this.customerForm.value.lastName ?? '',
-      this.customerForm.value.gender ?? '',
-      date,
-    ).subscribe(customer => this.router.navigate(['/customers', customer.id]));
+    this.customerService.store({
+      firstName: this.customerForm.value.firstName ?? '',
+      lastName: this.customerForm.value.lastName ?? '',
+      gender: this.customerForm.value.gender ?? Gender.U,
+      birthDate: this.customerForm.value.birthdate?.toISOString().slice(0, 10),
+      }).subscribe(customer => this.router.navigate(['/customers', customer.id]));
   }
 
   constructor(

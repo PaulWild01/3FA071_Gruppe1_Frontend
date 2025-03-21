@@ -115,15 +115,15 @@ export class ReadingEditComponent implements OnInit {
       return;
     }
 
-    this.readingService.update(
-      this.reading?.id ?? '',
+    this.readingService.update({
+      id: this.readingForm.controls.id.value ?? '',
       customer,
-      date ?? new Date(),
-      this.readingForm.value.meterId ?? '',
-      this.readingForm.value.meterCount ?? 0,
-      this.readingForm.value.kindOfMeter ?? KindOfMeter.STROM,
-      this.readingForm.value.comment ?? '',
-      this.readingForm.value.substitute ?? false,
-    ).subscribe(() => this.router.navigate(['/readings', this.reading?.id ?? '']));
+      dateOfReading: this.readingForm.value.dateOfReading?.toISOString().slice(0, 10),
+      meterId: this.readingForm.value.meterId ?? '',
+      meterCount: this.readingForm.value.meterCount ?? 0,
+      kindOfMeter: (this.readingForm.value.kindOfMeter ?? KindOfMeter.HEIZUNG) as KindOfMeter,
+      comment: this.readingForm.value.comment ?? '',
+      substitute: this.readingForm.value.substitute ?? false,
+    }).subscribe(() => this.router.navigate(['/readings', this.reading?.id ?? '']));
   }
 }
