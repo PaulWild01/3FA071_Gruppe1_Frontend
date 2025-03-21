@@ -183,7 +183,7 @@ export class CustomerIndexComponent implements OnInit {
     if (!this.orderBy) return 0;
 
     const orderBy: string = this.orderBy ?? '';
-    const value: number = this.orderDirection === 'desc' ? 1 : -1;
+    const value: number = this.orderDirection === 'desc' ? -1 : 1;
 
     if (this.orderBy === 'birthdate') {
       if (!a.birthDate && !b.birthDate) {
@@ -202,8 +202,15 @@ export class CustomerIndexComponent implements OnInit {
       const bBirthdate = new Date(b.birthDate ?? '');
       return aBirthdate > bBirthdate ? -value : value;
     }
-
-    return (a[orderBy as keyof Customer] ?? '') > (b[orderBy as keyof Customer] ?? '') ? -value : value;
+    const aValue = a[orderBy as keyof Customer] ?? '';
+    const bValue = b[orderBy as keyof Customer] ?? '';
+    if (aValue.toLowerCase() < bValue.toLowerCase()) {
+      return value;
+    }
+    if (aValue.toLowerCase() > bValue.toLowerCase()) {
+      return -value;
+    }
+    return 0;
   }
 
   private searchQuery(customer: Customer): boolean {

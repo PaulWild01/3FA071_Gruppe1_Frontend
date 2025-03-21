@@ -208,7 +208,7 @@ export class ReadingsIndexComponent implements OnInit {
         }
 
         const orderBy: string = this.orderBy ?? '';
-        const value: number = this.orderDirection === 'desc' ? 1 : -1;
+        const value: number = this.orderDirection === 'desc' ? -1 : 1;
 
         if (this.orderBy === 'dateOfReading') {
           if (!a.dateOfReading && !b.dateOfReading) {
