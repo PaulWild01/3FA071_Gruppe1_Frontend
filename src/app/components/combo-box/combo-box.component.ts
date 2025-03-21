@@ -71,7 +71,7 @@ export class ComboBoxComponent implements OnInit {
   });
 
   suggestedItems = computed<Item[]>(() => {
-    return this.filter()(this.items(), this.searchQuery());
+    return this.filter()(this.items(), this.searchQuery().toLowerCase());
   })
 
   ngOnInit() {

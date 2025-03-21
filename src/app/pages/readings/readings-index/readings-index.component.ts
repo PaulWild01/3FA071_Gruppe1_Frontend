@@ -35,7 +35,7 @@ export class ReadingsIndexComponent implements OnInit {
   public showFilters = false;
   public query?: string;
   public kindOfMeterFilter?: KindOfMeter;
-  public substituteFilter?: boolean;
+  public substituteFilter?: boolean | null = null;
   public orderBy?: string;
   public orderDirection?: string;
 
@@ -144,7 +144,7 @@ export class ReadingsIndexComponent implements OnInit {
 
   public clearFilters(): void {
     this.query = undefined;
-    this.substituteFilter = undefined;
+    this.substituteFilter = null;
     this.kindOfMeterFilter = undefined;
     this.updateQueryParams();
     this.loadReadings();
@@ -187,7 +187,7 @@ export class ReadingsIndexComponent implements OnInit {
       this.orderDirection = params.get('desc') === 'true' ? 'desc' : 'asc';
 
       const substitute = params.get('substitute');
-      this.substituteFilter = substitute === 'undefined' ? undefined : substitute === 'true';
+      this.substituteFilter = substitute === 'null' ? null : substitute === 'true';
 
       this.loadReadings();
     });
@@ -203,7 +203,7 @@ export class ReadingsIndexComponent implements OnInit {
       this.readings = readings.filter(readings => {
         return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
           && (!this.query || this.searchQuery(readings))
-          && (this.substituteFilter === undefined || readings.substitute === Boolean(this.substituteFilter)
+          && (this.substituteFilter === null || readings.substitute === Boolean(this.substituteFilter)
           );
       }).sort((a, b): number => {
         if (!this.orderBy) {
@@ -211,7 +211,7 @@ export class ReadingsIndexComponent implements OnInit {
         }
 
         const orderBy: string = this.orderBy ?? '';
-        const value: number = this.orderDirection === 'desc' ? 1 : -1;
+        const value: number = this.orderDirection === 'desc' ? -1 : 1;
 
         if (this.orderBy === 'dateOfReading') {
           if (!a.dateOfReading && !b.dateOfReading) {

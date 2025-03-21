@@ -32,16 +32,16 @@
         <div class="col-2">
           <label for="substitute-filter" class="form-label">Is Substitute</label>
           <select [(ngModel)]="substituteFilter" id="substitute-filter" class="form-select">
-            <option selected [value]="undefined">All</option>
-            <option [value]="true">Yes</option>
-            <option [value]="false">No</option>
+            <option selected [ngValue]="null">All</option>
+            <option [ngValue]="true">Yes</option>
+            <option [ngValue]="false">No</option>
           </select>
         </div>
         <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-          <custom-button (click)="clearFilters()" label="Clear Filters" color="danger"/>
+          <custom-button (click)="clearFilters()" label="Clear Filter" color="danger"/>
         </div>
         <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-          <custom-button (click)="applyFilters()" label="Apply Filters" color="success"/>
+          <custom-button (click)="applyFilters()" label="Apply Filter" color="success"/>
         </div>
       </div>
       <table class="table table-striped table-hover">
