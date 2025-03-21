@@ -187,7 +187,7 @@ export class ReadingsIndexComponent implements OnInit {
       this.orderDirection = params.get('desc') === 'true' ? 'desc' : 'asc';
 
       const substitute = params.get('substitute');
-      this.substituteFilter = substitute === 'null' ? null : substitute === 'true';
+      this.substituteFilter = substitute === null || substitute === 'null' ? null : substitute === 'true';
 
       this.loadReadings();
     });

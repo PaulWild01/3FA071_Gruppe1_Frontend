@@ -32,7 +32,7 @@
         <div class="col-2">
           <label for="substitute-filter" class="form-label">Is Substitute</label>
           <select [(ngModel)]="substituteFilter" id="substitute-filter" class="form-select">
-            <option selected [ngValue]="null">All</option>
+            <option [ngValue]="null">All</option>
             <option [ngValue]="true">Yes</option>
             <option [ngValue]="false">No</option>
           </select>
