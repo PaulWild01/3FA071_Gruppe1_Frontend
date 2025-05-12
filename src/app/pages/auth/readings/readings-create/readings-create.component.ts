@@ -1,5 +1,5 @@
-import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, inject, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {CustomButtonComponent} from '../../../../components/custom-button/custom-button.component';
@@ -52,6 +52,16 @@ export class ReadingCreateComponent implements OnInit {
 
   ngOnInit() {
     this.customerService.all().subscribe(customers => this.customers = customers);
+
+    const customerId: string = this.activatedRoute.snapshot.queryParams['customer'];
+
+    if (customerId) {
+      this.readingForm.controls.customer.setValue(customerId);
+    }
+  }
+
+  navigateToCreateUser() {
+    this.router.navigate(['customers', 'create'], { queryParams: { redirectToCreateReading: true }}).then();
   }
 
   submit() {
@@ -62,6 +72,9 @@ export class ReadingCreateComponent implements OnInit {
 
     const customerId = this.readingForm.value.customer;
     const customer = this.customers.find(customer => customer.id === customerId);
+
+    console.log(customer);
+    alert(customer?.id ?? 'No customer');
 
     if (!customer) {
       console.error('No Customer');
@@ -99,7 +112,8 @@ export class ReadingCreateComponent implements OnInit {
   constructor(
     private readingService: ReadingService,
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 }

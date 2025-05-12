@@ -14,7 +14,7 @@
               <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
                              [items]="customers" [filter]="filter"/>
           </div>
-            <custom-button class="col-1" label="Create new Customer" color="primary" icon="plus-lg" [link]="['customers', 'create']" />
+            <custom-button class="col-1" label="Create new Customer" color="primary" icon="plus-lg" (click)="navigateToCreateUser()" />
           <div class="col-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"
                              [control]="readingForm.controls.dateOfReading"/>

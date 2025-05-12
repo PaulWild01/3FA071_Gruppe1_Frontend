@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../../../../enums/gender';
 import {CustomerService} from '../../../../services/customer.service';
@@ -24,7 +24,9 @@ import {DatePickerComponent} from '../../../../components/date-picker/date-picke
   ],
   templateUrl: './customer-create.component.html',
 })
-export class CustomerCreateComponent {
+export class CustomerCreateComponent implements OnInit {
+  private redirectToCreateReading: boolean = false;
+
   customerForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -32,8 +34,8 @@ export class CustomerCreateComponent {
     birthdate: new FormControl<Date | null>(null, isDateOrNull()),
   });
 
-  genders(): {value: string, label: string}[] {
-    let result: {value: string, label: string}[] = [];
+  genders(): { value: string, label: string }[] {
+    let result: { value: string, label: string }[] = [];
 
     Object.keys(Gender).forEach(key => result.push({value: key, label: ''}));
     Object.values(Gender).forEach((value, index) => result[index].label = value);
@@ -52,11 +54,22 @@ export class CustomerCreateComponent {
       lastName: this.customerForm.value.lastName ?? '',
       gender: this.customerForm.value.gender ?? Gender.U,
       birthDate: this.customerForm.value.birthdate?.toISOString().slice(0, 10),
-      }).subscribe(customer => this.router.navigate(['/customers', customer.id]));
+    }).subscribe(customer => {
+      let queryParams =   {customer: this.redirectToCreateReading ? customer.id : null};
+      let commands: string[] = this.redirectToCreateReading ? ['readings', 'create'] : ['customers', customer.id];
+
+      this.router.navigate(commands, {queryParams: queryParams}).then();
+    });
+  }
+
+  ngOnInit() {
+    this.redirectToCreateReading = this.activatedRoute.snapshot.queryParams['redirectToCreateReading'] !== undefined;
   }
 
   constructor(
     private customerService: CustomerService,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {
   }
 }
