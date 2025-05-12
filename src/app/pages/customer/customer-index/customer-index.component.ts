@@ -148,7 +148,9 @@ export class CustomerIndexComponent implements OnInit {
     this.query = this.route.snapshot.queryParams['q'];
 
     const gender: string | undefined = this.route.snapshot.queryParams['gender'];
+    console.log(gender)
     this.genderFilter = gender ? Gender[gender.toUpperCase() as keyof typeof Gender] : undefined;
+    console.log(this.genderFilter)
 
     this.orderBy = this.route.snapshot.queryParams['orderBy'];
     this.orderDirection = this.route.snapshot.queryParams['desc'] === 'true' ? 'desc' : 'asc';
