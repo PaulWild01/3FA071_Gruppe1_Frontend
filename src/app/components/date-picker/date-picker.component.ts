@@ -30,10 +30,10 @@ export class DatePickerComponent {
   control = input.required<FormControl>();
   name = input.required<string>();
   label = input<string>();
-  currentDate: {year: number, month: number, day: number};
+  currentDate: { year: number, month: number, day: number };
 
   constructor() {
     const today = new Date();
-    this.currentDate = { year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()};
+    this.currentDate = {year: today.getFullYear(), month: today.getMonth() + 1, day: today.getDate()};
   }
 }

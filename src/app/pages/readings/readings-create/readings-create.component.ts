@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ReadingService} from '../../../services/reading.service';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
@@ -41,8 +41,8 @@ export class ReadingCreateComponent implements OnInit {
 
   customers: Customer[] = [];
 
-  kindOfMeter(): {value: string, label: string}[] {
-    const result: {value: string, label: string}[] = [];
+  kindOfMeter(): { value: string, label: string }[] {
+    const result: { value: string, label: string }[] = [];
 
     Object.keys(KindOfMeter).forEach(key => result.push({value: key, label: ''}));
     Object.values(KindOfMeter).forEach((value, index) => result[index].label = value);
@@ -52,6 +52,15 @@ export class ReadingCreateComponent implements OnInit {
 
   ngOnInit() {
     this.customerService.all().subscribe(customers => this.customers = customers);
+    this.readingForm.controls.customer.setValue(this.activatedRoute.snapshot.queryParams['customer'] ?? '');
+    this.readingForm.controls.comment.setValue(this.activatedRoute.snapshot.queryParams['comment'] ?? '');
+    this.readingForm.controls.meterCount.setValue(this.activatedRoute.snapshot.queryParams['meterCount'] ?? '');
+    this.readingForm.controls.meterId.setValue(this.activatedRoute.snapshot.queryParams['meterId'] ?? '');
+    this.readingForm.controls.kindOfMeter.setValue(this.activatedRoute.snapshot.queryParams['kindOfMeter'] ?? 'HEIZUNG');
+    this.readingForm.controls.substitute.setValue(this.activatedRoute.snapshot.queryParams['substitute'] ?? false);
+    this.readingForm.controls.dateOfReading.setValue(this.activatedRoute.snapshot.queryParams['dateOfReading'] ?? null);
+    console.log(this.activatedRoute.snapshot.queryParams['dateOfReading']);
+    console.log(this.readingForm.controls.dateOfReading.value)
   }
 
   submit() {
@@ -67,8 +76,6 @@ export class ReadingCreateComponent implements OnInit {
       console.error('No Customer');
       return;
     }
-
-    console.log(customer)
 
     const dateOfReading = this.readingForm.controls.dateOfReading.value as Date;
 
@@ -100,10 +107,25 @@ export class ReadingCreateComponent implements OnInit {
     throw new Error(`Ungültiger Gender-Wert: ${value}`);
   }
 
+  navigateToCreateCustomer() {
+    this.router.navigate(['customers', 'create'], {
+      queryParams: {
+        returnToCreateReading: true,
+        dateOfReading: this.readingForm.controls.dateOfReading.value,
+        meterId: this.readingForm.controls.meterId.value,
+        meterCount: this.readingForm.controls.meterCount.value,
+        kindOfMeter: this.readingForm.controls.kindOfMeter.value,
+        comment: this.readingForm.controls.comment.value,
+        substitute: this.readingForm.controls.substitute.value,
+      }
+    }).then();
+  }
+
   constructor(
     private readingService: ReadingService,
     private customerService: CustomerService,
-    private router: Router
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) {
   }
 }

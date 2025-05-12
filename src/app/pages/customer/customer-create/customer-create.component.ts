@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from "@angular/router";
 import {FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Gender} from '../../../enums/gender';
 import {CustomerService} from '../../../services/customer.service';
@@ -32,14 +32,16 @@ export class CustomerCreateComponent {
     birthdate: new FormControl<Date | null>(null, isDateOrNull()),
   });
 
-  genders(): {value: string, label: string}[] {
-    let result: {value: string, label: string}[] = [];
+  genders(): { value: string, label: string }[] {
+    let result: { value: string, label: string }[] = [];
 
     Object.keys(Gender).forEach(key => result.push({value: key, label: ''}));
     Object.values(Gender).forEach((value, index) => result[index].label = value);
 
     return result;
   }
+
+  private snapshot: ActivatedRouteSnapshot;
 
   public submit() {
     if (this.customerForm.invalid) {
@@ -54,11 +56,33 @@ export class CustomerCreateComponent {
       this.customerForm.value.lastName ?? '',
       this.customerForm.value.gender ?? '',
       date,
-    ).subscribe(customer => this.router.navigate(['/customers', customer.id]));
+    ).subscribe(customer => {
+      let commands = ['customers', customer.id];
+      let queryParams = {};
+
+      if (this.snapshot.queryParams['returnToCreateReading']) {
+        commands = ['readings', 'create'];
+        queryParams = {
+          customer: customer.id,
+          dateOfReading: this.snapshot.queryParams['dateOfReading'],
+          meterId: this.snapshot.queryParams['meterId'],
+          meterCount: this.snapshot.queryParams['meterCount'],
+          kindOfMeter: this.snapshot.queryParams['kindOfMeter'],
+          comment: this.snapshot.queryParams['comment'],
+          substitute: this.snapshot.queryParams['substitute'],
+        };
+      }
+
+      this.router.navigate(commands, {queryParams}).then();
+    });
   }
+
 
   constructor(
     private customerService: CustomerService,
-    private router: Router) {
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+  ) {
+    this.snapshot = this.activatedRoute.snapshot;
   }
 }
