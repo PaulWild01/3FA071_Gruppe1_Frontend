@@ -53,7 +53,7 @@ export class ReadingShowComponent {
         const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
         this.readingForm.controls.id?.setValue(reading.id);
-        this.readingForm.controls.customer?.setValue(`${reading.customer.firstName} ${reading.customer.lastName}`);
+        this.readingForm.controls.customer?.setValue(reading.customer ? `${reading.customer.firstName} ${reading.customer.lastName}` : '');
         this.readingForm.controls.dateOfReading?.setValue(dateOfReading?.toISOString().slice(0, 10) ?? '');
         this.readingForm.controls.meterId?.setValue(reading.meterId);
         this.readingForm.controls.meterCount?.setValue(reading.meterCount)

@@ -56,12 +56,12 @@ export class ReadingEditComponent implements OnInit {
       .subscribe(reading => {
         this.reading = reading
         this.customer = reading.customer;
-        this.customerLabel = `${reading.customer.firstName} ${reading.customer.lastName}`;
+        this.customerLabel = reading.customer ? `${reading.customer.firstName} ${reading.customer.lastName}` : '';
 
         const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
 
         this.readingForm.controls.id?.setValue(reading.id);
-        this.readingForm.controls.customer?.setValue(reading.customer.id);
+        this.readingForm.controls.customer?.setValue(reading.customer?.id ?? '');
         this.readingForm.controls.dateOfReading?.setValue(dateOfReading);
         this.readingForm.controls.meterId?.setValue(reading.meterId);
         this.readingForm.controls.meterCount?.setValue(reading.meterCount)

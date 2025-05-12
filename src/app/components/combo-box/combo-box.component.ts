@@ -78,10 +78,6 @@ export class ComboBoxComponent implements OnInit {
     if (this.preSelectedItem()) {
       this.onSelect(this.preSelectedItem()!);
     }
-
-    effect(event => {
-      console.log(event);
-    });
   }
 
   onSelect(item: Item) {

@@ -57,7 +57,7 @@ export class ReadingsIndexComponent implements OnInit {
     {
       name: "customerName",
       displayName: "Customer Name",
-      getValue: reading => `${reading.customer.firstName} ${reading.customer.lastName}`,
+      getValue: reading => reading.customer ? `${reading.customer.firstName} ${reading.customer.lastName}` : '',
       show: true,
       canSort: false,
     },
@@ -273,6 +273,7 @@ export class ReadingsIndexComponent implements OnInit {
       });
     });
   }
+
   public openExportMenu() {
     const modalRef = this.modalService.open(ExportModalReadingComponent);
     modalRef.componentInstance.readings = this.readings;
