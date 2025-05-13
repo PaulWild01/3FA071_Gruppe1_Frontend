@@ -243,12 +243,14 @@ export class ReadingsIndexComponent implements OnInit {
   }
 
   private searchQuery(readings: Reading): boolean {
-    return readings.id.includes(this.query ?? '') ||
+    return readings.id.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
       (String(readings.dateOfReading)?.includes(this.query ?? '') ?? false) ||
       readings.meterId.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
       String(readings.meterCount).includes(this.query?.toLowerCase() ?? '') ||
       readings.comment.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
-      String(readings.substitute).includes(this.query?.toLowerCase() ?? '');
+      String(readings.substitute).includes(this.query?.toLowerCase() ?? '') ||
+      readings.customer.id.toLowerCase().includes(this.query?.toLowerCase() ?? '') ||
+      `${readings.customer.firstName.toLowerCase()}${readings.customer.lastName.toLowerCase()}`.includes(this.query?.toLowerCase() ?? '');
   }
 
   public storeImport() {
