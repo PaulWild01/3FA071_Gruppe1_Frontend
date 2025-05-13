@@ -5,6 +5,7 @@
       <div class="d-flex gap-3">
         <div class="btn-group">
           <custom-button [link]="['/customers', customer?.id ?? '', 'edit']" icon="pencil" label="Edit" color="info"/>
+          <custom-button label="Create Reading" (click)="createReading()" color="primary" icon="plus-circle"/>
           <custom-button color="danger" (click)="delete()" icon="trash" label="Delete" />
         </div>
       </div>

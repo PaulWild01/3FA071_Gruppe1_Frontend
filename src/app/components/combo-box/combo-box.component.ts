@@ -1,4 +1,4 @@
-import {Component, computed, effect, input, OnInit, signal} from '@angular/core';
+import {AfterViewInit, Component, computed, effect, input, OnInit, signal} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {CustomButtonComponent} from '../custom-button/custom-button.component';
@@ -28,6 +28,7 @@ interface Item {
         @if (selectedItem()) {
           <custom-button (click)="onReset()" color="danger" icon="x-circle"/>
         }
+        <ng-content />
       </div>
 
       <input hidden type="text" [formControl]="control()">
@@ -45,7 +46,7 @@ interface Item {
     }
   `,
 })
-export class ComboBoxComponent implements OnInit {
+export class ComboBoxComponent implements OnInit, AfterViewInit {
   name = input.required<string>();
   label = input<string>();
   items = input.required<any[]>();
@@ -75,9 +76,17 @@ export class ComboBoxComponent implements OnInit {
   })
 
   ngOnInit() {
-    if (this.preSelectedItem()) {
-      this.onSelect(this.preSelectedItem()!);
-    }
+    // if (this.preSelectedItem()) {
+      console.log(this.preSelectedItem());
+      // this.onSelect(this.preSelectedItem()!);
+    // }
+  }
+
+  ngAfterViewInit() {
+    // if (this.preSelectedItem()) {
+      console.log(this.preSelectedItem());
+      // this.onSelect(this.preSelectedItem()!);
+    // }
   }
 
   onSelect(item: Item) {

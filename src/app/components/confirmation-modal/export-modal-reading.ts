@@ -1,8 +1,7 @@
-import { Component, inject, Input } from '@angular/core';
-import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {Component, inject, Input} from '@angular/core';
+import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
 import {KindOfMeter} from '../../enums/kind-of-meter';
 import {Customer} from '../../types/customer';
-import {Reading} from '../../types/reading';
 
 interface ReadingRecord {
   id: string;
@@ -38,7 +37,7 @@ export class ExportModalReadingComponent {
 
   exportAsJson() {
     const jsonData = JSON.stringify(this.readings, null, 2);
-    this.downloadFile(jsonData, 'application/json', 'reading.json')
+    this.downloadFile(jsonData, 'application/json', 'reading.json');
     this.modal.close('Export click');
   }
 
@@ -69,29 +68,29 @@ export class ExportModalReadingComponent {
   exportAsCSV() {
     const headers: string[] = ['id', 'customerId', "customerGender", "customerFirstname", "customerLastname", "customerBirthdate", 'dateOfReading', 'meterId', 'meterCount', 'kindOfMeter', 'comment', 'substitute'];
     const rows = this.readings.map((reading) =>
-    [
-      reading.id,
-      reading.customer.id,
-      reading.customer.gender,
-      reading.customer.firstName,
-      reading.customer.lastName,
-      reading.customer.gender,
-      reading.dateOfReading !== undefined && reading.dateOfReading !== null ? reading.dateOfReading.toString() : '00.00.0000',
-      reading.meterId,
-      reading.meterCount,
-      reading.kindOfMeter,
-      reading.comment,
-      reading.substitute,
-    ]
-        .map(value=> `"${value.toString().replace(/"/g, '""')}"`)
-          .join(',')
+      [
+        reading.id,
+        reading.customer.id,
+        reading.customer.gender,
+        reading.customer.firstName,
+        reading.customer.lastName,
+        reading.customer.gender,
+        reading.dateOfReading !== undefined && reading.dateOfReading !== null ? reading.dateOfReading.toString() : '00.00.0000',
+        reading.meterId,
+        reading.meterCount,
+        reading.kindOfMeter,
+        reading.comment,
+        reading.substitute,
+      ]
+        .map(value => `"${value.toString().replace(/"/g, '""')}"`)
+        .join(',')
     );
     const data = [headers.join(','), ...rows].join('\n');
     this.downloadFile(data, 'application/csv', 'reading.csv');
   }
 
   private downloadFile(data: string, type: string, filename: string) {
-    const blob = new Blob([data], { type: type });
+    const blob = new Blob([data], {type: type});
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;

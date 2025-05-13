@@ -77,6 +77,24 @@ export class CustomerCreateComponent {
     });
   }
 
+  back() {
+    let commands = ['customers'];
+    let queryParams = {};
+
+    if (this.snapshot.queryParams['returnToCreateReading']) {
+      commands = ['readings', 'create'];
+      queryParams = {
+        dateOfReading: this.snapshot.queryParams['dateOfReading'],
+        meterId: this.snapshot.queryParams['meterId'],
+        meterCount: this.snapshot.queryParams['meterCount'],
+        kindOfMeter: this.snapshot.queryParams['kindOfMeter'],
+        comment: this.snapshot.queryParams['comment'],
+        substitute: this.snapshot.queryParams['substitute'],
+      }
+    }
+
+    this.router.navigate(commands, {queryParams}).then();
+  }
 
   constructor(
     private customerService: CustomerService,

@@ -13,11 +13,6 @@ import {FormsModule} from '@angular/forms';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-title">Configure Columns</h4>
-      <button
-        type="button"
-        class="btn-close bg-danger"
-        (click)="modal.dismiss('Cross click')"
-      ></button>
     </div>
     <div class="modal-body">
       <div *ngFor="let column of columns; index as i" class="form-check">
@@ -29,7 +24,7 @@ import {FormsModule} from '@angular/forms';
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn bg-success" (click)="okButtonClicked()">Ok</button>
+      <button type="button" class="btn btn-success" (click)="okButtonClicked()">Ok</button>
     </div>
   `,
 })

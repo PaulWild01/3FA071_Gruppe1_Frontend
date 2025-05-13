@@ -48,6 +48,10 @@ export class CustomerShowComponent {
       });
   }
 
+  createReading() {
+    this.router.navigate(['readings', 'create'], { queryParams: {customer: this.customer?.id}}).then();
+  }
+
   delete() {
     const modal = this.modalService.open(ConfirmationModalComponent);
     modal.componentInstance.title = 'Delete Customer';

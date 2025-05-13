@@ -9,16 +9,14 @@
         </div>
       </div>
       <div class="card-body">
-        <div class="mb-3 row align-items-end">
-          <div [class.col-6]="readingForm.controls.customer.value !== ''"
-               [class.col-5]="readingForm.controls.customer.value === ''">
-            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
-                           [items]="customers" [filter]="filter"/>
+        <div class="mb-3 row">
+          <div class="col-6">
+            <app-combo-box [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined" name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers" [filter]="filter">
+              @if (readingForm.controls.customer.value === '') {
+                <custom-button icon="plus-circle" label="Create and add Customer" color="primary" (click)="navigateToCreateCustomer()" />
+              }
+            </app-combo-box>
           </div>
-          @if (readingForm.controls.customer.value === '') {
-            <custom-button (click)="navigateToCreateCustomer()" class="col-1" color="primary" icon="plus-circle"
-                           label="Create Customer"/>
-          }
           <div class="col-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"
                              [control]="readingForm.controls.dateOfReading"/>

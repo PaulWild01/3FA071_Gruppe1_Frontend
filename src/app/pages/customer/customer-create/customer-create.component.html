@@ -4,7 +4,7 @@
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Create new Customer</h1>
         <div class="btn-group">
-          <custom-button label="Cancel" [link]="['/customers']" color="danger" icon="x-lg"/>
+          <custom-button label="Cancel" (click)="back()" color="danger" icon="x-lg"/>
           <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
         </div>
       </div>
