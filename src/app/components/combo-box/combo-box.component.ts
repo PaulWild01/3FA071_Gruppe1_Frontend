@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, computed, effect, input, OnInit, signal} from '@angular/core';
+import {Component, computed, effect, input, signal} from '@angular/core';
 import {FormControl, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgbDropdownItem} from '@ng-bootstrap/ng-bootstrap';
 import {CustomButtonComponent} from '../custom-button/custom-button.component';
@@ -28,7 +28,7 @@ interface Item {
         @if (selectedItem()) {
           <custom-button (click)="onReset()" color="danger" icon="x-circle"/>
         }
-        <ng-content />
+        <ng-content/>
       </div>
 
       <input hidden type="text" [formControl]="control()">
@@ -46,7 +46,7 @@ interface Item {
     }
   `,
 })
-export class ComboBoxComponent implements OnInit, AfterViewInit {
+export class ComboBoxComponent {
   name = input.required<string>();
   label = input<string>();
   items = input.required<any[]>();
@@ -61,7 +61,6 @@ export class ComboBoxComponent implements OnInit, AfterViewInit {
   constructor() {
     effect(() => {
       if (this.preSelectedItem()) {
-        console.log(this.preSelectedItem());
         this.onSelect(this.preSelectedItem()!);
       }
     });
@@ -74,20 +73,6 @@ export class ComboBoxComponent implements OnInit, AfterViewInit {
   suggestedItems = computed<Item[]>(() => {
     return this.filter()(this.items(), this.searchQuery().toLowerCase());
   })
-
-  ngOnInit() {
-    // if (this.preSelectedItem()) {
-      console.log(this.preSelectedItem());
-      // this.onSelect(this.preSelectedItem()!);
-    // }
-  }
-
-  ngAfterViewInit() {
-    // if (this.preSelectedItem()) {
-      console.log(this.preSelectedItem());
-      // this.onSelect(this.preSelectedItem()!);
-    // }
-  }
 
   onSelect(item: Item) {
     this.selectedItem.set(item);
