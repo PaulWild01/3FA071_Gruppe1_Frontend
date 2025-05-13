@@ -11,13 +11,14 @@
       <div class="card-body">
         <div class="mb-3 row">
           <div class="col-12">
-            <app-input name="id" label="ID" [control]="readingForm.controls.id" />
+            <app-input name="id" label="ID" [control]="readingForm.controls.id"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
             <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
-                           [items]="customers" [filter]="filter" [preSelectedItem]=" customerLabel && customer ? {label: customerLabel, value: customer.id} : undefined"/>
+                           [items]="customers" [filter]="filter"
+                           [preSelectedItem]=" customerLabel && customer ? {label: customerLabel, value: customer.id} : undefined"/>
           </div>
           <div class="col-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"
@@ -38,8 +39,8 @@
                         [options]="kindOfMeter()"/>
           </div>
           <div class="col-6">
-            <app-select name="substitute" label="Substitute" [control]="readingForm.controls.substitute"
-                        [options]="[{value: 'true', label: 'True'}, {value: 'false', label: 'False'}]"/>
+            <app-select name="substitute" label="Is Substitute" [control]="readingForm.controls.substitute"
+                        [options]="[{value: 'true', label: 'Yes'}, {value: 'false', label: 'No'}]"/>
           </div>
         </div>
         <div class="mb-3 row">

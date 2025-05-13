@@ -8,6 +8,7 @@ import {Customer} from '../../../types/customer';
 import {InputComponent} from '../../../components/input/input.component';
 import {ConfirmationModalComponent} from '../../../components/confirmation-modal/confirmation-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {SelectComponent} from '../../../components/select/select.component';
 
 @Component({
   selector: 'app-readings-show',
@@ -16,6 +17,7 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
     ReactiveFormsModule,
     CustomButtonComponent,
     InputComponent,
+    SelectComponent,
   ],
   templateUrl: './readings-show.component.html',
 })

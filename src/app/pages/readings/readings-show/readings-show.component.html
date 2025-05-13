@@ -35,7 +35,8 @@
           <app-input name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"/>
         </div>
         <div class="col-6">
-          <app-input name="substitute" label="Substitute" [control]="readingForm.controls.substitute"/>
+          <label for="substitute" class="form-label">Is Substitute</label>
+          <input disabled type="text" class="form-control" id="substitute" name="substitute" [value]="readingForm.controls.substitute.value === 'True' ? 'Yes' : 'No'">
         </div>
       </div>
       <div class="mb-3 row">
@@ -44,59 +45,5 @@
         </div>
       </div>
     </div>
-
-    <!--    <div class="card-body">-->
-
-    <!--      <div class="mb-3 row">-->
-    <!--        <div class="col-12">-->
-    <!--          <label for="id" class="form-label">ID</label>-->
-    <!--          <input disabled type="text" class="form-control" id="id" value="{{ reading?.id }}">-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="mb-3 row">-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="customer" class="form-label">Customer ID</label>-->
-    <!--          <div class="input-group">-->
-    <!--            <input disabled type="text" class="form-control" id="customer" value="{{ reading?.customer?.firstName }} {{ reading?.customer?.lastName }}">-->
-    <!--            <custom-button [link]="['/customers', reading?.customer?.id ?? '']" icon="eye" color="outline-secondary" label="Show Customer" />-->
-    <!--          </div>-->
-    <!--        </div>-->
-
-    <!--        <div class="col-6">-->
-    <!--          <label for="dateOfReading" class="form-label">Date</label>-->
-    <!--          <input disabled type="text" class="form-control" id="dateOfReading" value="{{ reading?.dateOfReading }}">-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="mb-3 row">-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="meterId" class="form-label">Meter ID</label>-->
-    <!--          <input disabled type="text" class="form-control" id="meterId" value="{{ reading?.meterId }}">-->
-    <!--        </div>-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="meterCount" class="form-label">Meter Count</label>-->
-    <!--          <input disabled type="text" class="form-control" id="meterCount" value="{{ reading?.meterCount }}">-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="mb-3 row">-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="kindOfMeter" class="form-label">Meter Type</label>-->
-    <!--          <input disabled type="text" class="form-control" id="kindOfMeter" value="{{ reading?.kindOfMeter }}">-->
-    <!--        </div>-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="comment" class="form-label">Comment</label>-->
-    <!--          <input disabled type="text" class="form-control" id="comment" value="{{ reading?.comment }}">-->
-    <!--        </div>-->
-    <!--      </div>-->
-
-    <!--      <div class="mb-3 row">-->
-    <!--        <div class="col-6">-->
-    <!--          <label for="substitute" class="form-label">Substitute</label>-->
-    <!--          <input disabled type="text" class="form-control" id="substitute" value="{{ reading?.substitute }}">-->
-    <!--        </div>-->
-    <!--      </div>-->
-    <!--    </div>-->
   </div>
 </div>

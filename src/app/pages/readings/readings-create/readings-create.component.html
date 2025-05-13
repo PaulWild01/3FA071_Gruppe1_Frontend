@@ -11,9 +11,13 @@
       <div class="card-body">
         <div class="mb-3 row">
           <div class="col-6">
-            <app-combo-box [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined" name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers" [filter]="filter">
+            <app-combo-box
+              [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined"
+              name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers"
+              [filter]="filter">
               @if (readingForm.controls.customer.value === '') {
-                <custom-button icon="plus-circle" label="Create and add Customer" color="primary" (click)="navigateToCreateCustomer()" />
+                <custom-button icon="plus-circle" label="Create and add Customer" color="primary"
+                               (click)="navigateToCreateCustomer()"/>
               }
             </app-combo-box>
           </div>
@@ -36,8 +40,8 @@
                         [options]="kindOfMeter()"/>
           </div>
           <div class="col-6">
-            <app-select name="substitute" label="Substitute" [control]="readingForm.controls.substitute"
-                        [options]="[{value: 'true', label: 'True'}, {value: 'false', label: 'False'}]"/>
+            <app-select name="substitute" label="Is Substitute" [control]="readingForm.controls.substitute"
+                        [options]="[{value: 'true', label: 'Yes'}, {value: 'false', label: 'No'}]"/>
           </div>
         </div>
         <div class="mb-3 row">

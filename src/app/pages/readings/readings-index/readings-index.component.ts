@@ -98,8 +98,8 @@ export class ReadingsIndexComponent implements OnInit {
     },
     {
       name: "substitute",
-      displayName: "Substitute",
-      getValue: reading => reading.substitute ? 'true' : 'false',
+      displayName: "Is Substitute",
+      getValue: reading => reading.substitute ? 'Yes' : 'No',
       show: true,
       canSort: true,
     },
