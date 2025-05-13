@@ -1,8 +1,7 @@
-import {Component, computed, signal} from '@angular/core';
+import {Component, signal} from '@angular/core';
 import {RouterLink, RouterLinkActive, RouterOutlet} from '@angular/router';
 import {NgIcon} from '@ng-icons/core';
 import {NgbCollapse, NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
-import {CustomButtonComponent} from './components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +12,7 @@ import {CustomButtonComponent} from './components/custom-button/custom-button.co
     NgIcon,
     NgbTooltip,
     NgbCollapse,
-    CustomButtonComponent,
+
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
@@ -27,7 +26,7 @@ export class AppComponent {
 
   toggleDarkmode() {
     const html = document.querySelector('html')!;
-    this.theme.update(oldTheme => oldTheme === 'dark' ? 'light': 'dark');
+    this.theme.update(oldTheme => oldTheme === 'dark' ? 'light' : 'dark');
 
     html.setAttribute('data-bs-theme', this.theme());
     window.localStorage.setItem('theme', this.theme());

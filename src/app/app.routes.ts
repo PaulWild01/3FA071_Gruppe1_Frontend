@@ -40,5 +40,10 @@ export const routes: Routes = [
   {
     path: 'readings/:id/edit',
     component: ReadingEditComponent
-  }
+  },
+  {
+    path: '',
+    redirectTo: 'readings',
+    pathMatch: 'full'
+  },
 ];
