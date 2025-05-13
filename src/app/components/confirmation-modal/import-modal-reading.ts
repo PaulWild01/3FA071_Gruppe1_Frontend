@@ -11,23 +11,24 @@ import {firstValueFrom, of, switchMap} from 'rxjs';
   template: `
     <div class="modal-header">
       <h4 class="modal-title" id="modal-title">Import File</h4>
-      </div>
-      <div class="mb-4 modal-body">
-        <label for="formFile" class="form-label">Accepted Format: JSON, XML or CSV</label>
-        <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-outline-danger" (click)="modal.dismiss('cancel click')">{{ cancelButtonText }}</button>
-        <button type="button" class="btn btn-success" (click)="okButtonClicked()">{{ okButtonText }}</button>
-      </div>
+    </div>
+    <div class="mb-4 modal-body">
+      <label for="formFile" class="form-label">Accepted Format: JSON, XML or CSV</label>
+      <input class="form-control" type="file" id="formFile" (change)="onFileSelected($event)">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-danger"
+              (click)="modal.dismiss('cancel click')">{{ cancelButtonText }}
+      </button>
+      <button type="button" class="btn btn-success" (click)="okButtonClicked()">{{ okButtonText }}</button>
+    </div>
   `,
 })
 export class ImportModalReadingComponent {
   modal = inject(NgbActiveModal);
   @Input() cancelButtonText = "Cancel";
   @Input() okButtonText = "Ok";
-  @Input() okButtonClosure: (data: Reading[]) => void = () => {
-  };
+  @Input({required: true}) okButtonClosure!: (data: Reading[]) => void;
   selectedFile: File | null = null;
   fileContent: string | null = null;
   filedata: Reading[] = [];
@@ -95,26 +96,26 @@ export class ImportModalReadingComponent {
         const meterCount = parseFloat(meterCountStr);
         const substitute = substituteStr.toLowerCase() === 'true';
         const promise = firstValueFrom(this.customerService.findById(customerId).pipe(switchMap(customer => {
-            return of({
-              id,
-              customer,
-              dateOfReading,
-              meterId,
-              meterCount,
-              kindOfMeter,
-              comment,
-              substitute
-            });
-          }),
+              return of({
+                id,
+                customer,
+                dateOfReading,
+                meterId,
+                meterCount,
+                kindOfMeter,
+                comment,
+                substitute
+              });
+            }),
           )
         ).then(data => {
-          if(data) {
+          if (data) {
             console.log(data);
             this.filedata.push(data);
           }
         });
         promises.push(promise);
-        }
+      }
       await Promise.all(promises);
     } catch (error) {
       console.error('Fehler beim Parsen der XML-Datei:', error);
@@ -122,7 +123,7 @@ export class ImportModalReadingComponent {
     }
   }
 
-   async parseCSV(content: string): Promise<void> {
+  async parseCSV(content: string): Promise<void> {
     try {
       const lines = content.split("\n");
       const headers = lines[0].split(",");

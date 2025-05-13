@@ -6,22 +6,22 @@ import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {ComboBoxComponent} from '../../../components/combo-box/combo-box.component';
 import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
 import {InputComponent} from '../../../components/input/input.component';
 import {SelectComponent} from '../../../components/select/select.component';
 import {isDate} from '../../../validators/IsDate';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-readings-create',
   imports: [
     ReactiveFormsModule,
     ComboBoxComponent,
-    CustomButtonComponent,
     DatePickerComponent,
     InputComponent,
-    SelectComponent
+    SelectComponent,
+    CustomButtonComponent
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
@@ -63,7 +63,7 @@ export class ReadingCreateComponent implements OnInit {
         this.readingForm.controls.meterId.setValue(this.activatedRoute.snapshot.queryParams['meterId'] ?? '');
         this.readingForm.controls.kindOfMeter.setValue(this.activatedRoute.snapshot.queryParams['kindOfMeter'] ?? 'HEIZUNG');
         this.readingForm.controls.substitute.setValue(this.activatedRoute.snapshot.queryParams['substitute'] ?? false);
-        this.readingForm.controls.dateOfReading.setValue(new Date(Date.parse(this.activatedRoute.snapshot.queryParams['dateOfReading'])) ?? null);
+        this.readingForm.controls.dateOfReading.setValue(new Date(Date.parse(this.activatedRoute.snapshot.queryParams['dateOfReading'])));
 
         this.customer = this.customers.find(customer => customer.id === customerId);
       });

@@ -6,19 +6,19 @@ import {CustomerService} from '../../../services/customer.service';
 import {NgbDateAdapter, NgbDateNativeAdapter} from '@ng-bootstrap/ng-bootstrap';
 import {isDateOrNull} from '../../../validators/IsDateOrNull';
 import {Customer} from '../../../types/customer';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {InputComponent} from '../../../components/input/input.component';
 import {SelectComponent} from '../../../components/select/select.component';
 import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-edit',
   imports: [
     ReactiveFormsModule,
-    CustomButtonComponent,
     InputComponent,
     SelectComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    CustomButtonComponent
   ],
   providers: [
     {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter},
@@ -52,8 +52,8 @@ export class CustomerEditComponent {
       });
   }
 
-  genders(): {value: string, label: string}[] {
-    let result: {value: string, label: string}[] = [];
+  genders(): { value: string, label: string }[] {
+    const result: { value: string, label: string }[] = [];
 
     Object.keys(Gender).forEach(key => result.push({value: key, label: ''}));
     Object.values(Gender).forEach((value, index) => result[index].label = value);

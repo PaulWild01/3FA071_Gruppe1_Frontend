@@ -1,7 +1,6 @@
 import {ReadingService} from '../../../services/reading.service';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {NgIcon} from '@ng-icons/core';
 import {Reading} from '../../../types/reading';
@@ -10,18 +9,19 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ImportModalReadingComponent} from '../../../components/confirmation-modal/import-modal-reading';
 import {ExportModalReadingComponent} from '../../../components/confirmation-modal/export-modal-reading';
 import {Column} from '../../../types/column';
-import {ConfigureColumnModal} from '../../../components/confirmation-modal/configure-column-modal';
+import {ConfigureColumnModalComponent} from '../../../components/confirmation-modal/configure-column-modal.component';
 import {Component, OnInit} from '@angular/core';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-index',
   imports: [
     NgForOf,
-    CustomButtonComponent,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-    NgIcon
+    NgIcon,
+    CustomButtonComponent
   ],
   templateUrl: './readings-index.component.html',
   styles: `
@@ -199,7 +199,7 @@ export class ReadingsIndexComponent implements OnInit {
 
 
   private loadReadings(): void {
-    this.readingservice.all().subscribe(readings => {
+    this.readingService.all().subscribe(readings => {
       this.readings = readings.filter(readings => {
         return (!this.kindOfMeterFilter || readings.kindOfMeter === this.kindOfMeterFilter)
           && (!this.query || this.searchQuery(readings))
@@ -237,9 +237,9 @@ export class ReadingsIndexComponent implements OnInit {
   }
 
   public showConfigureColumnsModal() {
-    const modal = this.modalService.open(ConfigureColumnModal);
+    const modal = this.modalService.open(ConfigureColumnModalComponent);
     modal.componentInstance.columns = this.columns;
-    modal.componentInstance.okButtonClosure((columns: Column<Reading>[]) => this.columns = columns);
+    modal.componentInstance.okButtonClosure = (columns: Column<Reading>[]) => this.columns = columns;
   }
 
   private searchQuery(readings: Reading): boolean {
@@ -263,7 +263,7 @@ export class ReadingsIndexComponent implements OnInit {
   private processData(data: Reading[]) {
     data.forEach((record, index) => {
       const dateOfReading = new Date(record.dateOfReading ?? '');
-      this.readingservice.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
+      this.readingService.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
         next: () => {
           if (index === data.length - 1) {
             this.applyFilters();
@@ -281,9 +281,10 @@ export class ReadingsIndexComponent implements OnInit {
     modalRef.componentInstance.readings = this.readings;
   }
 
-  constructor(private readingservice: ReadingService,
-              public router: Router,
-              private route: ActivatedRoute,
-              private modalService: NgbModal) {
+  constructor(
+    private readingService: ReadingService,
+    public router: Router,
+    private route: ActivatedRoute,
+    private modalService: NgbModal) {
   }
 }

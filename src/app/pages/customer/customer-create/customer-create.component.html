@@ -4,28 +4,28 @@
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Create new Customer</h1>
         <div class="btn-group">
-          <custom-button label="Cancel" (click)="back()" color="danger" icon="x-lg"/>
-          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
+          <app-custom-button label="Cancel" (click)="back()" color="danger" icon="x-lg"/>
+          <app-custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
         </div>
       </div>
       <div class="card-body">
 
         <div class="mb-3 row">
           <div class="col-6">
-            <app-input name="firstName" label="First Name" [control]="customerForm.controls.firstName" />
+            <app-input name="firstName" label="First Name" [control]="customerForm.controls.firstName"/>
           </div>
 
           <div class="col-6">
-            <app-input name="lastName" label="Last Name" [control]="customerForm.controls.lastName" />
+            <app-input name="lastName" label="Last Name" [control]="customerForm.controls.lastName"/>
           </div>
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <app-select name="gender" label="Gender" [options]="genders()" [control]="customerForm.controls.gender" />
+            <app-select name="gender" label="Gender" [options]="genders()" [control]="customerForm.controls.gender"/>
           </div>
 
           <div class="col-6">
-            <app-date-picker name="birthdate" label="Birthdate" [control]="customerForm.controls.birthdate" />
+            <app-date-picker name="birthdate" label="Birthdate" [control]="customerForm.controls.birthdate"/>
           </div>
         </div>
       </div>

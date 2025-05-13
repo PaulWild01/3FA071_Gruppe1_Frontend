@@ -26,7 +26,7 @@ interface Item {
                [disabled]="selectedItem() !== undefined" (focusin)="inputFocused.set(true)"
                (keyup.escape)="inputFocused.set(false)">
         @if (selectedItem()) {
-          <custom-button (click)="onReset()" color="danger" icon="x-circle"/>
+          <app-custom-button (click)="onReset()" color="danger" icon="x-circle"/>
         }
         <ng-content/>
       </div>

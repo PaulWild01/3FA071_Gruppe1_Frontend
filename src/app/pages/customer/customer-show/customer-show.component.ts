@@ -1,20 +1,20 @@
 import {Component} from '@angular/core';
-import {FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {ConfirmationModalComponent} from '../../../components/confirmation-modal/confirmation-modal.component';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {InputComponent} from '../../../components/input/input.component';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-show',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    CustomButtonComponent,
     InputComponent,
+    CustomButtonComponent,
   ],
   templateUrl: './customer-show.component.html',
 })
@@ -49,7 +49,7 @@ export class CustomerShowComponent {
   }
 
   createReading() {
-    this.router.navigate(['readings', 'create'], { queryParams: {customer: this.customer?.id}}).then();
+    this.router.navigate(['readings', 'create'], {queryParams: {customer: this.customer?.id}}).then();
   }
 
   delete() {

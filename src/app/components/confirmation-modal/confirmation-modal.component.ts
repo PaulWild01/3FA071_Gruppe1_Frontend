@@ -23,7 +23,7 @@ export class ConfirmationModalComponent {
   @Input() body!: string;
   @Input() cancelButtonText = "Cancel";
   @Input() okButtonText = "Ok";
-  @Input() okButtonClosure: () => void = () => {};
+  @Input({ required: true }) okButtonClosure!: () => void;
 
   okButtonClicked() {
     this.okButtonClosure();

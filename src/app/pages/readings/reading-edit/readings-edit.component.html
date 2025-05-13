@@ -4,8 +4,8 @@
       <div class="card-header justify-content-between align-items-center d-flex">
         <h1>Edit Reading</h1>
         <div class="btn-group">
-          <custom-button label="Cancel" [link]="['/readings', reading?.id ?? '']" color="danger" icon="x-lg"/>
-          <custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
+          <app-custom-button label="Cancel" [link]="['/readings', reading?.id ?? '']" color="danger" icon="x-lg"/>
+          <app-custom-button label="Save" (click)="submit()" color="success" icon="floppy"/>
         </div>
       </div>
       <div class="card-body">
@@ -16,17 +16,13 @@
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-<!--            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"-->
-<!--                           [items]="customers" [filter]="filter"-->
-<!--                           [preSelectedItem]=" customerLabel && customer ? {label: customerLabel, value: customer.id} : undefined"/>-->
-
             <app-combo-box
               [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined"
               name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers"
               [filter]="filter">
               @if (readingForm.controls.customer.value === '') {
-                <custom-button icon="plus-circle" label="Create and add Customer" color="primary"
-                               (click)="navigateToCreateCustomer()"/>
+                <app-custom-button icon="plus-circle" label="Create and add Customer" color="primary"
+                                   (click)="navigateToCreateCustomer()"/>
               }
             </app-combo-box>
           </div>

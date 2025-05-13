@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {NgbTooltip} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: 'custom-button',
+  selector: 'app-custom-button',
   imports: [
     NgIcon,
     NgIf,

@@ -4,16 +4,16 @@
       <h1>Readings</h1>
       <div class="d-flex gap-3">
         <div class="btn-group">
-          <custom-button class="btn btn-secondary" (click)="storeImport()" label="Import File"
+          <app-custom-button class="btn btn-secondary" (click)="storeImport()" label="Import File"
                          icon="Cloud arrow up fill"/>
-          <custom-button class="btn btn-secondary" (click)="openExportMenu()" label="Export File"
+          <app-custom-button class="btn btn-secondary" (click)="openExportMenu()" label="Export File"
                          icon="Cloud arrow down fill"/>
         </div>
-        <custom-button (click)="showConfigureColumnsModal()" label="Configure Columns"
+        <app-custom-button (click)="showConfigureColumnsModal()" label="Configure Columns"
                        icon="layout-three-columns" color="info"/>
-        <custom-button (click)="showFilters = !showFilters" [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
+        <app-custom-button (click)="showFilters = !showFilters" [label]="showFilters ? 'Hide Filters' : 'Show Filters'"
                        [icon]="showFilters ? 'eye-slash' : 'eye'" color="warning"/>
-        <custom-button [link]="['/readings/create']" label="Create Reading" icon="plus-lg"/>
+        <app-custom-button [link]="['/readings/create']" label="Create Reading" icon="plus-lg"/>
       </div>
     </div>
     <div class="card-body table-responsive">
@@ -38,7 +38,7 @@
           </select>
         </div>
         <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
-          <custom-button (click)="clearFilters()" label="Clear Filter" color="danger"/>
+          <app-custom-button (click)="clearFilters()" label="Clear Filter" color="danger"/>
         </div>
       </div>
       <table class="table table-striped table-hover">

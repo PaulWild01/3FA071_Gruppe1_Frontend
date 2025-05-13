@@ -3,21 +3,20 @@ import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular
 import {ActivatedRoute, Router} from '@angular/router';
 import {Reading} from '../../../types/reading';
 import {ReadingService} from '../../../services/reading.service';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {Customer} from '../../../types/customer';
 import {InputComponent} from '../../../components/input/input.component';
 import {ConfirmationModalComponent} from '../../../components/confirmation-modal/confirmation-modal.component';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {SelectComponent} from '../../../components/select/select.component';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-readings-show',
   imports: [
     FormsModule,
     ReactiveFormsModule,
-    CustomButtonComponent,
     InputComponent,
-    SelectComponent,
+    CustomButtonComponent,
+
   ],
   templateUrl: './readings-show.component.html',
 })

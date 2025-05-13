@@ -3,25 +3,25 @@ import {CustomerService} from '../../../services/customer.service';
 import {Customer} from '../../../types/customer';
 import {NgForOf, NgIf} from '@angular/common';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {Gender} from '../../../enums/gender';
 import {NgIcon} from '@ng-icons/core';
 import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ConfigureColumnModal} from "../../../components/confirmation-modal/configure-column-modal";
+import {ConfigureColumnModalComponent} from "../../../components/confirmation-modal/configure-column-modal.component";
 import {Column} from "../../../types/column";
 import {ImportModalCustomerComponent} from '../../../components/confirmation-modal/import-modal-customer';
 import {ExportModalCustomerComponent} from '../../../components/confirmation-modal/export-modal-customer';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-customer-index',
   imports: [
     NgForOf,
-    CustomButtonComponent,
     FormsModule,
     ReactiveFormsModule,
     NgIf,
-    NgIcon
+    NgIcon,
+    CustomButtonComponent
   ],
   templateUrl: './customer-index.component.html',
   styles: `
@@ -183,9 +183,9 @@ export class CustomerIndexComponent implements OnInit {
   }
 
   public showConfigureColumnsModal() {
-    const modal = this.modalService.open(ConfigureColumnModal);
+    const modal = this.modalService.open(ConfigureColumnModalComponent);
     modal.componentInstance.columns = this.columns;
-    modal.componentInstance.okButtonClosure((columns: Column<Customer>[]) => this.columns = columns);
+    modal.componentInstance.okButtonClosure = (columns: Column<Customer>[]) => this.columns = columns;
   }
 
   private filterCustomer(customer: Customer): boolean {

@@ -26,7 +26,7 @@ export class ImportModalCustomerComponent {
   modal = inject(NgbActiveModal);
   @Input() cancelButtonText = "Cancel";
   @Input() okButtonText = "Ok";
-  @Input() okButtonClosure: (data: Customer[]) => void = () => {};
+  @Input({ required: true }) okButtonClosure!: (data: Customer[]) => void;
   selectedFile: File | null = null;
   fileContent: string | null = null;
   filedata: Customer[] = [];

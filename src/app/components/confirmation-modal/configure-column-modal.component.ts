@@ -28,13 +28,15 @@ import {FormsModule} from '@angular/forms';
     </div>
   `,
 })
-export class ConfigureColumnModal<T> {
+export class ConfigureColumnModalComponent<T> {
   modal = inject(NgbActiveModal);
   @Input() columns: Column<T>[] = [];
-  @Input() okButtonClosure: (columns: Column<T>[]) => void = () => {};
+  @Input({ required: true }) okButtonClosure?: (columns: Column<T>[]) => void;
 
   okButtonClicked() {
-    this.okButtonClosure(this.columns);
+    if (this.okButtonClosure) {
+      this.okButtonClosure(this.columns);
+    }
     this.modal.close('Ok click')
   }
 }

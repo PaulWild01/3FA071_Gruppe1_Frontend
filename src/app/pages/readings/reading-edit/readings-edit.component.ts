@@ -8,23 +8,23 @@ import {Reading} from '../../../types/reading';
 import {isDateOrNull} from '../../../validators/IsDateOrNull';
 import {KindOfMeter} from '../../../enums/kind-of-meter';
 import {ReadingService} from '../../../services/reading.service';
-import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 import {InputComponent} from '../../../components/input/input.component';
 import {DatePickerComponent} from '../../../components/date-picker/date-picker.component';
 import {SelectComponent} from '../../../components/select/select.component';
 import {Customer} from '../../../types/customer';
 import {ComboBoxComponent} from '../../../components/combo-box/combo-box.component';
 import {CustomerService} from '../../../services/customer.service';
+import {CustomButtonComponent} from '../../../components/custom-button/custom-button.component';
 
 @Component({
   selector: 'app-readings-edit',
   imports: [
     ReactiveFormsModule,
-    CustomButtonComponent,
     InputComponent,
     DatePickerComponent,
     SelectComponent,
-    ComboBoxComponent
+    ComboBoxComponent,
+    CustomButtonComponent
   ],
   providers: [provideIcons({bootstrapCalendar3}), {provide: NgbDateAdapter, useClass: NgbDateNativeAdapter}],
   templateUrl: './readings-edit.component.html',
@@ -58,7 +58,7 @@ export class ReadingEditComponent implements OnInit {
 
         const id: string = this.reading?.id ?? '';
         const customerId: string = this.route.snapshot.queryParams['customer'] ?? this.reading?.customer?.id ?? '';
-        const dateOfReading: Date | null = new Date(Date.parse(this.route.snapshot.queryParams['dateOfReading'] ?? reading?.dateOfReading ?? '')) ?? null;
+        const dateOfReading: Date | null = new Date(Date.parse(this.route.snapshot.queryParams['dateOfReading'] ?? reading?.dateOfReading ?? ''));
         const meterId: string = this.route.snapshot.queryParams['meterId'] ?? this.reading?.meterId ?? '';
         const meterCount: number = this.route.snapshot.queryParams['meterCount'] ?? this.reading?.meterCount ?? 0;
         const kindOfMeter: KindOfMeter = this.route.snapshot.queryParams['kindOfMeter'] ?? this.reading?.kindOfMeter ?? 'Heizung';
