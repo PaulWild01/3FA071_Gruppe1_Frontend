@@ -33,7 +33,7 @@ export class ReadingCreateComponent implements OnInit {
     customer: new FormControl('', Validators.required),
     dateOfReading: new FormControl<Date | null>(null, isDate),
     meterId: new FormControl('', Validators.required),
-    meterCount: new FormControl('', Validators.required),
+    meterCount: new FormControl(0, Validators.required),
     kindOfMeter: new FormControl('HEIZUNG'),
     comment: new FormControl(''),
     substitute: new FormControl<boolean>(false),
@@ -59,7 +59,7 @@ export class ReadingCreateComponent implements OnInit {
         const customerId = this.activatedRoute.snapshot.queryParams['customer'] ?? '';
         this.readingForm.controls.customer.setValue(customerId);
         this.readingForm.controls.comment.setValue(this.activatedRoute.snapshot.queryParams['comment'] ?? '');
-        this.readingForm.controls.meterCount.setValue(this.activatedRoute.snapshot.queryParams['meterCount'] ?? '');
+        this.readingForm.controls.meterCount.setValue(this.activatedRoute.snapshot.queryParams['meterCount'] ?? 0);
         this.readingForm.controls.meterId.setValue(this.activatedRoute.snapshot.queryParams['meterId'] ?? '');
         this.readingForm.controls.kindOfMeter.setValue(this.activatedRoute.snapshot.queryParams['kindOfMeter'] ?? 'HEIZUNG');
         this.readingForm.controls.substitute.setValue(this.activatedRoute.snapshot.queryParams['substitute'] ?? false);
@@ -90,7 +90,7 @@ export class ReadingCreateComponent implements OnInit {
       customer,
       dateOfReading,
       this.readingForm.value.meterId ?? '',
-      parseFloat(this.readingForm.value.meterCount ?? ''),
+      this.readingForm.value.meterCount ?? 0,
       this.toKindOfMeter(this.readingForm.value.kindOfMeter ?? ''),
       this.readingForm.value.comment ?? '',
       this.readingForm.value.substitute ?? false,
@@ -117,15 +117,14 @@ export class ReadingCreateComponent implements OnInit {
   navigateToCreateCustomer() {
     const dateOfReading = this.readingForm.controls.dateOfReading.valid ? this.readingForm.controls.dateOfReading.value?.toISOString() ?? null : null;
     const meterId = this.readingForm.controls.meterId.value !== '' ? this.readingForm.controls.meterId.value : null;
-    const meterCount = this.readingForm.controls.meterCount.value !== '' ? this.readingForm.controls.meterCount.value : null;
     const comment = this.readingForm.controls.comment.value !== '' ? this.readingForm.controls.comment.value : null;
 
     this.router.navigate(['customers', 'create'], {
       queryParams: {
-        returnToCreateReading: true,
+        returnTo: 'create',
         dateOfReading,
         meterId,
-        meterCount,
+        meterCount: this.readingForm.controls.meterCount.value,
         kindOfMeter: this.readingForm.controls.kindOfMeter.value,
         comment,
         substitute: this.readingForm.controls.substitute.value,

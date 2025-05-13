@@ -60,8 +60,8 @@ export class CustomerCreateComponent {
       let commands = ['customers', customer.id];
       let queryParams = {};
 
-      if (this.snapshot.queryParams['returnToCreateReading']) {
-        commands = ['readings', 'create'];
+      const returnTo = this.snapshot.queryParams['returnTo'];
+      if (returnTo) {
         queryParams = {
           customer: customer.id,
           dateOfReading: this.snapshot.queryParams['dateOfReading'],
@@ -71,6 +71,8 @@ export class CustomerCreateComponent {
           comment: this.snapshot.queryParams['comment'],
           substitute: this.snapshot.queryParams['substitute'],
         };
+
+        commands = returnTo === 'create' ? ['readings', 'create'] : ['readings', returnTo, 'edit'];
       }
 
       this.router.navigate(commands, {queryParams}).then();
@@ -81,8 +83,8 @@ export class CustomerCreateComponent {
     let commands = ['customers'];
     let queryParams = {};
 
-    if (this.snapshot.queryParams['returnToCreateReading']) {
-      commands = ['readings', 'create'];
+    const returnTo = this.snapshot.queryParams['returnTo'];
+    if (returnTo) {
       queryParams = {
         dateOfReading: this.snapshot.queryParams['dateOfReading'],
         meterId: this.snapshot.queryParams['meterId'],
@@ -90,7 +92,9 @@ export class CustomerCreateComponent {
         kindOfMeter: this.snapshot.queryParams['kindOfMeter'],
         comment: this.snapshot.queryParams['comment'],
         substitute: this.snapshot.queryParams['substitute'],
-      }
+      };
+
+      commands = returnTo === 'create' ? ['readings', 'create'] : ['readings', returnTo, 'edit'];
     }
 
     this.router.navigate(commands, {queryParams}).then();

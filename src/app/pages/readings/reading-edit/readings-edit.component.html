@@ -16,9 +16,19 @@
         </div>
         <div class="mb-3 row">
           <div class="col-6">
-            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"
-                           [items]="customers" [filter]="filter"
-                           [preSelectedItem]=" customerLabel && customer ? {label: customerLabel, value: customer.id} : undefined"/>
+<!--            <app-combo-box name="customer" label="Customer" [control]="readingForm.controls.customer"-->
+<!--                           [items]="customers" [filter]="filter"-->
+<!--                           [preSelectedItem]=" customerLabel && customer ? {label: customerLabel, value: customer.id} : undefined"/>-->
+
+            <app-combo-box
+              [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined"
+              name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers"
+              [filter]="filter">
+              @if (readingForm.controls.customer.value === '') {
+                <custom-button icon="plus-circle" label="Create and add Customer" color="primary"
+                               (click)="navigateToCreateCustomer()"/>
+              }
+            </app-combo-box>
           </div>
           <div class="col-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"

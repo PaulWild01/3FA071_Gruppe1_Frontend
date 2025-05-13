@@ -55,21 +55,29 @@ export class ReadingEditComponent implements OnInit {
     this.readingService.findById(this.route.snapshot.params['id'])
       .subscribe(reading => {
         this.reading = reading
-        this.customer = reading.customer;
-        this.customerLabel = reading.customer ? `${reading.customer.firstName} ${reading.customer.lastName}` : '';
 
-        const dateOfReading: Date | null = reading.dateOfReading ? new Date(reading.dateOfReading) : null;
+        const id: string = this.reading?.id ?? '';
+        const customerId: string = this.route.snapshot.queryParams['customer'] ?? this.reading?.customer?.id ?? '';
+        const dateOfReading: Date | null = new Date(Date.parse(this.route.snapshot.queryParams['dateOfReading'] ?? reading?.dateOfReading ?? '')) ?? null;
+        const meterId: string = this.route.snapshot.queryParams['meterId'] ?? this.reading?.meterId ?? '';
+        const meterCount: number = this.route.snapshot.queryParams['meterCount'] ?? this.reading?.meterCount ?? 0;
+        const kindOfMeter: KindOfMeter = this.route.snapshot.queryParams['kindOfMeter'] ?? this.reading?.kindOfMeter ?? 'Heizung';
+        const comment: string = this.route.snapshot.queryParams['comment'] ?? this.reading?.comment ?? '';
+        const substitute: boolean = this.route.snapshot.queryParams['substitute'] ?? this.reading?.substitute ?? false;
 
-        this.readingForm.controls.id?.setValue(reading.id);
-        this.readingForm.controls.customer?.setValue(reading.customer?.id ?? '');
-        this.readingForm.controls.dateOfReading?.setValue(dateOfReading);
-        this.readingForm.controls.meterId?.setValue(reading.meterId);
-        this.readingForm.controls.meterCount?.setValue(reading.meterCount)
-        this.readingForm.controls.kindOfMeter?.setValue(reading.kindOfMeter);
-        this.readingForm.controls.comment?.setValue(reading.comment);
-        this.readingForm.controls.substitute?.setValue(reading.substitute);
+        this.readingForm.controls.id.setValue(id);
+        this.readingForm.controls.customer.setValue(customerId);
+        this.readingForm.controls.dateOfReading.setValue(dateOfReading);
+        this.readingForm.controls.meterId.setValue(meterId);
+        this.readingForm.controls.meterCount.setValue(meterCount);
+        this.readingForm.controls.kindOfMeter.setValue(kindOfMeter);
+        this.readingForm.controls.comment.setValue(comment);
+        this.readingForm.controls.substitute.setValue(substitute);
 
-        this.readingForm.controls.dateOfReading?.updateValueAndValidity();
+        this.customerService.findById(customerId).subscribe(customer => {
+          this.customer = customer;
+          this.customerLabel = reading.customer ? `${reading.customer.firstName} ${reading.customer.lastName}` : '';
+        });
       });
   }
 
@@ -90,6 +98,24 @@ export class ReadingEditComponent implements OnInit {
     Object.values(KindOfMeter).forEach((value, index) => result[index].label = value);
 
     return result;
+  }
+
+  navigateToCreateCustomer() {
+    const dateOfReading = this.readingForm.controls.dateOfReading.valid ? this.readingForm.controls.dateOfReading.value?.toISOString() ?? null : null;
+    const meterId = this.readingForm.controls.meterId.value !== '' ? this.readingForm.controls.meterId.value : null;
+    const comment = this.readingForm.controls.comment.value !== '' ? this.readingForm.controls.comment.value : null;
+
+    this.router.navigate(['customers', 'create'], {
+      queryParams: {
+        returnTo: this.reading?.id ?? '',
+        dateOfReading,
+        meterId,
+        meterCount: this.readingForm.controls.meterCount.value,
+        kindOfMeter: this.readingForm.controls.kindOfMeter.value,
+        comment,
+        substitute: this.readingForm.controls.substitute.value,
+      }
+    }).then();
   }
 
   submit() {
