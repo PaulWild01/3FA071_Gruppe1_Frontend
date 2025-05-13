@@ -52,7 +52,7 @@
                 <span>{{ column.displayName ?? column.name }}</span>
                 <ng-icon *ngIf="orderBy === column.name"
                          [name]="orderDirection === 'desc' ? 'bootstrapCaretDownFill' : 'bootstrapCaretUpFill'"/>
-                <ng-icon *ngIf="orderBy !== column.name" name=""/>
+                <ng-icon *ngIf="orderBy !== column.name" name="bootstrapSquareFill" style="opacity: 0"/>
               </button>
             </th>
           </ng-container>
