@@ -35,6 +35,7 @@ export class CustomerIndexComponent implements OnInit {
   public showFilters = false;
   public query?: string;
   public genderFilter?: Gender;
+  public hasBirthdateFilter?: string;
   public orderBy?: string;
   public orderDirection?: string;
 
@@ -86,6 +87,11 @@ export class CustomerIndexComponent implements OnInit {
     }
     const gender = this.genderFilter ? this.genderFilter!.toUpperCase() : null;
 
+    if (this.hasBirthdateFilter?.toUpperCase() === 'UNDEFINED') {
+      this.hasBirthdateFilter = undefined;
+    }
+    const hasBirthdate = this.hasBirthdateFilter ? this.hasBirthdateFilter!.toLowerCase() : null;
+
     if (this.query === '') {
       this.query = undefined;
     }
@@ -99,7 +105,7 @@ export class CustomerIndexComponent implements OnInit {
       [],
       {
         relativeTo: this.route,
-        queryParams: {q: query, gender: gender, orderBy: orderBy, desc: desc},
+        queryParams: {query, gender, hasBirthdate, orderBy, desc},
         queryParamsHandling: 'merge'
       }
     ).then();
@@ -114,6 +120,7 @@ export class CustomerIndexComponent implements OnInit {
   public clearFilters(): void {
     this.query = undefined;
     this.genderFilter = undefined;
+    this.hasBirthdateFilter = undefined;
     this.updateQueryParams();
     this.loadCustomers();
   }
@@ -145,12 +152,16 @@ export class CustomerIndexComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.query = this.route.snapshot.queryParams['q'];
+    this.query = this.route.snapshot.queryParams['query'];
 
     const gender: string | undefined = this.route.snapshot.queryParams['gender'];
-    console.log(gender)
     this.genderFilter = gender ? Gender[gender.toUpperCase() as keyof typeof Gender] : undefined;
-    console.log(this.genderFilter)
+
+    const hasBirthdate: string | undefined = this.route.snapshot.queryParams['hasBirthdate'];
+    this.hasBirthdateFilter = hasBirthdate === undefined ? undefined : hasBirthdate === 'true' ? 'true' : 'false';
+    if (this.hasBirthdateFilter !== undefined || this.hasBirthdateFilter !== 'true' || this.hasBirthdateFilter !== 'false') {
+      this.hasBirthdateFilter = undefined;
+    }
 
     this.orderBy = this.route.snapshot.queryParams['orderBy'];
     this.orderDirection = this.route.snapshot.queryParams['desc'] === 'true' ? 'desc' : 'asc';
@@ -178,7 +189,13 @@ export class CustomerIndexComponent implements OnInit {
   }
 
   private filterCustomer(customer: Customer): boolean {
-    return (!this.genderFilter || customer.gender === this.genderFilter) && (!this.query || this.searchQuery(customer))
+    return (!this.genderFilter || customer.gender === this.genderFilter) &&
+      (
+        this.hasBirthdateFilter === undefined ||
+        (this.hasBirthdateFilter === 'true' && customer.birthDate !== null) ||
+        (this.hasBirthdateFilter === 'false' && customer.birthDate === null)
+      ) &&
+      (!this.query || this.searchQuery(customer));
   }
 
   private sortCustomer(a: Customer, b: Customer): number {
@@ -223,39 +240,39 @@ export class CustomerIndexComponent implements OnInit {
       (customer.birthDate?.includes(this.query ?? '') ?? false);
   }
 
-    public storeImport() {
-      const modal = this.modalService.open(ImportModalCustomerComponent);
-      modal.componentInstance.okButtonClosure = (data: Customer[]) => {
-        this.processData(data);
-        };
-    }
+  public storeImport() {
+    const modal = this.modalService.open(ImportModalCustomerComponent);
+    modal.componentInstance.okButtonClosure = (data: Customer[]) => {
+      this.processData(data);
+    };
+  }
 
-    private processData(data: Customer[]) {
-      data.forEach((record, index) => {
-        const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
-        this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
-          next: () => {
-            if (index === data.length - 1) {
-              this.router.navigate(['/customers']).then();
-            }
-          },
-            error: (error) => {
-            console.error(error);
-          },
-        });
+  private processData(data: Customer[]) {
+    data.forEach((record, index) => {
+      const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
+      this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
+        next: () => {
+          if (index === data.length - 1) {
+            this.router.navigate(['/customers']).then();
+          }
+        },
+        error: (error) => {
+          console.error(error);
+        },
       });
-    }
+    });
+  }
 
-    public openExportMenu() {
-      const modalRef = this.modalService.open(ExportModalCustomerComponent);
-      modalRef.componentInstance.customers = this.customers;
-    }
+  public openExportMenu() {
+    const modalRef = this.modalService.open(ExportModalCustomerComponent);
+    modalRef.componentInstance.customers = this.customers;
+  }
 
-    constructor(
-        private customerService: CustomerService,
-        public router: Router,
-        private route: ActivatedRoute,
-        private modalService: NgbModal
-    ) {
-    }
+  constructor(
+    private customerService: CustomerService,
+    public router: Router,
+    private route: ActivatedRoute,
+    private modalService: NgbModal
+  ) {
+  }
 }

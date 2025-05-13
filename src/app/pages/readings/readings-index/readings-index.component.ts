@@ -130,7 +130,7 @@ export class ReadingsIndexComponent implements OnInit {
       [],
       {
         relativeTo: this.route,
-        queryParams: {q: query, kindOfMeter: kindOfMeter, substitute: substitute, orderBy: orderBy, desc: desc},
+        queryParams: {query, kindOfMeter, substitute, orderBy, desc},
         queryParamsHandling: 'merge'
       }
     ).then();
@@ -178,7 +178,7 @@ export class ReadingsIndexComponent implements OnInit {
 
   ngOnInit() {
     this.route.queryParamMap.subscribe(params => {
-      this.query = params.get('q') ?? '';
+      this.query = params.get('query') ?? '';
 
       const kindOfMeter = params.get('kindOfMeter');
       this.kindOfMeterFilter = kindOfMeter ? KindOfMeter[kindOfMeter.toUpperCase() as keyof typeof KindOfMeter] : undefined;

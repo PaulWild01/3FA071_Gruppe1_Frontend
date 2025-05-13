@@ -19,17 +19,27 @@
     </div>
     <div class="card-body table-responsive">
       <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
-        <div class="col-8">
+        <div class="col-6">
           <label for="search" class="form-label">Search:</label>
           <input [(ngModel)]="query" (ngModelChange)="applyFilters()" type="text" class="form-control" id="search">
         </div>
+
         <div class="col-2">
           <label for="gender-filter" class="form-label">Gender</label>
           <select [(ngModel)]="genderFilter" (ngModelChange)="applyFilters()" id="gender-filter" class="form-select">
-            <option [value]="undefined"> All</option>
+            <option [value]="undefined">All</option>
             @for (gender of genders(); track gender) {
               <option value="{{ gender }}">{{ gender }}</option>
             }
+          </select>
+        </div>
+
+        <div class="col-2">
+          <label for="gender-filter" class="form-label">Has Birthdate</label>
+          <select [(ngModel)]="hasBirthdateFilter" (ngModelChange)="applyFilters()" id="gender-filter" class="form-select">
+            <option [value]="undefined">All</option>
+            <option [value]="true">Yes</option>
+            <option [value]="false">No</option>
           </select>
         </div>
 
