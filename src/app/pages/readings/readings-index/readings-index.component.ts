@@ -266,7 +266,7 @@ export class ReadingsIndexComponent implements OnInit {
       this.readingservice.store(record.customer, dateOfReading, record.meterId, parseFloat(record.meterCount.toString()), record.kindOfMeter, record.comment, record.substitute).subscribe({
         next: () => {
           if (index === data.length - 1) {
-            this.router.navigate(['/readings']).then();
+            this.applyFilters();
           }
         },
         error: (error) => {

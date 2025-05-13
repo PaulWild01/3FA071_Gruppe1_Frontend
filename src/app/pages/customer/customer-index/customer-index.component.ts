@@ -250,16 +250,15 @@ export class CustomerIndexComponent implements OnInit {
   private processData(data: Customer[]) {
     data.forEach((record, index) => {
       const birthDate = record.birthDate ? new Date(record.birthDate) : undefined;
-      this.customerService.store(record.firstName, record.lastName, record.gender, birthDate).subscribe({
-        next: () => {
-          if (index === data.length - 1) {
-            this.router.navigate(['/customers']).then();
-          }
-        },
-        error: (error) => {
-          console.error(error);
-        },
-      });
+      this.customerService.store(record.firstName, record.lastName, record.gender, birthDate)
+        .subscribe({
+          next: () => {
+            if (index === data.length - 1) {
+              this.applyFilters();
+            }
+          },
+          error: error => console.error(error),
+        });
     });
   }
 
