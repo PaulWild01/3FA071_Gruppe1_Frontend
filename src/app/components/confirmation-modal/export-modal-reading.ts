@@ -62,7 +62,8 @@ export class ExportModalReadingComponent {
       xml += '  </reading>\n';
     }
     xml += '</readings>';
-    this.downloadFile(xml, 'application/xml', 'readings.xml')
+    this.downloadFile(xml, 'application/xml', 'readings.xml');
+    this.modal.close('Export click');
   }
 
   exportAsCSV() {
@@ -82,11 +83,12 @@ export class ExportModalReadingComponent {
         reading.comment,
         reading.substitute,
       ]
-        .map(value => `"${value.toString().replace(/"/g, '""')}"`)
+        .map(value => `"${(value ?? '').toString().replace(/"/g, '""')}"`)
         .join(',')
     );
     const data = [headers.join(','), ...rows].join('\n');
     this.downloadFile(data, 'application/csv', 'reading.csv');
+    this.modal.close('Export click');
   }
 
   private downloadFile(data: string, type: string, filename: string) {

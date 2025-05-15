@@ -50,6 +50,7 @@ export class ExportModalCustomerComponent {
     }
     xml += '</customers>';
     this.downloadFile(xml, 'application/xml', 'customer.xml');
+    this.modal.close('Export click');
   }
 
   exportAsCSV() {
@@ -64,6 +65,7 @@ export class ExportModalCustomerComponent {
     );
     const data = [headers.join(','), ...rows].join('\n');
     this.downloadFile(data, 'application/csv', 'customer.csv');
+    this.modal.close('Export click');
   }
 
   private downloadFile(data: string, type: string, filename: string) {
