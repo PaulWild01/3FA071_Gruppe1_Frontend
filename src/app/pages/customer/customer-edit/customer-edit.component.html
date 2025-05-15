@@ -17,20 +17,20 @@
         </div>
 
         <div class="mb-3 row">
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-input name="firstName" label="First Name" [control]="customerForm.controls.firstName"/>
           </div>
 
-          <div class="col-6">
+          <div class="col-12 col-sm-6">
             <app-input name="lastName" label="Last Name" [control]="customerForm.controls.lastName"/>
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-select name="gender" label="Gender" [options]="genders()" [control]="customerForm.controls.gender"/>
           </div>
 
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-date-picker name="birthdate" label="Birthdate" [control]="customerForm.controls.birthdate"/>
           </div>
         </div>

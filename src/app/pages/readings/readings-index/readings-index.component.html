@@ -1,6 +1,6 @@
 <div class="container">
   <div class="card mt-5">
-    <div class="card-header justify-content-between align-items-center d-flex">
+    <div class="card-header justify-content-between align-items-center d-flex flex-column flex-sm-row">
       <h1>Readings</h1>
       <div class="d-flex gap-3">
         <div class="btn-group">
@@ -18,18 +18,18 @@
     </div>
     <div class="card-body table-responsive">
       <div *ngIf="showFilters" class="mb-3 row border-bottom pb-4">
-        <div class="col-6">
+        <div class="col-12 mb-3 col-lg-6 mb-lg-0">
           <label for="search" class="form-label">Search:</label>
           <input [(ngModel)]="query" (ngModelChange)="applyFilters()" type="text" class="form-control" id="search">
         </div>
-        <div class="col-2">
+        <div class="col-6 col-lg-2">
           <label for="kindOfMeter-filter" class="form-label">Meter Type</label>
           <select [(ngModel)]="kindOfMeterFilter" (ngModelChange)="applyFilters()" id="kindOfMeter-filter" class="form-select">
             <option selected [value]="undefined"> All</option>
             <option *ngFor="let kindOfMeter of kindOfMeter()" value="{{ kindOfMeter }}">{{ kindOfMeter }}</option>
           </select>
         </div>
-        <div class="col-2">
+        <div class="col-6 mb-4 col-lg-2 mb-lg-0">
           <label for="substitute-filter" class="form-label">Is Substitute</label>
           <select [(ngModel)]="substituteFilter" (ngModelChange)="applyFilters()" id="substitute-filter" class="form-select">
             <option [ngValue]="null">All</option>
@@ -37,7 +37,7 @@
             <option [ngValue]="false">No</option>
           </select>
         </div>
-        <div class="col-2 d-flex flex-column justify-content-end align-items-stretch">
+        <div class="col-6 col-lg-2 offset-3 offset-lg-0 d-flex flex-column justify-content-end align-items-stretch">
           <app-custom-button (click)="clearFilters()" label="Clear Filter" color="danger"/>
         </div>
       </div>

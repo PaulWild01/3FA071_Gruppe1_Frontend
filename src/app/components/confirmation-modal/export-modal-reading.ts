@@ -74,7 +74,7 @@ export class ExportModalReadingComponent {
         reading.customer.gender,
         reading.customer.firstName,
         reading.customer.lastName,
-        reading.customer.gender,
+        reading.customer.birthDate ?? '',
         reading.dateOfReading !== undefined && reading.dateOfReading !== null ? reading.dateOfReading.toString() : '00.00.0000',
         reading.meterId,
         reading.meterCount,

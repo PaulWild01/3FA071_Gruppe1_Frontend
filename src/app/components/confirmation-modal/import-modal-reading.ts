@@ -4,6 +4,8 @@ import {Reading} from '../../types/reading';
 import {KindOfMeter} from '../../enums/kind-of-meter';
 import {CustomerService} from '../../services/customer.service';
 import {firstValueFrom, of, switchMap} from 'rxjs';
+import {NgxCsvParser} from 'ngx-csv-parser';
+import {Gender} from '../../enums/gender';
 
 @Component({
   selector: 'app-confirmation-modal',
@@ -25,13 +27,14 @@ import {firstValueFrom, of, switchMap} from 'rxjs';
   `,
 })
 export class ImportModalReadingComponent {
+  csvParser = inject(NgxCsvParser);
   modal = inject(NgbActiveModal);
   @Input() cancelButtonText = "Cancel";
   @Input() okButtonText = "Ok";
   @Input({required: true}) okButtonClosure!: (data: Reading[]) => void;
   selectedFile: File | null = null;
   fileContent: string | null = null;
-  filedata: Reading[] = [];
+  fileData: Reading[] = [];
 
   async okButtonClicked() {
     if (this.fileContent && this.selectedFile) {
@@ -40,11 +43,13 @@ export class ImportModalReadingComponent {
       } else if (this.selectedFile.name.endsWith(".xml")) {
         await this.parseXML(this.fileContent);
       } else if (this.selectedFile.name.endsWith(".csv")) {
-        await this.parseCSV(this.fileContent);
+        this.parseCSV(this.fileContent);
       }
-      console.log(this.filedata)
-      if (this.filedata.length > 0) {
-        this.okButtonClosure(this.filedata);
+
+      console.log(this.fileData);
+
+      if (this.fileData.length > 0) {
+        this.okButtonClosure(this.fileData);
         this.modal.close('Ok click')
       } else {
         alert("Invalid file format.");
@@ -68,7 +73,7 @@ export class ImportModalReadingComponent {
 
   parseJSON(content: string): void {
     try {
-      this.filedata = JSON.parse(content);
+      this.fileData = JSON.parse(content);
     } catch (err) {
       console.error('Fehler beim Parsen der JSON-Datei:', err);
       alert('Invalid JSON file');
@@ -80,7 +85,7 @@ export class ImportModalReadingComponent {
       const parser = new DOMParser();
       const xmlDoc = parser.parseFromString(content, "text/xml");
       const readings = xmlDoc.getElementsByTagName("reading");
-      this.filedata = [];
+      this.fileData = [];
       const promises: Promise<void>[] = [];
 
       for (const reading of Array.from(readings)) {
@@ -111,7 +116,7 @@ export class ImportModalReadingComponent {
         ).then(data => {
           if (data) {
             console.log(data);
-            this.filedata.push(data);
+            this.fileData.push(data);
           }
         });
         promises.push(promise);
@@ -123,33 +128,33 @@ export class ImportModalReadingComponent {
     }
   }
 
-  async parseCSV(content: string): Promise<void> {
+  parseCSV(content: string): void {
+    const delimiter = content.includes(',') ? ',' : ';';
     try {
-      const lines = content.split("\n");
-      const headers = lines[0].split(",");
-      this.filedata = [];
 
-      for (let i = 1; i < lines.length; i++) {
-        const values = lines[i].split(",");
-        if (values.length === headers.length) {
-          const record: Record<string, string> = {};
-          for (let j = 0; j < headers.length; j++) {
-            record[headers[j].trim()] = values[j].trim();
-          }
-          const customerId = record['customerId'];
-          const customer = await firstValueFrom(this.customerService.findById(customerId));
+      const data: string[][] = this.csvParser.csvStringToArray(content, delimiter);
 
-          this.filedata.push({
-            id: record["id"],
-            customer: customer,
-            dateOfReading: record['dateOfReading'] || '',
-            meterId: record['meterId'],
-            meterCount: parseFloat(record['meterCount']),
-            kindOfMeter: this.toKindOfMeter(record['kindOfMeter']),
-            comment: record['comment'],
-            substitute: record['substitute'].toLowerCase() === 'true',
-          });
+      for (const [index, item] of data.entries()) {
+        if (index === 0) {
+          continue;
         }
+
+        this.fileData.push({
+          id: item[0],
+          meterCount: Number.parseFloat(item[8]),
+          kindOfMeter: this.toKindOfMeter(item[9]),
+          dateOfReading: item[6],
+          meterId: item[7],
+          comment: item[10],
+          substitute: item[11] === 'true',
+          customer: {
+            id: item[1],
+            firstName: item[3],
+            lastName: item[4],
+            birthDate: item[5],
+            gender: this.toGender(item[2]),
+          }
+        });
       }
     } catch (err) {
       console.error('Fehler beim Parsen der CSV-Datei:', err);
@@ -157,9 +162,50 @@ export class ImportModalReadingComponent {
     }
   }
 
+  // async parseCSV(content: string): Promise<void> {
+  //   try {
+  //     const lines = content.split("\n");
+  //     const headers = lines[0].split(",");
+  //     this.fileData = [];
+  //
+  //     for (let i = 1; i < lines.length; i++) {
+  //       const values = lines[i].split(",");
+  //       if (values.length === headers.length) {
+  //         const record: Record<string, string> = {};
+  //         for (let j = 0; j < headers.length; j++) {
+  //           record[headers[j].trim()] = values[j].trim();
+  //         }
+  //         const customerId = record['customerId'];
+  //         const customer = await firstValueFrom(this.customerService.findById(customerId));
+  //
+  //         this.fileData.push({
+  //           id: record["id"],
+  //           customer: customer,
+  //           dateOfReading: record['dateOfReading'] || '',
+  //           meterId: record['meterId'],
+  //           meterCount: parseFloat(record['meterCount']),
+  //           kindOfMeter: this.toKindOfMeter(record['kindOfMeter']),
+  //           comment: record['comment'],
+  //           substitute: record['substitute'].toLowerCase() === 'true',
+  //         });
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.error('Fehler beim Parsen der CSV-Datei:', err);
+  //     alert('Invalid CSV file');
+  //   }
+  // }
+
   private toKindOfMeter(value: string): KindOfMeter {
     if (Object.values(KindOfMeter).includes(value as KindOfMeter)) {
       return value as KindOfMeter;
+    }
+    throw new Error(`Ungültiger Gender-Wert: ${value}`);
+  }
+
+  private toGender(value: string): Gender {
+    if (Object.values(Gender).includes(value as Gender)) {
+      return value as Gender;
     }
     throw new Error(`Ungültiger Gender-Wert: ${value}`);
   }

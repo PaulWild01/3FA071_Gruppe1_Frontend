@@ -15,7 +15,7 @@
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-6">
+        <div class="col-12 mb-3 mb-sm-0 col-sm-6">
           <label class="form-label" for="customer">Customer</label>
           <div class="input-group">
             <input disabled class="form-control" type="text" name="customer" id="Customer"
@@ -23,23 +23,23 @@
             <app-custom-button color="primary" label="Go to Customer" icon="eye" [link]="['customers', customer?.id ?? '']"/>
           </div>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-sm-6">
           <app-input name="dateOfReading" label="Date of Reading" [control]="readingForm.controls.dateOfReading"/>
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-6">
+        <div class="col-12 mb-3 mb-sm-0 col-sm-6">
           <app-input name="meterId" label="Meter ID" [control]="readingForm.controls.meterId"/>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-sm-6">
           <app-input name="meterCount" label="Meter Count" [control]="readingForm.controls.meterCount"/>
         </div>
       </div>
       <div class="mb-3 row">
-        <div class="col-6">
+        <div class="col-12 mb-3 mb-sm-0 col-sm-6">
           <app-input name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"/>
         </div>
-        <div class="col-6">
+        <div class="col-12 col-sm-6">
           <label for="substitute" class="form-label">Is Substitute</label>
           <input disabled type="text" class="form-control" id="substitute" name="substitute"
                  [value]="readingForm.controls.substitute.value === 'True' ? 'Yes' : 'No'">

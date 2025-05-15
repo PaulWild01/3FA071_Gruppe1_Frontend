@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-combo-box
               [preSelectedItem]="customer ? {label: customer.firstName + ' ' + customer.lastName, value: customer.id} : undefined"
               name="customer" label="Customer" [control]="readingForm.controls.customer" [items]="customers"
@@ -26,25 +26,25 @@
               }
             </app-combo-box>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-sm-6">
             <app-date-picker name="dateOfReading" label="Date of Reading"
                              [control]="readingForm.controls.dateOfReading"/>
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-input name="meterId" label="Meter ID" [control]="readingForm.controls.meterId"/>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-sm-6">
             <app-input name="meterCount" label="Meter Count" [control]="readingForm.controls.meterCount"/>
           </div>
         </div>
         <div class="mb-3 row">
-          <div class="col-6">
+          <div class="col-12 mb-3 mb-sm-0 col-sm-6">
             <app-select name="kindOfMeter" label="Meter Type" [control]="readingForm.controls.kindOfMeter"
                         [options]="kindOfMeter()"/>
           </div>
-          <div class="col-6">
+          <div class="col-12 col-sm-6">
             <app-select name="substitute" label="Is Substitute" [control]="readingForm.controls.substitute"
                         [options]="[{value: 'true', label: 'Yes'}, {value: 'false', label: 'No'}]"/>
           </div>
